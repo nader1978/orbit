@@ -1,0 +1,114 @@
+/* ============================================================
+   ORBIT — sign-in page background (build 522)
+   Deep-space backdrop: soft aurora light, star dust, tilted orbits with planets, a faint grid;
+   brand statement on the left (PC), frosted-glass sign-in card on the right. Phone: backdrop + card.
+   Shown for every theme (also when the old "white login" option is on). The page's display is left to the app (shown / hidden on sign-in).
+   ============================================================ */
+html #loginScreen.login-screen {
+  position: fixed !important; inset: 0 !important; z-index: 8000; overflow: hidden auto;
+  align-items: center !important; justify-content: center !important; gap: clamp(32px, 7vw, 120px);
+  padding: 32px clamp(20px, 6vw, 96px) !important; margin: 0 !important; width: auto !important; height: auto !important; min-height: 100vh; min-height: 100dvh;
+  background: radial-gradient(120% 90% at 85% 110%, #2a1458 0%, rgba(42, 20, 88, 0) 55%),
+              radial-gradient(90% 70% at 0% 0%, #10306b 0%, rgba(16, 48, 107, 0) 60%),
+              linear-gradient(160deg, #070b1d 0%, #0b1230 45%, #120d2e 100%) !important;
+  background-color: #070b1d !important;
+  color: #e6e9f5; font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+}
+html #loginScreen > *:not(.lg-bg) { position: relative; z-index: 2; }
+
+/* ---------- backdrop ---------- */
+html #loginScreen .lg-bg { display: block; position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.lg-aurora { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; mix-blend-mode: screen; animation: lgDrift 26s ease-in-out infinite alternate; }
+.lg-aurora.a1 { width: 52vw; height: 52vw; left: -14vw; top: -18vw; background: radial-gradient(circle, #3b5bdb 0%, rgba(59, 91, 219, 0) 65%); }
+.lg-aurora.a2 { width: 46vw; height: 46vw; right: -10vw; bottom: -20vw; background: radial-gradient(circle, #8b3fd9 0%, rgba(139, 63, 217, 0) 65%); animation-duration: 32s; animation-delay: -8s; }
+.lg-aurora.a3 { width: 30vw; height: 30vw; left: 38vw; top: 8vh; background: radial-gradient(circle, #14b8a6 0%, rgba(20, 184, 166, 0) 65%); opacity: .28; animation-duration: 38s; animation-delay: -14s; }
+@keyframes lgDrift { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(4vw, 3vh) scale(1.08); } 100% { transform: translate(-3vw, 5vh) scale(.95); } }
+
+.lg-stars, .lg-stars::after { position: absolute; inset: -10%; background-repeat: repeat; }
+.lg-stars { opacity: .7;
+  background-image: radial-gradient(1px 1px at 20px 30px, #fff 50%, transparent 51%), radial-gradient(1px 1px at 120px 80px, rgba(255,255,255,.8) 50%, transparent 51%),
+                    radial-gradient(1.5px 1.5px at 200px 160px, rgba(255,255,255,.9) 50%, transparent 51%), radial-gradient(1px 1px at 60px 210px, rgba(255,255,255,.6) 50%, transparent 51%),
+                    radial-gradient(1px 1px at 260px 40px, rgba(199,210,254,.9) 50%, transparent 51%), radial-gradient(1px 1px at 170px 250px, rgba(255,255,255,.5) 50%, transparent 51%);
+  background-size: 300px 300px; animation: lgTwinkle 7s ease-in-out infinite alternate; }
+.lg-stars::after { content: ''; opacity: .6;
+  background-image: radial-gradient(1px 1px at 40px 90px, #fff 50%, transparent 51%), radial-gradient(1.5px 1.5px at 330px 210px, rgba(216,180,254,.9) 50%, transparent 51%),
+                    radial-gradient(1px 1px at 410px 30px, rgba(255,255,255,.7) 50%, transparent 51%), radial-gradient(1px 1px at 250px 380px, rgba(255,255,255,.6) 50%, transparent 51%);
+  background-size: 460px 460px; animation: lgTwinkle 9s ease-in-out infinite alternate-reverse; }
+@keyframes lgTwinkle { from { opacity: .35; } to { opacity: .85; } }
+
+.lg-grid { position: absolute; inset: 0; opacity: .07;
+  background-image: linear-gradient(rgba(255,255,255,.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.6) 1px, transparent 1px); background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 60%, #000 0%, transparent 70%); mask-image: radial-gradient(ellipse at 50% 60%, #000 0%, transparent 70%); }
+
+.lg-orbits { position: absolute; width: min(1100px, 120vw); aspect-ratio: 1; left: 50%; top: 50%; transform: translate(-50%, -50%); opacity: .9; }
+.lg-orbits svg { width: 100%; height: 100%; overflow: visible; }
+.lg-orbits .ring { fill: none; stroke: rgba(165, 180, 252, .16); stroke-width: 1; }
+.lg-orbits .ring.b { stroke: rgba(216, 180, 254, .14); stroke-dasharray: 2 6; }
+.lg-orbits .ring.c { stroke: rgba(94, 234, 212, .12); }
+.lg-orbits .core { fill: url(#lgCore); }
+
+/* ---------- brand statement (PC) ---------- */
+#loginScreen .lg-side { display: none; }
+@media (min-width: 980px) {
+  html #loginScreen .lg-side { display: block; width: min(520px, 42vw); flex: 0 0 auto; }
+}
+.lg-side .lg-kicker { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  color: #c7d2fe; background: rgba(129, 140, 248, .12); border: 1px solid rgba(165, 180, 252, .22); }
+.lg-side .lg-kicker i { width: 7px; height: 7px; border-radius: 50%; background: #5eead4; box-shadow: 0 0 10px #5eead4; }
+.lg-side h2 { margin: 22px 0 14px; font-size: clamp(40px, 4.4vw, 60px); line-height: 1.04; font-weight: 800; letter-spacing: -.02em; color: #fff; }
+.lg-side h2 span { background: linear-gradient(100deg, #a5b4fc 0%, #d8b4fe 45%, #5eead4 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.lg-side p { margin: 0 0 26px; font-size: 16px; line-height: 1.6; color: #aab3d0; max-width: 460px; }
+.lg-side ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.lg-side li { padding: 7px 13px; border-radius: 10px; font-size: 13px; color: #dfe4f7; background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .09); backdrop-filter: blur(6px); }
+
+/* ---------- glass sign-in card ---------- */
+html #loginScreen .login-card {
+  flex: 0 0 auto; width: 420px !important; max-width: 100% !important; margin: 0 !important;
+  padding: 34px 32px 26px !important; border-radius: 22px !important; color: #e6e9f5 !important;
+  background: linear-gradient(160deg, rgba(255,255,255,.11) 0%, rgba(255,255,255,.05) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, .14) !important; border-top-color: rgba(255,255,255,.24) !important;
+  box-shadow: 0 30px 80px -30px rgba(3, 6, 25, .9), inset 0 1px 0 rgba(255,255,255,.08) !important;
+  backdrop-filter: blur(18px) saturate(140%); -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+html #loginScreen .login-brand { flex-direction: column !important; align-items: center !important; text-align: center !important; gap: 12px !important; margin-bottom: 26px !important; }
+html #loginScreen .login-brand .logo { width: 64px !important; height: 64px !important; border-radius: 18px !important; font-size: 30px !important; overflow: hidden;
+  background: linear-gradient(140deg, #4f46e5, #7c3aed 60%, #0d9488) !important; box-shadow: 0 12px 30px -8px rgba(124, 58, 237, .7), inset 0 1px 0 rgba(255,255,255,.3) !important; }
+html #loginScreen .login-brand h1 { margin: 0 !important; font-size: 26px !important; font-weight: 800 !important; letter-spacing: .18em !important; color: #fff !important; }
+html #loginScreen .login-brand .tagline { margin-top: 4px !important; font-size: 11.5px !important; letter-spacing: .12em; text-transform: uppercase; color: #9aa5c9 !important; }
+html #loginScreen .login-form label { color: #c3cbe6 !important; font-size: 12.5px !important; font-weight: 600; letter-spacing: .02em; }
+html #loginScreen .login-form input {
+  height: 46px !important; border-radius: 12px !important; padding: 0 14px !important; font-size: 15px !important; color: #fff !important;
+  background: rgba(8, 12, 34, .55) !important; border: 1px solid rgba(165, 180, 252, .22) !important; box-shadow: none !important; transition: border-color .2s, box-shadow .2s;
+}
+html #loginScreen .login-form input:focus { outline: none !important; border-color: #a5b4fc !important; box-shadow: 0 0 0 4px rgba(129, 140, 248, .22) !important; }
+html #loginScreen #loginBtn {
+  height: 48px !important; border-radius: 12px !important; border: 0 !important; font-size: 15px !important; font-weight: 700 !important; letter-spacing: .02em; color: #fff !important; text-align: center !important; display: flex !important; align-items: center !important; justify-content: center !important; width: 100% !important;
+  background: linear-gradient(100deg, #4f46e5 0%, #7c3aed 55%, #9333ea 100%) !important; box-shadow: 0 14px 30px -12px rgba(124, 58, 237, .85) !important;
+  background-size: 160% 100% !important; transition: background-position .4s, transform .15s, box-shadow .2s;
+}
+html #loginScreen #loginBtn:hover { background-position: 100% 0 !important; box-shadow: 0 18px 36px -12px rgba(124, 58, 237, .95) !important; }
+html #loginScreen #loginBtn:active { transform: translateY(1px); }
+html #loginScreen .login-error { color: #fda4af !important; }
+html #loginScreen .login-hint { color: #aab3d0 !important; background: rgba(255,255,255,.05) !important; border-color: rgba(255,255,255,.1) !important; }
+html #loginScreen #loginVersion { color: #8a94b8; opacity: 1 !important; }
+html #loginScreen .lg-foot { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; font-size: 11.5px; letter-spacing: .08em; color: rgba(170, 179, 208, .55); z-index: 2; }
+
+@media (max-width: 760px) {
+  html #loginScreen.login-screen { flex-direction: column; justify-content: center !important; padding: calc(env(safe-area-inset-top, 0px) + 24px) 18px calc(env(safe-area-inset-bottom, 0px) + 40px) !important; }
+  html #loginScreen .login-card { width: 100% !important; max-width: 440px !important; padding: 28px 22px 22px !important; }
+  .lg-orbits { width: 190vw; top: 42%; }
+  .lg-aurora { filter: blur(50px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lg-aurora, .lg-stars, .lg-stars::after { animation: none !important; }
+  .lg-orbits animateMotion, .lg-orbits animateTransform { display: none; }
+}
+
+/* company logo picture (Settings → brand logo): on a white plate so it reads on the dark glass */
+html #loginScreen .login-brand:has(.logo img:not(.orbit-mk)) .logo { width: auto !important; height: 84px !important; max-width: 280px !important; padding: 12px 22px !important; border-radius: 18px !important;
+  background: #fff !important; box-shadow: 0 14px 34px -12px rgba(0, 0, 0, .6) !important; }
+html #loginScreen .login-brand:has(.logo img:not(.orbit-mk)) .logo img { height: 100% !important; width: auto !important; object-fit: contain; }
+html #loginScreen .login-card .login-brand .tagline { color: #b7c0e0 !important; font-size: 12px !important; font-weight: 700 !important; }
+html #loginScreen .login-card .orbit-mark, html #loginScreen .login-card .orbit-mark * { color: #9aa5c9 !important; border-color: rgba(255,255,255,.12) !important; }
+html #loginScreen .login-brand .logo:has(img.orbit-mk) { width: 96px !important; height: 96px !important; background: transparent !important; box-shadow: none !important; border-radius: 0 !important; padding: 0 !important; overflow: visible !important; }
+html #loginScreen .login-brand .logo img.orbit-mk { filter: drop-shadow(0 10px 24px rgba(124, 58, 237, .55)); }

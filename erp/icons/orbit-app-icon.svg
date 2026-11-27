@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#101a44"/><stop offset=".6" stop-color="#151036"/><stop offset="1" stop-color="#2a1258"/></linearGradient>
+<radialGradient id="gl" cx=".5" cy=".45" r=".5"><stop offset="0" stop-color="#7c3aed" stop-opacity=".35"/><stop offset="1" stop-color="#7c3aed" stop-opacity="0"/></radialGradient></defs>
+<rect width="512" height="512" rx="112" fill="url(#bg)"/><rect width="512" height="512" rx="112" fill="url(#gl)"/>
+<g fill="#fff" opacity=".7"><circle cx="92" cy="110" r="2.4"/><circle cx="410" cy="96" r="1.8"/><circle cx="430" cy="380" r="2.2"/><circle cx="120" cy="420" r="1.6"/><circle cx="360" cy="180" r="1.4"/></g>
+<g transform="translate(6 6) scale(1.95)"><defs>
+  <linearGradient id="d_p" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a5b4fc"/><stop offset=".55" stop-color="#6d5df6"/><stop offset="1" stop-color="#5b21b6"/></linearGradient>
+  <linearGradient id="d_r" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2dd4bf"/><stop offset=".5" stop-color="#818cf8"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+  <radialGradient id="d_h" cx=".35" cy=".3" r=".6"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <clipPath id="d_front"><rect x="-200" y="0" width="400" height="200"/></clipPath>
+  <filter id="d_g" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="5"/></filter>
+</defs>
+<g transform="translate(128 128)">
+  <g transform="rotate(-24)"><ellipse rx="100" ry="34" fill="none" stroke="url(#d_r)" stroke-width="11" opacity=".55"/></g>
+  <circle r="54" fill="url(#d_p)"/>
+  <circle r="54" fill="url(#d_h)"/>
+  <g transform="rotate(-24)"><ellipse rx="100" ry="34" fill="none" stroke="url(#d_r)" stroke-width="11" clip-path="url(#d_front)"/>
+    <circle cx="70.7" cy="24" r="16" fill="#5eead4" filter="url(#d_g)" opacity=".8"/><circle cx="70.7" cy="24" r="11" fill="#5eead4"/><circle cx="67" cy="20.5" r="3.6" fill="#fff" opacity=".8"/></g>
+</g></g></svg>

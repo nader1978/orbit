@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orbit Consulting</title>
+<script>try{if(/[?&]source=homescreen/.test(location.search))location.replace("erp/index.html"+location.search)}catch(e){}</script>
+<meta name="description" content="Orbit Consulting — financing, taxation and IT consulting in the UAE, and the ORBIT ERP business system.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: calm, expert, trustworthy — a firm that keeps a client's numbers, tax and systems in one steady orbit.
+   IDEA: an orrery — the client's business is the planet; finance, tax and technology are the satellites that keep it on course.
+   PICTURE: a large orbit scene in the hero: planet, three tilted rings, three labelled satellites.
+   COLOUR and TYPE: ORBIT brand — deep night ink #0b1230 bands, indigo #5b4ff0, teal accent #14b8a6, white grounds; Manrope titles, Inter text.
+   LAYOUT: full-width bands, sticky header, hero split text/scene, three service columns, deep-dive bands, ORBIT product band, contact. */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0a0f24);--soft:light-dark(#f3f4fb,#111834);--ink:light-dark(#141634,#e8eaf6);--mute:light-dark(#555a7a,#a9aecb);--line:light-dark(#e3e5f2,#232b52);--night:#0b1230;--indigo:#5b4ff0;--violet:#6d3fd9;--teal:#14b8a6;--card:light-dark(#ffffff,#141c3d)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Manrope,Inter,system-ui,sans-serif;line-height:1.08;text-wrap:balance;margin:0}
+h2{font-size:clamp(30px,3.6vw,44px);font-weight:800;letter-spacing:-.015em}
+h3{font-size:20px;font-weight:700}
+p{margin:0}
+a{color:inherit}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding:clamp(48px,7vw,104px) max(5vw,16px)}
+.lead{color:var(--mute);font-size:18px;max-width:640px;margin-top:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 22px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;font-size:15.5px}
+.btn.p{background:var(--indigo);color:#fff}.btn.p:hover{background:#4a3fe0}
+.btn svg{width:18px;height:18px}
+.btn.g{border-color:rgba(255,255,255,.28);color:#fff}.btn.g:hover{background:rgba(255,255,255,.08)}
+.btn:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--night) 92%,transparent);backdrop-filter:blur(12px);color:#fff}
+.hd{display:flex;align-items:center;gap:20px;min-height:68px;padding:0 max(5vw,16px);max-width:1340px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:Manrope,Inter,system-ui,sans-serif;font-weight:800;font-size:19px;letter-spacing:.06em}
+.brand small{display:block;font-size:10.5px;letter-spacing:.24em;font-weight:600;opacity:.65}
+.brand svg{width:40px;height:40px}
+nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
+.login{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 16px;border-radius:10px;background:var(--teal);color:#06231f;font-weight:700;text-decoration:none;font-size:14.5px;white-space:nowrap;margin-left:6px}.login:hover{background:#2dd4bf}.login .ls{display:none}@media(max-width:560px){.login .lf{display:none}.login .ls{display:inline}.brand small{display:none}}.login svg{width:18px;height:18px}
+nav a{text-decoration:none;font-size:14.5px;padding:9px 12px;border-radius:9px;color:#d9dcf3}
+nav a:hover,nav a.on{background:rgba(255,255,255,.08);color:#fff}
+.menu{display:none;background:none;border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:10px;min-height:44px;padding:0 14px;font-size:15px}
+@media(max-width:900px){.login{margin-left:auto;order:3}.menu{display:block;margin-left:8px;order:4}nav{display:none;position:absolute;top:68px;left:0;right:0;background:var(--night);flex-direction:column;padding:8px max(5vw,16px) 16px}nav.open{display:flex}nav a{padding:12px}}
+
+/* hero */
+.hero{background:radial-gradient(90% 80% at 85% 20%,#2a1a6b 0%,transparent 60%),radial-gradient(70% 70% at 0% 100%,#0e3a5c 0%,transparent 60%),var(--night);color:#fff;padding-top:clamp(40px,6vw,84px);padding-bottom:clamp(40px,6vw,84px)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(24px,4vw,56px);align-items:center}
+.hero h1{font-size:clamp(38px,5vw,60px);font-weight:800;letter-spacing:-.02em}
+.hero p{color:#c3c8e8;font-size:18.5px;max-width:540px;margin-top:18px}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.facts{display:flex;gap:28px;flex-wrap:wrap;margin-top:34px;color:#c3c8e8;font-size:14.5px}
+.facts b{display:block;color:#fff;font-family:Manrope,Inter,system-ui,sans-serif;font-size:20px}
+.scene{position:relative;aspect-ratio:1/0.82;width:100%}
+.scene svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.scene text{font-family:Manrope,sans-serif;font-weight:700;font-size:15px;fill:#fff}
+.scene .sub{font-family:Inter,sans-serif;font-weight:500;font-size:12.5px;fill:#b9bfe4}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.scene{max-width:560px;margin:0 auto}}
+
+/* services */
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:40px}
+.svc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:12px}
+.svc .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center}
+.svc .ic svg{width:28px;height:28px}
+.svc ul{margin:4px 0 0;padding-left:18px;color:var(--mute)}
+.svc li{margin:5px 0}
+.svc a{margin-top:auto;font-weight:600;color:var(--indigo);text-decoration:none}
+@media(max-width:900px){.cols{grid-template-columns:1fr}}
+
+/* deep dives */
+.split{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,5vw,72px);align-items:start}
+@media(max-width:860px){.split{grid-template-columns:1fr}}
+.alt{background:var(--soft)}
+.list{display:grid;gap:14px}
+.item{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:18px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+.item .n{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:Manrope,Inter,system-ui,sans-serif;font-weight:800;color:#fff}
+.item p{color:var(--mute);font-size:15.5px;margin-top:4px}
+.note{margin-top:22px;padding:18px 20px;border-radius:14px;border:1px solid color-mix(in srgb,var(--teal) 40%,var(--line));background:color-mix(in srgb,var(--teal) 8%,var(--card));font-size:15.5px}
+.note b{font-family:Manrope,Inter,system-ui,sans-serif}
+.time{display:grid;gap:0;margin-top:12px}
+.time div{display:grid;grid-template-columns:120px minmax(0,1fr);gap:12px;padding:8px 0;border-top:1px dashed var(--line);font-size:15px}
+.time span{white-space:nowrap;font-weight:600}
+
+/* ORBIT product */
+.orbit{background:radial-gradient(80% 90% at 100% 0%,#2a1a6b 0%,transparent 55%),var(--night);color:#fff}
+.orbit .lead{color:#c3c8e8}
+.mods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:34px}
+.mod{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:20px}
+.mod h3{font-size:17px}
+.mod p{color:#b9bfe4;font-size:14.5px;margin-top:6px}
+@media(max-width:1000px){.mods{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.mods{grid-template-columns:1fr}}
+.mock{margin-top:44px;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 80px -30px rgba(0,0,0,.7);display:grid;grid-template-columns:220px minmax(0,1fr);background:#f6f7fc;color:#141634}
+.mock .sb{background:linear-gradient(180deg,#141a46,#1d1452);color:#dfe2f7;padding:18px 14px;font-size:13.5px}
+.mock .sb b{display:flex;align-items:center;gap:8px;font-family:Manrope,Inter,system-ui,sans-serif;letter-spacing:.08em;color:#fff;margin-bottom:14px}
+.mock .sb div{padding:7px 10px;border-radius:8px;margin:2px 0}
+.mock .sb .on{background:rgba(255,255,255,.12);color:#fff}
+.mock .mn{padding:22px;display:grid;gap:14px}
+.kp{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.kp div{background:#fff;border:1px solid #e3e5f2;border-radius:12px;padding:12px}
+.kp small{color:#666b8c;font-size:12.5px}.kp b{display:block;font-family:Manrope,Inter,system-ui,sans-serif;font-size:20px;white-space:nowrap}
+.bars{background:#fff;border:1px solid #e3e5f2;border-radius:12px;padding:14px;display:grid;gap:9px;font-size:13.5px}
+.bar{display:grid;grid-template-columns:90px minmax(0,1fr) 70px;gap:10px;align-items:center}
+.bar i{display:block;height:10px;border-radius:6px;background:linear-gradient(90deg,var(--indigo),var(--teal))}
+.bar span:last-child{text-align:right;white-space:nowrap}
+@media(max-width:760px){.mock{grid-template-columns:1fr}.mock .sb{display:none}.kp{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chips span{padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);font-size:14px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:40px}
+@media(max-width:760px){.two{grid-template-columns:1fr}}
+.panel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:24px}
+.panel p{color:#c3c8e8;margin-top:8px;font-size:15.5px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:38px;counter-reset:s}
+.step{border-top:3px solid var(--indigo);padding-top:16px}
+.step:nth-child(2){border-color:var(--violet)}.step:nth-child(3){border-color:#0ea5a4}.step:nth-child(4){border-color:var(--teal)}
+.step p{color:var(--mute);font-size:15.5px;margin-top:6px}
+@media(max-width:860px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* contact */
+.contact{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,5vw,64px)}
+@media(max-width:860px){.contact{grid-template-columns:1fr}}
+form{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;display:grid;gap:14px}
+label{font-weight:600;font-size:14.5px;display:grid;gap:6px}
+input,select,textarea{font:inherit;font-size:16px;padding:12px 14px;border-radius:11px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:46px}
+textarea{min-height:120px;resize:vertical}
+.row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}@media(max-width:520px){.row2{grid-template-columns:1fr}}
+.ok{display:none;padding:14px 16px;border-radius:12px;background:color-mix(in srgb,var(--teal) 12%,var(--card));border:1px solid color-mix(in srgb,var(--teal) 40%,var(--line));font-size:15px}
+.cinfo{display:grid;gap:14px;margin-top:26px}
+.cinfo div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px;font-size:15.5px}
+.cinfo span{color:var(--mute)}
+.sample{font-size:13px;color:var(--mute);margin-top:10px}
+footer{background:var(--night);color:#b9bfe4;font-size:14.5px}
+footer .wrap{display:flex;gap:24px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+@media(prefers-reduced-motion:reduce){.spin{animation:none!important}html{scroll-behavior:auto}}
+@keyframes spinA{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="pl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a5b4fc"/><stop offset=".55" stop-color="#6d5df6"/><stop offset="1" stop-color="#5b21b6"/></linearGradient>
+    <linearGradient id="rg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2dd4bf"/><stop offset=".5" stop-color="#818cf8"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <radialGradient id="hl" cx=".35" cy=".3" r=".6"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <clipPath id="fr"><rect x="-200" y="0" width="400" height="200"/></clipPath>
+    <symbol id="mark" viewBox="0 0 256 256"><g transform="translate(128 128)"><g transform="rotate(-24)"><ellipse rx="100" ry="34" fill="none" stroke="url(#rg)" stroke-width="11" opacity=".55"/></g><circle r="54" fill="url(#pl)"/><circle r="54" fill="url(#hl)"/><g transform="rotate(-24)"><ellipse rx="100" ry="34" fill="none" stroke="url(#rg)" stroke-width="11" clip-path="url(#fr)"/><circle cx="70.7" cy="24" r="11" fill="#5eead4"/></g></g></symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="hd">
+    <a class="brand" href="#home" aria-label="Orbit Consulting home"><svg aria-hidden="true"><use href="#mark"/></svg><span>ORBIT<small>CONSULTING</small></span></a>
+    <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav">
+      <a href="#services">Services</a><a href="#finance">Finance</a><a href="#tax">Tax</a><a href="#technology">Technology</a><a href="#orbit-erp">ORBIT ERP</a><a href="#approach">Approach</a><a href="#contact">Contact</a>
+    </nav>
+    <a class="login" data-erp href="erp/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span class="lf">Login to ORBIT ERP</span><span class="ls">Login</span></a>
+  </div>
+</header>
+
+<main>
+<section class="band hero" id="home">
+  <div class="wrap">
+    <div>
+      <h1>Your finance, tax and systems — kept in one steady orbit.</h1>
+      <p>Orbit Consulting helps UAE businesses raise and manage funding, stay compliant with VAT, Corporate Tax and e-invoicing, and run on systems that fit — including our own ORBIT ERP.</p>
+      <div class="cta"><a class="btn p" href="#contact">Book a free consultation</a><a class="btn g" href="#orbit-erp">See ORBIT ERP</a></div>
+      <p style="margin-top:18px;font-size:15px;color:#c3c8e8">Already a client? <a data-erp href="erp/" target="_blank" rel="noopener" style="color:#5eead4;font-weight:600">Sign in to ORBIT ERP →</a></p>
+      <div class="facts"><div><b>Finance</b>Accounting, funding, CFO support</div><div><b>Taxation</b>VAT · Corporate Tax · e-invoicing</div><div><b>Technology</b>ERP, automation, data</div></div>
+    </div>
+    <div class="scene" aria-label="A business at the centre with finance, tax and technology orbiting it">
+      <svg viewBox="0 0 600 490" role="img">
+        <title>Finance, tax and technology orbiting your business</title>
+        <defs><radialGradient id="glow"><stop offset="0" stop-color="#7c3aed" stop-opacity=".45"/><stop offset="1" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
+          <filter id="blur"><feGaussianBlur stdDeviation="6"/></filter></defs>
+        <circle cx="300" cy="245" r="230" fill="url(#glow)"/>
+        <g fill="#fff" opacity=".6"><circle cx="60" cy="60" r="1.6"/><circle cx="540" cy="80" r="1.3"/><circle cx="520" cy="430" r="1.7"/><circle cx="90" cy="400" r="1.2"/><circle cx="420" cy="30" r="1.1"/><circle cx="180" cy="20" r="1.4"/></g>
+        <g transform="rotate(-14 300 245)" fill="none" stroke-width="1.5">
+          <ellipse cx="300" cy="245" rx="270" ry="96" stroke="rgba(165,180,252,.35)"/>
+          <ellipse cx="300" cy="245" rx="205" ry="72" stroke="rgba(94,234,212,.35)" stroke-dasharray="3 7"/>
+          <ellipse cx="300" cy="245" rx="140" ry="50" stroke="rgba(216,180,254,.35)"/>
+        </g>
+        <circle cx="300" cy="245" r="86" fill="url(#pl)"/><circle cx="300" cy="245" r="86" fill="url(#hl)"/>
+        <text x="300" y="240" text-anchor="middle" style="font-size:18px">Your</text><text x="300" y="262" text-anchor="middle" style="font-size:18px">business</text>
+        <g>
+          <circle cx="78" cy="268" r="26" fill="#14b8a6" filter="url(#blur)" opacity=".7"/><circle cx="78" cy="268" r="17" fill="#14b8a6"/>
+          <text x="78" y="318" text-anchor="middle">Finance</text><text class="sub" x="78" y="336" text-anchor="middle">funding · reporting</text>
+        </g>
+        <g>
+          <circle cx="470" cy="150" r="24" fill="#818cf8" filter="url(#blur)" opacity=".7"/><circle cx="470" cy="150" r="15" fill="#818cf8"/>
+          <text x="470" y="112" text-anchor="middle">Taxation</text><text class="sub" x="470" y="200" text-anchor="middle">VAT · CT · e-invoicing</text>
+        </g>
+        <g>
+          <circle cx="372" cy="368" r="22" fill="#c084fc" filter="url(#blur)" opacity=".7"/><circle cx="372" cy="368" r="14" fill="#c084fc"/>
+          <text x="372" y="410" text-anchor="middle">Technology</text><text class="sub" x="372" y="428" text-anchor="middle">ERP · automation · data</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="services">
+  <div class="wrap">
+    <h2>Three disciplines, one team</h2>
+    <p class="lead">Most problems a growing business meets sit where money, tax and systems overlap. We look at all three together, so advice and the tools that carry it out match.</p>
+    <div class="cols">
+      <article class="svc">
+        <div class="ic" style="background:color-mix(in srgb,var(--teal) 14%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></div>
+        <h3>Financing &amp; finance</h3>
+        <ul><li>Bookkeeping and monthly accounts</li><li>Budgets, cash-flow forecasts and business plans</li><li>Bank facilities and funding applications</li><li>Part-time CFO and board reporting</li></ul>
+        <a href="#finance">How we help with finance →</a>
+      </article>
+      <article class="svc">
+        <div class="ic" style="background:color-mix(in srgb,var(--indigo) 14%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="#5b4ff0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/></svg></div>
+        <h3>Taxation</h3>
+        <ul><li>VAT registration, returns and reviews</li><li>Corporate Tax registration and annual returns</li><li>E-invoicing readiness and go-live</li><li>Tax health checks and FTA correspondence</li></ul>
+        <a href="#tax">How we help with tax →</a>
+      </article>
+      <article class="svc">
+        <div class="ic" style="background:color-mix(in srgb,var(--violet) 14%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="#6d3fd9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div>
+        <h3>IT consulting</h3>
+        <ul><li>ERP selection and implementation</li><li>Microsoft 365 and SharePoint set-up</li><li>Process automation and data dashboards</li><li>IT health checks and security basics</li></ul>
+        <a href="#technology">How we help with technology →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" id="finance">
+  <div class="wrap split">
+    <div><h2>Finance that tells you where you stand — and where the money will come from</h2>
+      <p class="lead">Clean books are the start. We turn them into forecasts you can plan with, and into the documents a bank or investor needs to say yes.</p></div>
+    <div class="list">
+      <div class="item"><div class="n" style="background:#0d9488">1</div><div><h3>Accounting &amp; reporting</h3><p>Monthly bookkeeping, bank reconciliations, management accounts and year-end financial statements prepared to IFRS, ready for your auditor.</p></div></div>
+      <div class="item"><div class="n" style="background:#0f9f95">2</div><div><h3>Budgets &amp; cash-flow</h3><p>A 12-month budget and rolling cash-flow forecast, reviewed with you monthly so surprises show up early.</p></div></div>
+      <div class="item"><div class="n" style="background:#13a89f">3</div><div><h3>Financing advisory</h3><p>Business plans, financial models and lender packs for working-capital lines, term loans and trade finance — and support through the bank's questions.</p></div></div>
+      <div class="item"><div class="n" style="background:#14b8a6">4</div><div><h3>CFO on demand</h3><p>Senior finance leadership a few days a month: pricing, margins, controls, board packs and investor updates.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="tax">
+  <div class="wrap split">
+    <div><h2>Tax compliance without the last-minute rush</h2>
+      <p class="lead">VAT, Corporate Tax and the new e-invoicing system each come with deadlines and penalties. We keep the calendar, prepare the filings and explain every number.</p>
+      <div class="note"><b>E-invoicing is coming.</b> The UAE Ministry of Finance ran a pilot from 1 July 2026, and mandatory e-invoicing starts in phases from 1 January 2027, by business size. Each business must appoint an Accredited Service Provider. We check your systems, data and invoices and take you through go-live.</div>
+    </div>
+    <div class="list">
+      <div class="item"><div class="n" style="background:#5b4ff0">V</div><div><h3>VAT</h3><p>Registration and de-registration, quarterly or monthly returns, input-tax reviews, voluntary disclosures and refund claims.</p></div></div>
+      <div class="item"><div class="n" style="background:#5b45e6">C</div><div><h3>Corporate Tax</h3><p>Registration, taxable-income computation, small-business relief checks, free-zone qualifying income reviews and annual returns.</p></div></div>
+      <div class="item"><div class="n" style="background:#6040e0">E</div><div><h3>E-invoicing readiness</h3><p>Gap analysis, master-data clean-up, service-provider selection and testing — with ORBIT ERP ready to send structured invoices.</p></div></div>
+      <div class="item"><div class="n" style="background:#6d3fd9">R</div><div><h3>Reviews &amp; representation</h3><p>Tax health checks before an audit, replies to FTA queries and help with reconsideration requests.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" id="technology">
+  <div class="wrap split">
+    <div><h2>Systems that fit the way you work</h2>
+      <p class="lead">We start from your process, not from a product brochure. Where an off-the-shelf tool fits, we set it up properly; where it doesn't, ORBIT ERP can be shaped to your business.</p></div>
+    <div class="list">
+      <div class="item"><div class="n" style="background:#6d3fd9">1</div><div><h3>ERP selection &amp; implementation</h3><p>Requirements, demos, data migration, training and support after go-live — for ORBIT ERP or the system you already chose.</p></div></div>
+      <div class="item"><div class="n" style="background:#7a4be0">2</div><div><h3>Microsoft 365 &amp; SharePoint</h3><p>Shared files, lists and permissions organised so teams find things and data stays in your own tenant.</p></div></div>
+      <div class="item"><div class="n" style="background:#8a5ae8">3</div><div><h3>Automation &amp; dashboards</h3><p>Scheduled reports, approval flows and live KPI dashboards that replace manual spreadsheets.</p></div></div>
+      <div class="item"><div class="n" style="background:#9b6bf0">4</div><div><h3>IT health check</h3><p>Backups, access rights, licences and basic security reviewed, with a short, prioritised action list.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="band orbit" id="orbit-erp">
+  <div class="wrap">
+    <h2>ORBIT ERP — one system for the whole business</h2>
+    <p class="lead">Built in the UAE for UAE rules: VAT and e-invoicing ready, UAE payroll with WPS files, and approvals that follow your own hierarchy. It runs in the browser on PC and phone, on your Microsoft SharePoint or on a database server.</p>
+    <div class="mock" aria-label="Example of the ORBIT ERP sales screen">
+      <div class="sb"><b><svg width="26" height="26" aria-hidden="true"><use href="#mark"/></svg>ORBIT</b><div>Integration</div><div>RM &amp; PM</div><div>Production</div><div>Warehouse</div><div class="on">Distributions · Sales</div><div>Finance</div><div>Human Capital</div><div>Admin</div></div>
+      <div class="mn">
+        <div class="kp"><div><small>Sales this month</small><b>AED 1.24m</b></div><div><small>Target achieved</small><b>87%</b></div><div><small>Open pipeline</small><b>AED 640k</b></div><div><small>Orders to deliver</small><b>23</b></div></div>
+        <div class="bars"><b style="font-family:Manrope,Inter,system-ui,sans-serif">Sales by salesperson</b>
+          <div class="bar"><span>Ahmed</span><i style="width:92%"></i><span>412,000</span></div>
+          <div class="bar"><span>Maria</span><i style="width:74%"></i><span>331,500</span></div>
+          <div class="bar"><span>Omar</span><i style="width:61%"></i><span>274,800</span></div>
+          <div class="bar"><span>Priya</span><i style="width:49%"></i><span>221,700</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="sample" style="color:#9aa1c8">Example figures for illustration.</p>
+    <div class="mods" id="mods"></div>
+    <div class="two">
+      <div class="panel"><h3>Fits your kind of business</h3><p>Choose the business type and ORBIT shows only the departments you need.</p><div class="chips"><span>Manufacturing</span><span>Trading &amp; distribution</span><span>Construction &amp; contracting</span><span>Services</span><span>Food &amp; restaurant</span><span>Vending</span><span>Printing &amp; typing centres</span></div></div>
+      <div class="panel"><h3>Controls built in</h3><p>Approval chains by amount and department, a full audit trail on every document, safe posting that never doubles an entry, and user roles down to each page.</p><div class="chips"><span>Approvals</span><span>Audit trail</span><span>Roles &amp; permissions</span><span>Phone &amp; PC</span></div></div>
+    </div>
+    <div class="cta" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:32px"><a class="btn p" href="#contact">Request a demo</a><a class="btn g" data-erp href="erp/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Login to ORBIT ERP</a></div>
+  </div>
+</section>
+
+<section class="band" id="approach">
+  <div class="wrap">
+    <h2>How we work</h2>
+    <p class="lead">Short engagements with clear outputs, then ongoing support only if it helps you.</p>
+    <div class="steps">
+      <div class="step"><h3>Listen</h3><p>A free first meeting to understand your business, your deadlines and what is not working.</p></div>
+      <div class="step"><h3>Diagnose</h3><p>A short review of your books, tax position and systems, with findings in plain language.</p></div>
+      <div class="step"><h3>Deliver</h3><p>We do the work — filings, forecasts, funding packs or system set-up — to an agreed scope and price.</p></div>
+      <div class="step"><h3>Stay in orbit</h3><p>Monthly support, reminders before every deadline and one contact who knows your business.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" id="contact">
+  <div class="wrap contact">
+    <div>
+      <h2>Talk to us</h2>
+      <p class="lead">Tell us what you need and we will reply within one working day with next steps.</p>
+      <div class="cinfo">
+        <div><span>Email</span><a href="mailto:info@orbitconsulting.ae">info@orbitconsulting.ae</a></div>
+        <div><span>Phone</span><a href="tel:+97140000000">+971 4 000 0000</a></div>
+        <div><span>Office</span><b style="font-weight:500">Dubai, United Arab Emirates</b></div>
+        <div><span>Hours</span><b style="font-weight:500">Monday–Friday, 9:00–18:00</b></div>
+      </div>
+      <p class="sample">Sample contact details — replace them with your own before going live.</p>
+    </div>
+    <form id="form" novalidate>
+      <div class="row2"><label>Name<input id="fName" required autocomplete="name"></label><label>Company<input id="fCo" autocomplete="organization"></label></div>
+      <div class="row2"><label>Email<input id="fMail" type="email" required autocomplete="email"></label><label>Phone<input id="fTel" type="tel" autocomplete="tel"></label></div>
+      <label>I need help with<select id="fTopic"><option>Financing &amp; finance</option><option>VAT or Corporate Tax</option><option>E-invoicing readiness</option><option>IT consulting</option><option>ORBIT ERP demo</option><option>Something else</option></select></label>
+      <label>Message<textarea id="fMsg" placeholder="A few lines about your business and what you need"></textarea></label>
+      <button class="btn p" type="submit">Prepare my email</button>
+      <div class="ok" id="ok" role="status"></div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="band" style="padding-top:34px;padding-bottom:34px">
+  <div class="wrap">
+    <a class="brand" href="#home" style="color:#fff"><svg aria-hidden="true"><use href="#mark"/></svg><span>ORBIT<small>CONSULTING</small></span></a>
+    <span>Financing · Taxation · IT consulting · <a data-erp href="erp/" target="_blank" rel="noopener" style="color:#5eead4">ORBIT ERP login</a></span>
+    <span>© <span id="yr"></span> Orbit Consulting, Dubai, UAE</span>
+  </div>
+</footer>
+
+<script>
+{
+  /* ORBIT ERP sign-in address — change it here only */
+  const ERP_URL = 'erp/';
+  document.querySelectorAll('[data-erp]').forEach(a => { a.href = ERP_URL; });
+  const MODS = [
+    ['Finance & accounts', 'Journals, bills, receipts, bank reconciliation, trial balance and financial statements.'],
+    ['E-invoicing', 'UAE structured invoices and credit notes, ready for your Accredited Service Provider.'],
+    ['Sales & marketing', 'Leads, quotations, sales orders, deliveries, price lists, targets and commissions.'],
+    ['Procurement', 'Purchase requests, quotation comparison, purchase orders and three-way match.'],
+    ['Inventory & production', 'Costed stock, warehouses, bills of materials and production orders.'],
+    ['HR & payroll', 'Employees, leave, payroll with WPS file, loans and end-of-service gratuity.'],
+    ['Budgets & fixed assets', 'Budget versus actual, asset register and monthly depreciation.'],
+    ['Approvals', 'One approval engine for every document, by amount, department and role.']
+  ];
+  document.getElementById('mods').innerHTML = MODS.map(([t, d]) => '<div class="mod"><h3>' + t.replace(/&/g, '&amp;') + '</h3><p>' + d + '</p></div>').join('');
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const btn = document.getElementById('menuBtn'), nav = document.getElementById('nav');
+  btn.addEventListener('click', () => { const o = nav.classList.toggle('open'); btn.setAttribute('aria-expanded', o); });
+  nav.addEventListener('click', e => { if (e.target.closest('a')) { nav.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); } });
+
+  const links = [...nav.querySelectorAll('a')], secs = links.map(a => document.querySelector(a.getAttribute('href')));
+  const spy = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-45% 0px -50% 0px' });
+  secs.forEach(s => s && spy.observe(s));
+
+  const f = document.getElementById('form'), ok = document.getElementById('ok');
+  f.addEventListener('submit', e => {
+    e.preventDefault();
+    const v = id => document.getElementById(id).value.trim(), name = v('fName'), mail = v('fMail');
+    if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)) { ok.style.display = 'block'; ok.textContent = 'Please enter your name and a valid email address.'; return; }
+    const body = 'Name: ' + name + '\nCompany: ' + v('fCo') + '\nEmail: ' + mail + '\nPhone: ' + v('fTel') + '\nTopic: ' + v('fTopic') + '\n\n' + v('fMsg');
+    const href = 'mailto:info@orbitconsulting.ae?subject=' + encodeURIComponent('Enquiry — ' + v('fTopic')) + '&body=' + encodeURIComponent(body);
+    ok.style.display = 'block';
+    ok.textContent = 'Your email is ready. If your mail app did not open, send your message to info@orbitconsulting.ae.';
+    location.href = href;
+  });
+}
+</script>
+</body>
+</html>

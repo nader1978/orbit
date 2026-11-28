@@ -1,7 +1,7 @@
-# ORBIT Online Shop — set-up guide (SharePoint only, no server)
+# ORBIT Online Shop — set-up guide (SharePoint, no server of your own)
 
 The shop website is a static site (any host: GitHub Pages, the Orbit site, Azure Static Web Apps).
-It never talks to SharePoint directly. It sends everything to one **Power Automate flow**, and ORBIT does the rest.
+It never talks to SharePoint directly. It sends everything to one **connection service** — the free **ORBIT shop gateway** (Cloudflare Worker, section 2A) or a **Power Automate flow** (Premium, section 2) — and ORBIT does the rest.
 
 ```
  customer ──► shop website ──► Power Automate flow ──► SharePoint
@@ -58,7 +58,37 @@ OrbitShop/track/<id>.json     one per order: status and timeline only (no addres
 OrbitShop/proofs/…            bank-transfer proofs (never served to the website)
 ```
 
-## 2 · The flow (Power Automate, Premium licence for the HTTP trigger)
+## 2A · The free connection: ORBIT shop gateway (recommended — no Premium licence)
+
+`shop-gateway/orbit-shop-gateway.js` is a small **Cloudflare Worker** (free plan: 100,000 requests a day). It does exactly what the flow below does — orders, proofs and cancel requests go straight into `Shop_Inbox`, tracking pages and photos come from `OrbitShop`, card payments use keys stored only in the Worker.
+
+**A · Azure app (Microsoft 365 admin, 5 minutes)** — portal.azure.com → *Microsoft Entra ID* → *App registrations* → **New registration** (name: *ORBIT shop gateway*, single tenant).
+1. Copy the **Application (client) ID** and **Directory (tenant) ID**.
+2. *Certificates & secrets* → **New client secret** (24 months) → copy the **Value** now.
+3. *API permissions* → Add → Microsoft Graph → **Application permissions** → `Sites.ReadWrite.All` → **Grant admin consent**.
+   (Stricter option: `Sites.Selected` and grant the app write access to the ORBIT site only — ask your IT admin.)
+
+**B · Cloudflare (5 minutes)** — dash.cloudflare.com (free account) → *Workers & Pages* → **Create** → *Hello World* worker → name it `orbit-shop-gateway` → **Deploy** → **Edit code** → replace everything with `orbit-shop-gateway.js` → **Deploy**.
+Then *Settings → Variables and Secrets* → add:
+
+| Name | Value |
+|---|---|
+| `TENANT_ID` | Directory (tenant) ID |
+| `CLIENT_ID` | Application (client) ID |
+| `CLIENT_SECRET` | the secret value — type **Secret** |
+| `SITE_URL` | your SharePoint site, e.g. `https://company.sharepoint.com/sites/ERP` |
+| `ALLOWED_ORIGIN` | your website, e.g. `https://orbit.alnajjar.in` |
+| card (optional) | `CARD_PROVIDER` = `stripe` / `ngenius` / `telr` and its keys: `STRIPE_SECRET` · `NGENIUS_API_KEY`, `NGENIUS_OUTLET`, `NGENIUS_HOST` · `TELR_STORE`, `TELR_KEY`, `TELR_TEST` (keys as **Secret**) |
+
+Open `https://orbit-shop-gateway.<your-name>.workers.dev/` — it must show `"ok": true`.
+
+**C · ORBIT** — Online Shop → 🔌 Website connection → Service = *ORBIT shop gateway*, paste the Worker address → **Test the connection** → **Switch to "Connected"**.
+With the GitHub link on, the next publish tells the website the address and it starts sending orders straight in — nothing to change in the website files. (Without GitHub: put the address in `shop/config.js` → `api`.)
+
+ORBIT itself still takes the orders from `Shop_Inbox`: keep ORBIT open with a shop page on one PC during working hours (orders are taken every minute; none are lost while it is closed — they wait in the list).
+
+
+## 2 · Or: the Power Automate flow (Premium licence for the HTTP trigger)
 
 Create an **Instant cloud flow → "When an HTTP request is received"**.
 * *Who can trigger the flow*: **Anyone**. Method: leave empty (GET for pictures, POST for the rest).
@@ -129,7 +159,12 @@ With `api` empty the shop runs not connected (section 0) from the `data/` folder
 
 Check: **ORBIT → Online Shop → Settings → 🔌 Test the connection** should say *Connected … N products*.
 
-## 4 · Good to know
+## 4 · Offers and visitor statistics
+
+* **Online Shop → 📣 Offers & ads**: advertising bar messages, offer banners (coupon code, countdown, button), Deals section. Saved and published in one click.
+* **Visitor statistics**: when connected through the ORBIT shop gateway, the shop sends anonymous visits (no cookies, no IP address) to the `Web_Visits` list; the Orbit website does the same automatically. See **Sales & Marketing → Website traffic → 🛍 Online shop**: visit → product → cart → checkout → order, most viewed / added products, sources, devices, countries. Create the Web_Visits list once from that page.
+
+## 5 · Good to know
 
 * **Prices** on the website include VAT. ORBIT re-prices every order with the prices the customer saw (the last 8 catalogues are kept), so later price changes do not affect placed orders; totals match the e-invoice to the fils.
 * **Stock**: the website shows *in stock / only N left / out of stock*, refreshed at every publish (after each order batch and every 15 minutes while Online Shop is open). Orders are checked again against real stock; short ones wait in *To review*.

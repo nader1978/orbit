@@ -456,9 +456,9 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
     ar: [['نستمع', 'لقاء أول مجاني لفهم أعمالك ومواعيدك النهائية وما لا يعمل كما ينبغي.'], ['نشخّص', 'مراجعة قصيرة لدفاترك ووضعك الضريبي وأنظمتك، بنتائج بلغة واضحة.'], ['ننفّذ', 'ننجز العمل — الإقرارات والتوقعات وملفات التمويل والمواقع والتطبيقات أو إعداد الأنظمة — بنطاق وسعر متفق عليهما.'], ['نبقى معك', 'دعم شهري وتذكير قبل كل موعد نهائي وجهة تواصل واحدة تعرف أعمالك.']] };
   const TOPICS = { en: ['Financing & finance', 'VAT or Corporate Tax', 'E-invoicing readiness', 'Website or online store', 'POS system', 'Online menu (QR)', 'Mobile app (Android / Apple)', 'Distribution system', 'Construction & projects system', 'Email marketing campaigns', 'Website analytics & dashboards', 'ORBIT ERP demo', 'Something else'], ar: ['التمويل والشؤون المالية', 'ضريبة القيمة المضافة أو ضريبة الشركات', 'الجاهزية للفوترة الإلكترونية', 'موقع إلكتروني أو متجر إلكتروني', 'نظام نقاط بيع', 'قائمة طعام إلكترونية (QR)', 'تطبيق جوال (أندرويد / آبل)', 'نظام توزيع', 'نظام المقاولات والمشاريع', 'حملات التسويق عبر البريد', 'تحليلات المواقع ولوحات الزيارات', 'عرض تجريبي لنظام ORBIT', 'أمر آخر'] };
   const PRODS = [
-    { k: 'nfpc', c: '#16a34a', dev: 'web', url: 'orbit.alnajjar.in · NFPC', shots: ['nfpc-login', 'nfpc-home'],
-      en: ['Supply-chain system', 'ORBIT — NFPC edition', 'The operations system we built for a UAE food manufacturer: warehouse, FEFO batch allocation, planning, logistics, fleet and staff rosters — used daily on PC and phone.', ['Warehouse moves, FEFO batches and stock tracking', 'Demand, daily plan and production planning', 'Logistics trips, fleet and staff attendance'], ['Branded sign-in for the client', 'Dashboard: every department and page the user can open']],
-      ar: ['نظام سلاسل الإمداد', 'ORBIT — نسخة NFPC', 'نظام العمليات الذي بنيناه لمصنع أغذية في الإمارات: المستودعات وتخصيص الدفعات حسب الصلاحية والتخطيط والنقل والأسطول وجداول الموظفين — يُستخدم يومياً على الكمبيوتر والجوال.', ['حركات المستودع ودفعات FEFO وتتبع المخزون', 'تخطيط الطلب والخطة اليومية والإنتاج', 'رحلات النقل والأسطول وحضور الموظفين'], ['شاشة دخول بهوية العميل', 'لوحة البداية: كل الأقسام والصفحات المتاحة للمستخدم']] },
+    { k: 'nfpc', c: '#16a34a', dev: 'web', url: 'orbit.alnajjar.in · supply chain', shots: ['nfpc-login', 'nfpc-home'],
+      en: ['Supply-chain system', 'ORBIT — Supply chain edition', 'The operations system we built for a UAE food manufacturer: warehouse, FEFO batch allocation, planning, logistics, fleet and staff rosters — used daily on PC and phone.', ['Warehouse moves, FEFO batches and stock tracking', 'Demand, daily plan and production planning', 'Logistics trips, fleet and staff attendance'], ['Sign-in with the client\'s own branding', 'Dashboard: every department and page the user can open']],
+      ar: ['نظام سلاسل الإمداد', 'ORBIT — نسخة سلاسل الإمداد', 'نظام العمليات الذي بنيناه لمصنع أغذية في الإمارات: المستودعات وتخصيص الدفعات حسب الصلاحية والتخطيط والنقل والأسطول وجداول الموظفين — يُستخدم يومياً على الكمبيوتر والجوال.', ['حركات المستودع ودفعات FEFO وتتبع المخزون', 'تخطيط الطلب والخطة اليومية والإنتاج', 'رحلات النقل والأسطول وحضور الموظفين'], ['شاشة دخول بهوية العميل', 'لوحة البداية: كل الأقسام والصفحات المتاحة للمستخدم']] },
     { k: 'erp', c: '#6d3fd9', dev: 'web', url: 'orbit.alnajjar.in/erp', shots: ['erp-login', 'erp-about', 'erp-mail'],
       en: ['Business system', 'ORBIT ERP', 'One system for finance, e-invoicing, sales & marketing, purchasing, stock, production and HR — departments that adapt to your type of business.', ['UAE VAT and e-invoicing ready', 'Bulk email with AI design and website traffic dashboard', 'SharePoint or database server, PC and phone'], ['Secure sign-in', 'Modules and how the work flows', 'Bulk email: lists from Excel, AI layout, live preview']],
       ar: ['نظام إدارة الأعمال', 'ORBIT ERP', 'نظام واحد للمالية والفوترة الإلكترونية والمبيعات والتسويق والمشتريات والمخزون والإنتاج والموارد البشرية — بأقسام تتكيف مع نوع نشاطك.', ['جاهز لضريبة القيمة المضافة والفوترة الإلكترونية', 'بريد جماعي بتصميم ذكي ولوحة زيارات الموقع', 'على شيربوينت أو خادم بيانات، على الكمبيوتر والجوال'], ['دخول آمن', 'الوحدات ومسار العمل', 'البريد الجماعي: قوائم من Excel وتصميم ذكي ومعاينة مباشرة']] },
@@ -602,8 +602,9 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
      Put the collector address here to switch it on:
        • ORBIT ERP server:  https://<your-orbit-server>/v1/site/hit/<tenant id>   (shown in ORBIT → Website traffic → Set-up)
        • or the address of a Power Automate "When an HTTP request is received" flow                    */
-  const ANALYTICS_URL = '';
-  const TRK = (() => {
+  const ANALYTICS_URL = '';   /* empty = use the online shop's connection address (published by ORBIT) when the shop is connected */
+  let TRK = { hit() {} };
+  function startTrk(ANALYTICS_URL) { TRK = (() => {
     if (!ANALYTICS_URL || navigator.doNotTrack === '1' || navigator.globalPrivacyControl || /bot|crawl|spider|headless|lighthouse/i.test(navigator.userAgent)) return { hit() {} };
     const rid = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2)).replace(/-/g, '').slice(0, 24);
     let uid = '', nw = false; try { uid = localStorage.getItem('orbit_vid') || ''; if (!uid) { uid = rid(); nw = true; localStorage.setItem('orbit_vid', uid); } } catch (e) { uid = rid(); nw = true; }
@@ -615,7 +616,7 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
     const TZC = { 'Asia/Dubai': 'United Arab Emirates', 'Asia/Riyadh': 'Saudi Arabia', 'Asia/Qatar': 'Qatar', 'Asia/Kuwait': 'Kuwait', 'Asia/Bahrain': 'Bahrain', 'Asia/Muscat': 'Oman', 'Africa/Cairo': 'Egypt', 'Asia/Amman': 'Jordan', 'Asia/Beirut': 'Lebanon', 'Asia/Baghdad': 'Iraq', 'Asia/Damascus': 'Syria', 'Africa/Casablanca': 'Morocco', 'Africa/Tunis': 'Tunisia', 'Africa/Algiers': 'Algeria', 'Asia/Kolkata': 'India', 'Asia/Calcutta': 'India', 'Asia/Karachi': 'Pakistan', 'Asia/Dhaka': 'Bangladesh', 'Asia/Manila': 'Philippines', 'Asia/Colombo': 'Sri Lanka', 'Asia/Kathmandu': 'Nepal', 'Europe/London': 'United Kingdom', 'Europe/Paris': 'France', 'Europe/Berlin': 'Germany', 'Europe/Istanbul': 'Türkiye', 'Asia/Tehran': 'Iran', 'Asia/Singapore': 'Singapore', 'Asia/Shanghai': 'China', 'Australia/Sydney': 'Australia', 'America/Toronto': 'Canada' };
     const ctry = TZC[tz] || (/^America\/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Detroit)/.test(tz) ? 'United States' : '');
     const qs = new URLSearchParams(location.search), sameRef = (() => { try { return document.referrer && new URL(document.referrer).host === location.host; } catch (e) { return false; } })();
-    const send = o => { const body = JSON.stringify(Object.assign({ vid, uid, page: location.pathname, lang: L }, o));
+    const send = o => { const body = JSON.stringify(Object.assign({ site: 'website', vid, uid, page: location.pathname, lang: L }, o));
       try { if (navigator.sendBeacon && navigator.sendBeacon(ANALYTICS_URL, new Blob([body], { type: 'text/plain' }))) return; } catch (e) {}
       try { fetch(ANALYTICS_URL, { method: 'POST', body, mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain' } }); } catch (e) {} };
     queueMicrotask(() => send({ k: 'view', ref: sameRef ? '' : document.referrer.slice(0, 300), src: qs.get('utm_source') || '', med: qs.get('utm_medium') || '', cmp: qs.get('utm_campaign') || '', dev, br, os, ctry, tz, scr: screen.width + 'x' + screen.height, nw }));
@@ -634,7 +635,8 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') { hidAt = Date.now(); end(); } else if (hidAt) { away += Date.now() - hidAt; hidAt = 0; } });
     addEventListener('pagehide', () => { if (document.visibilityState !== 'hidden') end(); });
     return { hit(k) { clk.push(k); } };
-  })();
+  })(); }
+  if (ANALYTICS_URL) startTrk(ANALYTICS_URL); else fetch('erp/shop/data/catalog.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(c => { if (c && c.shop && c.shop.api) startTrk(c.shop.api); }).catch(() => {});
   let start = 'en'; try { start = location.hash === '#ar' ? 'ar' : (localStorage.getItem('orbit_site_lang') || (/^ar\b/i.test(navigator.language || '') ? 'ar' : 'en')); } catch (e) {}
   setLang(start, false);
 }

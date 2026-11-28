@@ -81,11 +81,33 @@ footer{margin-top:50px;background:#0f172a;color:#cbd5e1;padding:36px 0 90px;font
 .empty{text-align:center;padding:50px 10px;color:var(--mute)}.empty b{display:block;font-size:44px}
 .sk{background:linear-gradient(90deg,#eef2f7,#f8fafc,#eef2f7);background-size:200% 100%;animation:sk 1.2s infinite;border-radius:var(--r)}@keyframes sk{to{background-position:-200% 0}}
 .demo{background:#fef3c7;color:#92400e;text-align:center;font-size:13px;padding:6px 10px}
+
+/* advertising bar, offer slides, deals */
+.adbar{background:linear-gradient(90deg,var(--ink),color-mix(in srgb,var(--c) 55%,var(--ink)));color:#fff;font-size:13.5px;font-weight:600;height:36px;overflow:hidden;position:relative}
+.adbar div{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 40px;text-align:center;opacity:0;transform:translateY(100%);transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .6s}
+.adbar div.on{opacity:1;transform:none}.adbar div.out{opacity:0;transform:translateY(-100%)}
+.adbar div span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}@media(max-width:600px){.adbar{font-size:12px}.adbar div{padding:0 12px}}
+.adbar b{background:#fff;color:var(--ink);border-radius:6px;padding:1px 7px;font-size:12px;letter-spacing:.04em}
+.slides{position:relative;margin:18px 0 8px;border-radius:24px;overflow:hidden;display:grid}
+.slides .hero{grid-area:1/1;margin:0;min-height:clamp(260px,30vw,360px);opacity:0;transform:scale(1.02);transition:opacity .8s,transform .8s;pointer-events:none;display:flex;flex-direction:column;justify-content:center}
+.slides .hero.on{opacity:1;transform:none;pointer-events:auto}
+.slides .sdots{position:absolute;bottom:14px;inset-inline-end:18px;display:flex;gap:7px;z-index:3}.slides .sdots button{width:28px;height:6px;border-radius:6px;border:0;background:rgba(255,255,255,.4);cursor:pointer;padding:0}.slides .sdots button.on{background:#fff}
+.hero.offer{background:radial-gradient(500px 260px at 85% 20%,rgba(255,255,255,.18),transparent),linear-gradient(135deg,var(--bc),color-mix(in srgb,var(--bc) 55%,#0f172a))}
+.hero .code{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.14);border:2px dashed rgba(255,255,255,.7);border-radius:12px;padding:8px 14px;font-weight:800;letter-spacing:.08em;cursor:pointer;color:#fff;font-size:15px}
+.cd{display:flex;gap:8px;margin:14px 0 4px}.cd span{background:rgba(0,0,0,.25);border-radius:10px;padding:6px 10px;text-align:center;min-width:58px}.cd b{display:block;font-size:22px;line-height:1.1;font-variant-numeric:tabular-nums}.cd small{font-size:11px;opacity:.85}
+.hero .acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px}
+.deals{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,220px);gap:14px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x mandatory;scrollbar-width:thin}.deals>*{scroll-snap-align:start}
+.pc .off{position:absolute;top:10px;inset-inline-end:10px;background:var(--bad);color:#fff;font-weight:800;font-size:13px;border-radius:999px;padding:4px 9px;box-shadow:0 6px 16px -6px var(--bad)}
+.ctiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}.ctile{background:var(--card);border-radius:18px;padding:18px 14px;text-decoration:none;box-shadow:var(--sh);display:flex;align-items:center;gap:12px;font-weight:700;transition:transform .2s}.ctile:hover{transform:translateY(-3px)}.ctile i{font-style:normal;font-size:28px;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--c2)}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}.rv.in{opacity:1;transform:none}
+.fbar{height:8px;border-radius:8px;background:var(--line);overflow:hidden;margin:8px 0 2px}.fbar i{display:block;height:100%;background:linear-gradient(90deg,var(--c),#22c55e);border-radius:8px;transition:width .5s}
+@keyframes pulse{50%{transform:scale(1.06)}}.pulse{animation:pulse 1.8s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <div id="demoBar" class="demo" hidden></div>
+<div id="adbar" class="adbar" hidden></div>
 <header><div class="wrap"><div class="hd">
   <a class="logo" href="#/" id="logo"><i>🛍</i><span id="shopName">Shop</span></a>
   <div class="srch"><span>🔍</span><input id="q" type="search" autocomplete="off" data-t-ph="search"></div>
@@ -114,12 +136,12 @@ footer{margin-top:50px;background:#0f172a;color:#cbd5e1;padding:36px 0 90px;font
       contact: 'Your details', name: 'Full name', phone: 'Mobile number', email: 'E-mail (for your receipt)', address: 'Delivery address', emirate: 'Emirate', area: 'Area', line: 'Street, building, flat / villa no.', landmark: 'Landmark (optional)', locate: '📍 Use my location', located: '📍 Location added', when: 'Delivery day', slot: 'Time', payment: 'Payment', coupon: 'Coupon code', apply: 'Apply', notes: 'Note for us (optional)', terms: 'I agree to the terms of sale', place: 'Place order', placing: 'Placing your order…', remember: 'Remember my details on this device',
       req: 'Required', badPhone: 'Enter a valid UAE mobile, e.g. 050 123 4567', badEmail: 'Check the e-mail address', cpnOk: 'Coupon applied', cpnBad: 'This code is not valid', cpnMin: 'This coupon needs an order of at least {n}', thanks: 'Thank you! Your order is placed', orderNo: 'Order number', track: 'Track your order', trackT: 'Track an order', trackP: 'Enter your order number and the mobile number you used.', find: 'Find my order', notFound: 'We could not find this order yet. New orders appear within a few minutes — try again shortly.',
       bankT: 'Pay by bank transfer', bankP: 'Please transfer the total to the account below and upload a photo or PDF of the transfer. We prepare your order as soon as the money arrives.', upload: 'Upload transfer proof', uploaded: 'Proof sent — thank you!', payNow: 'Pay now', cardRedirect: 'Taking you to the secure payment page…', paidOk: 'Payment received — thank you!', payFail: 'The payment was not completed. You can try again.', cancelQ: 'Cancel this order?', cancel: 'Cancel order', cancelled: 'Your cancel request was sent.',
-      account: 'My account', myOrders: 'My orders', noOrders: 'No orders on this device yet.', save: 'Save', saved: 'Saved', policies: 'Information', deliveryP: 'Delivery', returnsP: 'Returns & refunds', termsP: 'Terms of sale', contactUs: 'Contact us', results: 'Results for “{q}”', none: 'Nothing found', back: 'Back', qty: 'Quantity', details: 'Details', min: 'Minimum {n}', max: 'Up to {n} per order', driver: 'Driver', liveLoc: 'See where the driver is', updated: 'updated', demo: 'Demo shop — orders are kept in this browser only', today: 'Today', tomorrow: 'Tomorrow', perk1: '🚚 Fast delivery across the UAE', perk2: '💳 Cash, card or bank transfer', perk3: '↩ Easy returns', whatsapp: 'WhatsApp us', placedAt: 'Placed', items: 'items', sendT: 'Last step: send us your order', sendP: 'Tap the button — WhatsApp opens with your order ready. Just press send. We confirm it and keep you updated on WhatsApp.', sendWa: 'Send my order on WhatsApp', sendMail: 'Send by e-mail instead', sentQ: 'Already sent? We will reply shortly.', waTrack: 'We confirm your order and send updates on WhatsApp. Questions? Message us.', waBank: 'After you transfer, send a photo of the transfer on WhatsApp.', myOrder: 'My order', notFoundWa: 'Not confirmed yet — if you have not sent the order on WhatsApp, please send it now.', name2: 'Name', addr2: 'Address', code: 'Order code (please keep it in the message)' },
+      account: 'My account', myOrders: 'My orders', noOrders: 'No orders on this device yet.', save: 'Save', saved: 'Saved', policies: 'Information', deliveryP: 'Delivery', returnsP: 'Returns & refunds', termsP: 'Terms of sale', contactUs: 'Contact us', results: 'Results for “{q}”', none: 'Nothing found', back: 'Back', qty: 'Quantity', details: 'Details', min: 'Minimum {n}', max: 'Up to {n} per order', driver: 'Driver', liveLoc: 'See where the driver is', updated: 'updated', demo: 'Demo shop — orders are kept in this browser only', today: 'Today', tomorrow: 'Tomorrow', perk1: '🚚 Fast delivery across the UAE', perk2: '💳 Cash, card or bank transfer', perk3: '↩ Easy returns', whatsapp: 'WhatsApp us', placedAt: 'Placed', items: 'items', sendT: 'Last step: send us your order', sendP: 'Tap the button — WhatsApp opens with your order ready. Just press send. We confirm it and keep you updated on WhatsApp.', sendWa: 'Send my order on WhatsApp', sendMail: 'Send by e-mail instead', sentQ: 'Already sent? We will reply shortly.', waTrack: 'We confirm your order and send updates on WhatsApp. Questions? Message us.', waBank: 'After you transfer, send a photo of the transfer on WhatsApp.', myOrder: 'My order', deals: '🔥 Deals', dealsAll: 'See all', shopCats: 'Shop by category', useCode: 'Use code', copied: 'Code copied — paste it at checkout', ends: 'Ends in', d: 'days', h: 'hrs', m: 'min', s: 'sec', shopNow: 'Shop now', adFree: '🚚 Free delivery on orders from {n}', adCod: '💵 Cash on delivery available', adFast: '⚡ Order today — delivered tomorrow', freeLeft: 'You are {n} away from free delivery', freeGot: '🎉 Free delivery unlocked', notFoundWa: 'Not confirmed yet — if you have not sent the order on WhatsApp, please send it now.', name2: 'Name', addr2: 'Address', code: 'Order code (please keep it in the message)' },
     ar: { search: 'ابحث عن منتج', cart: 'سلة التسوق', all: 'الكل', featured: 'الأكثر طلباً الآن', products: 'كل المنتجات', add: 'أضف إلى السلة', added: 'تمت الإضافة إلى السلة', in: 'متوفر', low: 'بقي {n} فقط', out: 'غير متوفر', pre: 'طلب مسبق', checkout: 'إتمام الطلب', subtotal: 'المنتجات', delivery: 'التوصيل', free: 'مجاني', cod: 'رسوم الدفع عند الاستلام', discount: 'الخصم', total: 'الإجمالي', vatIncl: 'شامل الضريبة', empty: 'سلتك فارغة', shop: 'ابدأ التسوق', remove: 'حذف', freeFrom: 'أضف {n} للحصول على توصيل مجاني', minOrder: 'الحد الأدنى للطلب {n}',
       contact: 'بياناتك', name: 'الاسم الكامل', phone: 'رقم الجوال', email: 'البريد الإلكتروني (لإرسال الإيصال)', address: 'عنوان التوصيل', emirate: 'الإمارة', area: 'المنطقة', line: 'الشارع والمبنى ورقم الشقة / الفيلا', landmark: 'علامة مميزة (اختياري)', locate: '📍 استخدم موقعي', located: '📍 تمت إضافة الموقع', when: 'يوم التوصيل', slot: 'الوقت', payment: 'طريقة الدفع', coupon: 'رمز الخصم', apply: 'تطبيق', notes: 'ملاحظة لنا (اختياري)', terms: 'أوافق على شروط البيع', place: 'تأكيد الطلب', placing: 'جارٍ إرسال طلبك…', remember: 'تذكّر بياناتي على هذا الجهاز',
       req: 'مطلوب', badPhone: 'أدخل رقم جوال إماراتي صحيح مثل 050 123 4567', badEmail: 'تحقق من البريد الإلكتروني', cpnOk: 'تم تطبيق الخصم', cpnBad: 'الرمز غير صالح', cpnMin: 'هذا الرمز يتطلب طلباً بقيمة {n} على الأقل', thanks: 'شكراً لك! تم استلام طلبك', orderNo: 'رقم الطلب', track: 'تتبّع طلبك', trackT: 'تتبّع طلب', trackP: 'أدخل رقم الطلب ورقم الجوال الذي استخدمته.', find: 'ابحث عن طلبي', notFound: 'لم نجد الطلب بعد. تظهر الطلبات الجديدة خلال دقائق — حاول مرة أخرى بعد قليل.',
       bankT: 'الدفع بالتحويل البنكي', bankP: 'يرجى تحويل الإجمالي إلى الحساب أدناه ورفع صورة أو ملف PDF للتحويل. نجهّز طلبك فور وصول المبلغ.', upload: 'رفع إثبات التحويل', uploaded: 'تم إرسال الإثبات — شكراً لك!', payNow: 'ادفع الآن', cardRedirect: 'ننقلك إلى صفحة الدفع الآمنة…', paidOk: 'تم استلام الدفعة — شكراً لك!', payFail: 'لم تكتمل عملية الدفع. يمكنك المحاولة مرة أخرى.', cancelQ: 'إلغاء هذا الطلب؟', cancel: 'إلغاء الطلب', cancelled: 'تم إرسال طلب الإلغاء.',
-      account: 'حسابي', myOrders: 'طلباتي', noOrders: 'لا توجد طلبات على هذا الجهاز بعد.', save: 'حفظ', saved: 'تم الحفظ', policies: 'معلومات', deliveryP: 'التوصيل', returnsP: 'الإرجاع والاسترداد', termsP: 'شروط البيع', contactUs: 'تواصل معنا', results: 'نتائج البحث عن «{q}»', none: 'لا توجد نتائج', back: 'رجوع', qty: 'الكمية', details: 'التفاصيل', min: 'الحد الأدنى {n}', max: 'حتى {n} لكل طلب', driver: 'السائق', liveLoc: 'شاهد موقع السائق', updated: 'آخر تحديث', demo: 'متجر تجريبي — تُحفظ الطلبات في هذا المتصفح فقط', today: 'اليوم', tomorrow: 'غداً', perk1: '🚚 توصيل سريع في كل الإمارات', perk2: '💳 نقداً أو بالبطاقة أو تحويل بنكي', perk3: '↩ إرجاع سهل', whatsapp: 'راسلنا على واتساب', placedAt: 'تاريخ الطلب', items: 'منتجات', sendT: 'الخطوة الأخيرة: أرسل لنا طلبك', sendP: 'اضغط الزر — سيفتح واتساب والطلب جاهز، فقط اضغط إرسال. سنؤكد طلبك ونرسل لك التحديثات على واتساب.', sendWa: 'أرسل طلبي على واتساب', sendMail: 'أرسله بالبريد الإلكتروني بدلاً من ذلك', sentQ: 'أرسلته؟ سنرد عليك قريباً.', waTrack: 'نؤكد طلبك ونرسل التحديثات على واتساب. لديك سؤال؟ راسلنا.', waBank: 'بعد التحويل أرسل صورة التحويل على واتساب.', myOrder: 'طلبي', notFoundWa: 'لم يتم التأكيد بعد — إذا لم ترسل الطلب على واتساب فأرسله الآن.', name2: 'الاسم', addr2: 'العنوان', code: 'رمز الطلب (يرجى إبقاؤه في الرسالة)' } };
+      account: 'حسابي', myOrders: 'طلباتي', noOrders: 'لا توجد طلبات على هذا الجهاز بعد.', save: 'حفظ', saved: 'تم الحفظ', policies: 'معلومات', deliveryP: 'التوصيل', returnsP: 'الإرجاع والاسترداد', termsP: 'شروط البيع', contactUs: 'تواصل معنا', results: 'نتائج البحث عن «{q}»', none: 'لا توجد نتائج', back: 'رجوع', qty: 'الكمية', details: 'التفاصيل', min: 'الحد الأدنى {n}', max: 'حتى {n} لكل طلب', driver: 'السائق', liveLoc: 'شاهد موقع السائق', updated: 'آخر تحديث', demo: 'متجر تجريبي — تُحفظ الطلبات في هذا المتصفح فقط', today: 'اليوم', tomorrow: 'غداً', perk1: '🚚 توصيل سريع في كل الإمارات', perk2: '💳 نقداً أو بالبطاقة أو تحويل بنكي', perk3: '↩ إرجاع سهل', whatsapp: 'راسلنا على واتساب', placedAt: 'تاريخ الطلب', items: 'منتجات', sendT: 'الخطوة الأخيرة: أرسل لنا طلبك', sendP: 'اضغط الزر — سيفتح واتساب والطلب جاهز، فقط اضغط إرسال. سنؤكد طلبك ونرسل لك التحديثات على واتساب.', sendWa: 'أرسل طلبي على واتساب', sendMail: 'أرسله بالبريد الإلكتروني بدلاً من ذلك', sentQ: 'أرسلته؟ سنرد عليك قريباً.', waTrack: 'نؤكد طلبك ونرسل التحديثات على واتساب. لديك سؤال؟ راسلنا.', waBank: 'بعد التحويل أرسل صورة التحويل على واتساب.', myOrder: 'طلبي', deals: '🔥 العروض', dealsAll: 'عرض الكل', shopCats: 'تسوّق حسب الفئة', useCode: 'استخدم الرمز', copied: 'تم نسخ الرمز — الصقه عند إتمام الطلب', ends: 'ينتهي خلال', d: 'يوم', h: 'ساعة', m: 'دقيقة', s: 'ثانية', shopNow: 'تسوّق الآن', adFree: '🚚 توصيل مجاني للطلبات من {n}', adCod: '💵 الدفع عند الاستلام متاح', adFast: '⚡ اطلب اليوم — يصلك غداً', freeLeft: 'باقي {n} للحصول على توصيل مجاني', freeGot: '🎉 حصلت على توصيل مجاني', notFoundWa: 'لم يتم التأكيد بعد — إذا لم ترسل الطلب على واتساب فأرسله الآن.', name2: 'الاسم', addr2: 'العنوان', code: 'رمز الطلب (يرجى إبقاؤه في الرسالة)' } };
   let L = LS.get('lang', (navigator.language || '').startsWith('ar') ? 'ar' : 'en');
   const t = (k, o) => String((T[L] || T.en)[k] || T.en[k] || k).replace(/\{(\w+)\}/g, (m, x) => o && o[x] != null ? o[x] : m);
   const nm = x => L === 'ar' && x.ar ? x.ar : x.en, ds = x => L === 'ar' && x.da ? x.da : x.de || '';
@@ -129,18 +151,21 @@ footer{margin-top:50px;background:#0f172a;color:#cbd5e1;padding:36px 0 90px;font
 
   /* ---------- talking to the shop (Power Automate flow) — or the demo files ---------- */
   /* live = through the flow · wa = files in data/, orders sent by WhatsApp / e-mail · demo = sample products */
-  let MODE = CFG.api ? 'live' : 'wa', DEMO = false;
+  let MODE = CFG.api ? 'live' : 'wa', DEMO = false, API = CFG.api, SRC = CFG.api ? 'api' : 'data';
   async function api(body) {
-    const r = await fetch(CFG.api, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(body) });
+    const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(body) });
     if (r.status === 404) return null; if (!r.ok) throw new Error('HTTP ' + r.status); const x = await r.text(); try { return JSON.parse(x); } catch (e) { return { text: x }; }
   }
-  const img = f => !f ? '' : /^https?:|^data:/.test(f) ? f : DEMO ? CFG.demo + 'img/' + f : MODE === 'wa' ? CFG.data + 'img/' + (CFG.thumbs && !img.big ? 't-' : '') + f : CFG.api + (CFG.api.includes('?') ? '&' : '?') + 'a=img&f=' + encodeURIComponent((CFG.thumbs && !img.big ? 't-' : '') + f);
+  const img = f => !f ? '' : /^https?:|^data:/.test(f) ? f : DEMO ? CFG.demo + 'img/' + f : SRC === 'data' ? CFG.data + 'img/' + (CFG.thumbs && !img.big ? 't-' : '') + f : API + (API.includes('?') ? '&' : '?') + 'a=img&f=' + encodeURIComponent((CFG.thumbs && !img.big ? 't-' : '') + f);
   async function loadCatalog() {
-    const c = JSON.parse(sessionStorage.getItem('shop_cat') || 'null'); if (c && c.m && Date.now() - c.t < 300000) { MODE = c.m; DEMO = MODE === 'demo'; return c.d; }
+    const c = JSON.parse(sessionStorage.getItem('shop_cat') || 'null'); if (c && c.m && Date.now() - c.t < 300000) { MODE = c.m; DEMO = MODE === 'demo'; SRC = c.s; API = c.api || API; return c.d; }
     let d = null;
     if (MODE === 'live') d = await api({ a: 'catalog' });
-    else { const r = await fetch(CFG.data + 'catalog.json', { cache: 'no-cache' }).catch(() => null); if (r && r.ok) d = await r.json(); else { MODE = 'demo'; DEMO = true; d = await (await fetch(CFG.demo + 'catalog.json', { cache: 'no-cache' })).json(); } }
-    if (!d || !d.items) throw new Error('catalogue'); try { sessionStorage.setItem('shop_cat', JSON.stringify({ t: Date.now(), d, m: MODE })); } catch (e) {} return d;
+    else { const r = await fetch(CFG.data + 'catalog.json', { cache: 'no-cache' }).catch(() => null);
+      if (r && r.ok) { d = await r.json(); SRC = 'data'; if (d.shop && d.shop.api) { API = d.shop.api; MODE = 'live'; } else MODE = 'wa'; }   /* ORBIT says the shop is connected → orders go straight in */
+      else if (CFG.demo) { MODE = 'demo'; DEMO = true; d = await (await fetch(CFG.demo + 'catalog.json', { cache: 'no-cache' })).json(); }
+      else throw new Error('soon'); }
+    if (!d || !d.items) throw new Error('catalogue'); try { sessionStorage.setItem('shop_cat', JSON.stringify({ t: Date.now(), d, m: MODE, s: SRC, api: API })); } catch (e) {} return d;
   }
   /* ---------- cart ---------- */
   let CART = LS.get('cart', []);
@@ -152,15 +177,26 @@ footer{margin-top:50px;background:#0f172a;color:#cbd5e1;padding:36px 0 90px;font
   const avTxt = i => i.st === 'low' ? t('low', { n: i.q }) : t(i.st);
   const stepper = (c, q, cls) => `<div class="qty ${cls || ''}"><button type="button" data-q="${esc(c)}" data-d="-1" aria-label="−">−</button><span>${q}</span><button type="button" data-q="${esc(c)}" data-d="1" aria-label="+">+</button></div>`;
   const card = i => { const q = inCart(i.c), off = i.w ? Math.round((1 - i.p / i.w) * 100) : 0;
-    return `<article class="pc"><a class="im" href="#/p/${esc(i.s)}">${i.img[0] ? `<img loading="lazy" src="${esc(img(i.img[0]))}" alt="${esc(nm(i))}">` : ''}${i.bd ? `<span class="bd${i.bd === 'Sale' ? ' s' : ''}">${esc(L === 'ar' ? ({ New: 'جديد', Sale: 'تخفيض', 'Best seller': 'الأكثر مبيعاً', Limited: 'كمية محدودة' }[i.bd] || i.bd) : i.bd)}</span>` : ''}</a>
-      <div class="b"><h3><a href="#/p/${esc(i.s)}">${esc(nm(i))}</a></h3><div class="pr"><b>${money(i.p)}</b>${i.w ? `<s>${money(i.w)}</s><small>−${off}%</small>` : ''}</div><div class="av ${i.st}">${esc(avTxt(i))}</div>
+    return `<article class="pc"><a class="im" href="#/p/${esc(i.s)}">${i.img[0] ? `<img loading="lazy" src="${esc(img(i.img[0]))}" alt="${esc(nm(i))}">` : ''}${off ? `<span class="off">−${off}%</span>` : ''}${i.bd ? `<span class="bd${i.bd === 'Sale' ? ' s' : ''}">${esc(L === 'ar' ? ({ New: 'جديد', Sale: 'تخفيض', 'Best seller': 'الأكثر مبيعاً', Limited: 'كمية محدودة' }[i.bd] || i.bd) : i.bd)}</span>` : ''}</a>
+      <div class="b"><h3><a href="#/p/${esc(i.s)}">${esc(nm(i))}</a></h3><div class="pr"><b>${money(i.p)}</b>${i.w ? `<s>${money(i.w)}</s>` : ''}</div><div class="av ${i.st}">${esc(avTxt(i))}</div>
       <div class="add">${i.st === 'out' ? `<button class="btn g full" disabled>${t('out')}</button>` : q ? stepper(i.c, q) : `<button class="btn full" type="button" data-add="${esc(i.c)}">${t('add')}</button>`}</div></div></article>`; };
-  const grid = list => list.length ? `<div class="grid">${list.map(card).join('')}</div>` : `<div class="empty"><b>🔍</b>${t('none')}</div>`;
+  const grid = list => list.length ? `<div class="grid">${list.map(x => card(x).replace('<article class="pc"', '<article class="pc rv"')).join('')}</div>` : `<div class="empty"><b>🔍</b>${t('none')}</div>`;
   function navCats(active) { $('#cats').innerHTML = `<a class="chip${!active ? ' on' : ''}" href="#/">${t('all')}</a>` + CAT.cats.map(c => `<a class="chip${active === c.c ? ' on' : ''}" href="#/c/${esc(c.c)}">${esc(c.i)} ${esc(L === 'ar' && c.ar ? c.ar : c.en)}</a>`).join(''); }
   const sh = () => CAT.shop, hero = () => sh().hero || {};
-  function vHome() { navCats(''); const f = CAT.items.filter(i => i.f), h = hero();
-    return `<section class="hero"><h1>${esc((L === 'ar' ? h.ar : h.en) || (L === 'ar' && sh().ar ? sh().ar : sh().name))}</h1><p>${esc((L === 'ar' ? h.subAr : h.subEn) || '')}</p><button class="btn w" type="button" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">${t('shop')} ${L === 'ar' ? '←' : '→'}</button><div class="ul" style="margin-top:20px"><span>${t('perk1')}</span><span>${t('perk2')}</span><span>${t('perk3')}</span></div></section>`
+  /* home: offer slides (+ the main welcome), deals, categories, featured, all products */
+  const linkOf = l => !l ? '#/' : l === '#deals' ? '#/deals' : l.startsWith('c:') ? '#/c/' + encodeURIComponent(l.slice(2)) : l.startsWith('p:') ? '#/p/' + encodeURIComponent((CAT.items.find(i => i.c === l.slice(2)) || {}).s || l.slice(2)) : '#/';
+  const cdHtml = until => { const ms = Date.parse(until); return until && ms > Date.now() ? `<div class="cd" data-until="${ms}"></div>` : ''; };
+  function vHome() { navCats(''); const f = CAT.items.filter(i => i.f), h = hero(), bns = (h.banners || []).filter(b => !b.until || Date.parse(b.until) > Date.now()), deals = dealsOf();
+    const main = `<section class="hero on"><h1>${esc((L === 'ar' ? h.ar : h.en) || (L === 'ar' && sh().ar ? sh().ar : sh().name))}</h1><p>${esc((L === 'ar' ? h.subAr : h.subEn) || '')}</p><div class="acts"><button class="btn w" type="button" data-goto="products">${t('shop')} ${L === 'ar' ? '←' : '→'}</button></div><div class="ul" style="margin-top:20px"><span>${t('perk1')}</span><span>${t('perk2')}</span><span>${t('perk3')}</span></div></section>`;
+    const offers = bns.map((b, k) => `<section class="hero offer" style="--bc:${esc(b.color || '#e11d48')}"><h1>${esc(L === 'ar' && b.ar ? b.ar : b.en)}</h1><p>${esc(L === 'ar' && b.subAr ? b.subAr : b.subEn || '')}</p>${cdHtml(b.until)}<div class="acts"><a class="btn w" href="${linkOf(b.link)}" data-banner="${k}">${t('shopNow')} ${L === 'ar' ? '←' : '→'}</a>${b.code ? `<button class="code pulse" type="button" data-copy="${esc(b.code)}">🎟 ${t('useCode')} ${esc(b.code)}</button>` : ''}</div></section>`);
+    const all = offers.concat([main]).map((x, k) => k ? x.replace('class="hero on"', 'class="hero"') : x.replace('class="hero offer"', 'class="hero offer on"').replace('class="hero on"', 'class="hero on"'));
+    if (offers.length) all[all.length - 1] = all[all.length - 1].replace('class="hero on"', 'class="hero"');
+    return `<div class="slides" id="slides">${all.join('')}${all.length > 1 ? `<div class="sdots">${all.map((_, k) => `<button type="button" data-slide="${k}" class="${k ? '' : 'on'}" aria-label="${k + 1}"></button>`).join('')}</div>` : ''}</div>`
+      + (deals.length && h.deals !== false ? `<h2 class="t" id="deals">${t('deals')} <a href="#/deals">${t('dealsAll')} ${L === 'ar' ? '←' : '→'}</a></h2><div class="deals">${deals.slice(0, 12).map(card).join('')}</div>` : '')
+      + (CAT.cats.length > 1 ? `<h2 class="t">${t('shopCats')}</h2><div class="ctiles">${CAT.cats.map(c => `<a class="ctile rv" href="#/c/${esc(c.c)}"><i>${esc(c.i || '🛍')}</i><span>${esc(L === 'ar' && c.ar ? c.ar : c.en)}</span></a>`).join('')}</div>` : '')
       + (f.length ? `<h2 class="t">${t('featured')}</h2>${grid(f)}` : '') + `<h2 class="t" id="products">${t('products')}</h2>${grid(CAT.items)}`; }
+  const dealsOf = () => CAT.items.filter(i => i.w > i.p && i.st !== 'out').sort((a, b) => (1 - b.p / b.w) - (1 - a.p / a.w));
+  function vDeals() { navCats(''); return `<h2 class="t">${t('deals')}</h2>${grid(dealsOf())}`; }
   function vCat(code) { navCats(code); const c = CAT.cats.find(x => x.c === code) || {}; return `<h2 class="t">${esc(c.i || '')} ${esc(L === 'ar' && c.ar ? c.ar : c.en || '')}</h2>${grid(CAT.items.filter(i => i.cat === code))}`; }
   function vSearch(q) { navCats(''); const w = q.toLowerCase().split(/\s+/).filter(Boolean); return `<h2 class="t">${esc(t('results', { q }))}</h2>${grid(CAT.items.filter(i => { const h = [i.en, i.ar, i.b, i.c, (i.t || []).join(' '), i.de].join(' ').toLowerCase(); return w.every(x => h.includes(x)); }))}`; }
   function vProduct(slug) { const i = CAT.items.find(x => x.s === slug || x.c === slug); if (!i) return `<div class="empty"><b>🤷</b>${t('none')}</div>`; navCats(i.cat); const q = inCart(i.c), off = i.w ? Math.round((1 - i.p / i.w) * 100) : 0; img.big = 1; const ims = i.img.map(img); img.big = 0;
@@ -177,7 +213,7 @@ footer{margin-top:50px;background:#0f172a;color:#cbd5e1;padding:36px 0 90px;font
   function sumHtml(q) { return `<div class="sum"><div><span>${t('subtotal')}</span><b>${money(q.goods)}</b></div>${q.off ? `<div class="neg"><span>${t('discount')}</span><b>−${money(q.off)}</b></div>` : ''}<div><span>${t('delivery')}</span><b>${q.ship ? money(q.ship) : t('free')}</b></div>${q.cod ? `<div><span>${t('cod')}</span><b>${money(q.cod)}</b></div>` : ''}<div class="tot"><span>${t('total')} <small style="font-weight:500;color:var(--mute)">${t('vatIncl')}</small></span><span>${money(q.total)}</span></div></div>`; }
   function drawCart() { const q = quote({ emirate: (LS.get('me', {}).emirate) }), d = sh().del || {};
     $('#cartBody').innerHTML = CART.length ? CART.map(x => { const i = byCode(x.c); return i ? `<div class="li"><img src="${esc(img(i.img[0]))}" alt=""><div><h4>${esc(nm(i))}</h4><div style="color:var(--mute);font-size:13px">${money(i.p)}</div><button class="x" type="button" data-q="${esc(i.c)}" data-set="0">${t('remove')}</button></div>${stepper(i.c, x.q)}</div>` : ''; }).join('')
-      + (d.free && q.goods < d.free ? `<div class="note i">${t('freeFrom', { n: money(d.free - q.goods) })}</div>` : '') : `<div class="empty"><b>🛒</b>${t('empty')}<br><br><button class="btn" type="button" data-close="1">${t('shop')}</button></div>`;
+      + (d.free ? `<div class="note i" style="margin-top:12px">${q.goods - q.off >= d.free ? t('freeGot') : t('freeLeft', { n: money(d.free - q.goods + q.off) })}<div class="fbar"><i style="width:${Math.min(100, Math.round((q.goods - q.off) * 100 / d.free))}%"></i></div></div>` : '') : `<div class="empty"><b>🛒</b>${t('empty')}<br><br><button class="btn" type="button" data-close="1">${t('shop')}</button></div>`;
     $('#cartFoot').innerHTML = CART.length ? sumHtml(q) + (d.min && q.goods < d.min ? `<div class="note w">${t('minOrder', { n: money(d.min) })}</div>` : '') + `<a class="btn full" href="#/checkout" data-close="1" style="margin-top:10px"${d.min && q.goods < d.min ? ' aria-disabled="true" onclick="return false" style="opacity:.5"' : ''}>${t('checkout')} ${L === 'ar' ? '←' : '→'}</a>` : ''; }
   const openCart = on => { drawCart(); $('#drawer').classList.toggle('on', on); $('#ov').classList.toggle('on', on); };
 
@@ -185,7 +221,7 @@ footer{margin-top:50px;background:#0f172a;color:#cbd5e1;padding:36px 0 90px;font
   let CO = null;
   function vCheckout() {
     navCats(''); if (!CART.length) return `<div class="empty"><b>🛒</b>${t('empty')}<br><br><a class="btn" href="#/">${t('shop')}</a></div>`;
-    const me = LS.get('me', {}); if (!CO) { CO = Object.assign({ name: '', phone: '', email: '', emirate: '', area: '', line: '', landmark: '', lat: '', lng: '', pay: (sh().pay || [])[0] || 'cod', date: '', slot: '', coupon: '', cp: null, notes: '', agree: false, remember: true, err: {} }, me); CO.err = {}; CO.cp = null; CO.coupon = ''; }
+    const me = LS.get('me', {}); if (!CO) { CO = Object.assign({ name: '', phone: '', email: '', emirate: '', area: '', line: '', landmark: '', lat: '', lng: '', pay: (sh().pay || [])[0] || 'cod', date: '', slot: '', coupon: '', cp: null, notes: '', agree: false, remember: true, err: {} }, me); CO.err = {}; CO.cp = null; CO.coupon = LS.get('code', ''); }
     const d = sh().del || {}, days = [...Array(7)].map((_, k) => { const x = new Date(); x.setDate(x.getDate() + (d.lead || 1) + k); return x.toISOString().slice(0, 10); }); if (!CO.date) CO.date = days[0]; if (!CO.slot && (d.slots || []).length) CO.slot = d.slots[0];
     const q = quote({ emirate: CO.emirate, pay: CO.pay, coupon: CO.cp }), E = CO.err, fld = (k, label, type, extra) => `<div class="f${E[k] ? ' bad' : ''}"><label for="co_${k}">${label}</label><input id="co_${k}" data-co="${k}" value="${esc(CO[k])}"${type ? ` type="${type}"` : ''} ${extra || ''}>${E[k] ? `<span class="er">${esc(E[k])}</span>` : ''}</div>`;
     const dayName = (x, k) => k === 0 && (d.lead || 1) === 1 ? t('tomorrow') : new Date(x + 'T12:00:00').toLocaleDateString(L === 'ar' ? 'ar-AE' : 'en-GB', { weekday: 'short' });
@@ -220,7 +256,7 @@ footer{margin-top:50px;background:#0f172a;color:#cbd5e1;padding:36px 0 90px;font
       if (DEMO || MODE === 'wa') demoSave(m, q); else { const r = await api(m); if (!r) throw new Error('send'); }
       const mine = LS.get('orders', []); mine.unshift({ no, phone: S.phone(CO.phone), at: m.at, total: q.total, pay: m.pay, payRef: m.payRef || '', n: CART.reduce((s, x) => s + x.q, 0) }); LS.set('orders', mine.slice(0, 30));
       if (CO.remember) LS.set('me', { name: CO.name, phone: CO.phone, email: CO.email, emirate: CO.emirate, area: CO.area, line: CO.line, landmark: CO.landmark }); else LS.set('me', {});
-      CART = []; saveCart(); CO = null; sessionStorage.removeItem('shop_cat');
+      TRK.hit('order:' + m.pay); CART = []; saveCart(); CO = null; sessionStorage.removeItem('shop_cat');
       if (payUrl) { toast(t('cardRedirect')); location.href = payUrl; return; }
       location.hash = '#/done/' + no;
     } catch (e) { CO.busy = 0; CO.fail = (L === 'ar' ? 'تعذّر إرسال الطلب، حاول مرة أخرى.' : 'We could not send your order — please try again.') + ' (' + e.message + ')'; render(); }
@@ -275,26 +311,72 @@ footer{margin-top:50px;background:#0f172a;color:#cbd5e1;padding:36px 0 90px;font
     const tl = [Object.assign(S.tlOf('placed'), { at: new Date(x.at).toISOString() })]; if (!x.cancel) path.slice(0, k + 1).forEach((s, i) => tl.push(Object.assign(S.tlOf(s), { at: new Date(x.at + (i + 1) * 60000).toISOString() }))); else tl.push(S.tlOf('cancelled'));
     return { no, status, en: st.en, ar: st.ar, step: st.step, total: x.q.total, payStatus: x.m.pay === 'bank' ? (x.proof ? 'proof' : 'awaiting') : '', bank: x.m.pay === 'bank' ? sh().bank : '', date: x.m.date, slot: x.m.slot, timeline: tl, items: x.q.lines.filter(l => l.code).map(l => ({ en: l.description, ar: l.descAr, q: l.qty })), canCancel: S.CANCELLABLE_BY_CUSTOMER.includes(status) && !x.cancel ? 1 : 0, loc: status === 'out_for_delivery' ? { lat: 25.08, lng: 55.14, at: new Date().toISOString() } : null, driver: 'Rashid' }; }
 
+
+  /* ---------- moving parts: slides, countdowns, reveal on scroll, advertising bar ---------- */
+  let SL = 0, SLT = 0, ADT = 0;
+  function afterRender() {
+    clearInterval(SLT); SL = 0; const sl = document.querySelectorAll('#slides .hero');
+    if (sl.length > 1) SLT = setInterval(() => showSlide(SL + 1), 6500);
+    const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -40px 0px' }) : null;
+    document.querySelectorAll('.rv:not(.in)').forEach(x => io ? io.observe(x) : x.classList.add('in')); tick();
+  }
+  function showSlide(k) { const sl = document.querySelectorAll('#slides .hero'), dots = document.querySelectorAll('#slides .sdots button'); if (!sl.length) return; SL = (k + sl.length) % sl.length; sl.forEach((x, i) => x.classList.toggle('on', i === SL)); dots.forEach((x, i) => x.classList.toggle('on', i === SL)); }
+  function tick() { document.querySelectorAll('[data-until]').forEach(el => { let s2 = Math.max(0, Math.floor((+el.dataset.until - Date.now()) / 1000)); const d = Math.floor(s2 / 86400); s2 %= 86400; const hh = Math.floor(s2 / 3600), mm = Math.floor(s2 % 3600 / 60), ss = s2 % 60;
+    el.innerHTML = `<small style="align-self:center;margin-inline-end:4px">${t('ends')}</small>` + [[d, 'd'], [hh, 'h'], [mm, 'm'], [ss, 's']].map(([n, k]) => `<span><b>${String(n).padStart(2, '0')}</b><small>${t(k)}</small></span>`).join(''); }); }
+  setInterval(tick, 1000);
+  function adbar() { const s2 = sh(), h = hero(), bar = $('#adbar'), d = s2.del || {};
+    let msgs = (h.bar || []).map(x => L === 'ar' && x.ar ? x.ar : x.en).filter(Boolean);
+    if (!msgs.length) { if (d.free) msgs.push(t('adFree', { n: money(d.free) })); if ((s2.pay || []).includes('cod')) msgs.push(t('adCod')); if ((d.lead || 1) <= 1) msgs.push(t('adFast')); }
+    (h.banners || []).filter(b => b.code && (!b.until || Date.parse(b.until) > Date.now())).forEach(b => msgs.push(`${esc(L === 'ar' && b.ar ? b.ar : b.en)} · ${t('useCode')} <b>${esc(b.code)}</b>`));
+    bar.hidden = !msgs.length; clearInterval(ADT); if (!msgs.length) return; bar.innerHTML = msgs.map((m, k) => `<div class="${k ? '' : 'on'}"><span>${m.includes('<b>') ? m : esc(m)}</span></div>`).join(''); let k = 0;
+    if (msgs.length > 1) ADT = setInterval(() => { const el = bar.querySelectorAll('div'); el[k].classList.remove('on'); el[k].classList.add('out'); const o = el[k]; setTimeout(() => o.classList.remove('out'), 650); k = (k + 1) % el.length; el[k].classList.add('on'); }, 4200); }
+
+  /* ---------- anonymous visitor statistics → ORBIT "Website traffic" (only when the shop is connected) ----------
+     no cookies, no names, no IP address; a random visitor number kept in this browser */
+  const TRK = (() => { const off = { page() {}, hit() {} };
+    try { if (navigator.doNotTrack === '1' || navigator.globalPrivacyControl || /bot|crawl|spider|headless|lighthouse/i.test(navigator.userAgent)) return off; } catch (e) { return off; }
+    const rid = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2)).replace(/-/g, '').slice(0, 24);
+    let uid = LS.get('vid', ''), nw = false; if (!uid) { uid = rid(); nw = true; LS.set('vid', uid); }
+    const ua = navigator.userAgent, vid = rid(), t0 = Date.now(), pages = new Set(), clk = []; let sent = false, sentClk = 0, away = 0, hidAt = 0, maxSc = 0;
+    const dev = /iPad|Tablet|Android(?!.*Mobile)/i.test(ua) ? 'Tablet' : /Mobi|iPhone|Android/i.test(ua) ? 'Mobile' : 'Desktop', br = /Edg\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /SamsungBrowser/.test(ua) ? 'Samsung' : /Firefox|FxiOS/.test(ua) ? 'Firefox' : /Chrome|CriOS/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : 'Other';
+    const os = /Windows/.test(ua) ? 'Windows' : /iPhone|iPad|iPod/.test(ua) ? 'iOS' : /Android/.test(ua) ? 'Android' : /Mac OS X/.test(ua) ? 'macOS' : /Linux/.test(ua) ? 'Linux' : 'Other';
+    let tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+    const send = o => { if (MODE !== 'live' || !API) return; const body = JSON.stringify(Object.assign({ site: 'shop', vid, uid, page: location.pathname, lang: L }, o));
+      try { if (navigator.sendBeacon && navigator.sendBeacon(API, new Blob([body], { type: 'text/plain' }))) return; } catch (e) {} try { fetch(API, { method: 'POST', body, mode: 'cors', keepalive: true, headers: { 'Content-Type': 'text/plain' } }).catch(() => {}); } catch (e) {} };
+    const qs = new URLSearchParams(location.search), ref = (() => { try { return document.referrer && new URL(document.referrer).host !== location.host ? document.referrer.slice(0, 300) : ''; } catch (e) { return ''; } })();
+    const view = () => { if (sent) return; sent = true; send({ k: 'view', ref, src: qs.get('utm_source') || '', med: qs.get('utm_medium') || '', cmp: qs.get('utm_campaign') || '', dev, br, os, tz, scr: screen.width + 'x' + screen.height, nw }); };
+    addEventListener('scroll', () => { const h = document.documentElement.scrollHeight - innerHeight; if (h > 0) maxSc = Math.max(maxSc, Math.round(scrollY * 100 / h)); }, { passive: true });
+    const end = () => { if (!sent) return; send({ k: 'end', dur: Math.round((Date.now() - t0 - away) / 1000), sc: maxSc, secs: [...pages].slice(0, 60), clk: clk.slice(sentClk, sentClk + 60) }); sentClk = clk.length; };
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') { hidAt = Date.now(); end(); } else if (hidAt) { away += Date.now() - hidAt; hidAt = 0; } });
+    addEventListener('pagehide', () => { if (document.visibilityState !== 'hidden') end(); });
+    return { page(parts) { view(); const p0 = parts[0] || 'home', key = p0 === 'p' ? 'p:' + ((CAT.items.find(i => i.s === parts[1] || i.c === parts[1]) || {}).c || parts[1]) : p0 === 'c' ? 'c:' + parts[1] : p0 === 's' ? 'search' : p0; pages.add(String(key).slice(0, 60)); },
+      hit(k) { clk.push(String(k).slice(0, 60)); } };
+  })();
+
   /* ---------- router ---------- */
   function render() {
     if (!CAT) return; const h = location.hash.replace(/^#\/?/, ''), [path, qs] = h.split('?'), parts = path.split('/').map(decodeURIComponent), params = new URLSearchParams(qs || '');
     $('#mbar').classList.remove('on'); document.title = (L === 'ar' && sh().ar ? sh().ar : sh().name) || 'Shop';
-    const v = parts[0] === 'p' ? vProduct(parts[1]) : parts[0] === 'c' ? vCat(parts[1]) : parts[0] === 's' ? vSearch(parts.slice(1).join('/')) : parts[0] === 'checkout' ? vCheckout() : parts[0] === 'done' ? vDone(parts[1], params) : parts[0] === 'track' ? vTrack(parts[1]) : parts[0] === 'account' ? vAccount() : parts[0] === 'page' ? vPage(parts[1]) : vHome();
-    $('#app').innerHTML = v; if ($('#drawer').classList.contains('on')) drawCart();
+    const v = parts[0] === 'p' ? vProduct(parts[1]) : parts[0] === 'c' ? vCat(parts[1]) : parts[0] === 's' ? vSearch(parts.slice(1).join('/')) : parts[0] === 'checkout' ? vCheckout() : parts[0] === 'done' ? vDone(parts[1], params) : parts[0] === 'track' ? vTrack(parts[1]) : parts[0] === 'account' ? vAccount() : parts[0] === 'page' ? vPage(parts[1]) : parts[0] === 'deals' ? vDeals() : vHome();
+    $('#app').innerHTML = v; if ($('#drawer').classList.contains('on')) drawCart(); afterRender(parts); TRK.page(parts);
   }
   function chrome() {
     document.documentElement.lang = L; document.documentElement.dir = L === 'ar' ? 'rtl' : 'ltr'; $('#lang').textContent = L === 'ar' ? 'EN' : 'ع';
     document.querySelectorAll('[data-t]').forEach(e => { e.textContent = t(e.dataset.t); }); document.querySelectorAll('[data-t-ph]').forEach(e => { e.placeholder = t(e.dataset.tPh); });
     if (!CAT) return; const s = sh(); $('#shopName').textContent = L === 'ar' && s.ar ? s.ar : s.name; if (s.logo) $('#logo i').innerHTML = `<img src="${esc(s.logo)}" alt="">`;
     if (s.color) { document.documentElement.style.setProperty('--c', s.color); document.querySelector('meta[name=theme-color]').content = s.color; }
-    $('#demoBar').hidden = !DEMO; $('#demoBar').textContent = t('demo');
+    $('#demoBar').hidden = !DEMO; $('#demoBar').textContent = t('demo'); adbar();
     $('#foot').innerHTML = `<div><h4>${esc(L === 'ar' && s.ar ? s.ar : s.name)}</h4>${s.phone ? `<a href="tel:${esc(s.phone.replace(/\s/g, ''))}">📞 ${esc(s.phone)}</a>` : ''}${s.wa ? `<a href="https://wa.me/${esc(s.wa)}" target="_blank" rel="noopener">💬 ${t('whatsapp')}</a>` : ''}${s.email ? `<a href="mailto:${esc(s.email)}">✉️ ${esc(s.email)}</a>` : ''}</div>
       <div><h4>${t('policies')}</h4><a href="#/page/delivery">${t('deliveryP')}</a><a href="#/page/returns">${t('returnsP')}</a><a href="#/page/terms">${t('termsP')}</a></div><div><h4>${t('account')}</h4><a href="#/account">${t('myOrders')}</a><a href="#/track">${t('trackT')}</a></div><div><h4>${t('products')}</h4>${CAT.cats.map(c => `<a href="#/c/${esc(c.c)}">${esc(L === 'ar' && c.ar ? c.ar : c.en)}</a>`).join('')}</div>`;
   }
   /* ---------- events ---------- */
   document.addEventListener('click', async e => {
-    const a = e.target.closest('[data-add],[data-q],[data-open],[data-close],[data-g],[data-day],[data-slot],[data-cancel],[data-retrack],[data-payagain],#cartBtn,#ov,#dx,#lang,#placeBtn,#cpBtn,#locBtn,#tGo,#meSave'); if (!a) return;
-    if (a.dataset.add) { const i = byCode(a.dataset.add); setQty(i.c, Math.max(i.min || 1, 1)); toast('✓ ' + t('added')); render(); return; }
+    const a = e.target.closest('[data-add],[data-copy],[data-slide],[data-banner],[data-goto],[data-q],[data-open],[data-close],[data-g],[data-day],[data-slot],[data-cancel],[data-retrack],[data-payagain],#cartBtn,#ov,#dx,#lang,#placeBtn,#cpBtn,#locBtn,#tGo,#meSave'); if (!a) return;
+    if (a.dataset.add) { const i = byCode(a.dataset.add); setQty(i.c, Math.max(i.min || 1, 1)); TRK.hit('add:' + i.c); toast('✓ ' + t('added')); render(); return; }
+    if (a.dataset.copy) { try { await navigator.clipboard.writeText(a.dataset.copy); } catch (e) {} if (CO) CO.coupon = a.dataset.copy; LS.set('code', a.dataset.copy); TRK.hit('coupon:' + a.dataset.copy); toast('🎟 ' + t('copied')); return; }
+    if (a.dataset.slide) { showSlide(+a.dataset.slide); clearInterval(SLT); return; }
+    if (a.dataset.banner) { TRK.hit('banner:' + a.dataset.banner); return; }
+    if (a.dataset.goto) { const x = document.getElementById(a.dataset.goto); if (x) x.scrollIntoView({ behavior: 'smooth' }); return; }
     if (a.dataset.q) { setQty(a.dataset.q, a.dataset.set != null ? 0 : inCart(a.dataset.q) + Number(a.dataset.d)); render(); return; }
     if (a.dataset.open || a.id === 'cartBtn') return openCart(true);
     if (a.dataset.close || a.id === 'ov' || a.id === 'dx') return openCart(false);
@@ -322,7 +404,7 @@ footer{margin-top:50px;background:#0f172a;color:#cbd5e1;padding:36px 0 90px;font
   addEventListener('hashchange', () => { if (!location.hash.startsWith('#/checkout')) CO = null; render(); scrollTo(0, 0); });
   addEventListener('keydown', e => { if (e.key === 'Escape') openCart(false); });
   chrome();
-  loadCatalog().then(c => { CAT = c; cur = c.shop.cur || 'AED'; saveCart(); chrome(); render(); }).catch(e => { $('#app').innerHTML = `<div class="empty"><b>⚠️</b>${L === 'ar' ? 'تعذّر تحميل المتجر، حاول لاحقاً.' : 'The shop could not be loaded — please try again later.'}</div>`; console.error(e); });
+  loadCatalog().then(c => { CAT = c; cur = c.shop.cur || 'AED'; saveCart(); chrome(); render(); }).catch(e => { $('#app').innerHTML = e.message === 'soon' ? `<div class="empty"><b>🛍</b>${L === 'ar' ? 'المتجر يفتح قريباً.' : 'Our online shop is opening soon.'}</div>` : `<div class="empty"><b>⚠️</b>${L === 'ar' ? 'تعذّر تحميل المتجر، حاول لاحقاً.' : 'The shop could not be loaded — please try again later.'}</div>`; console.error(e); });
 })();
 </script>
 </body>

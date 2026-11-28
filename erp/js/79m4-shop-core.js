@@ -122,7 +122,7 @@
     items.sort((a, b) => (b.f || 0) - (a.f || 0) || a.o - b.o || a.en.localeCompare(b.en)); items.forEach(x => { delete x.o; });
     const live = set.connection === 'flow' && !!set.apiUrl, pays = (set.payMethods || []).filter(k => PAY[k] && (live || k !== 'card'));
     const coupons = []; for (const c of (o.coupons || []).filter(c => c.active)) coupons.push({ h: await couponHash(c.code, set.shopKey), k: c.kind, v: c.value, m: c.minOrder || 0, f: c.from || '', t: c.to || '' });
-    return { v: 1, ver, at: ver, shop: { mode: live ? 'live' : 'whatsapp', name: set.shopName, ar: set.shopNameAr, key: set.shopKey, cur: set.currency || 'AED', vatIncl: true, prefix: set.orderPrefix || 'W', phone: set.phone, wa: set.whatsapp, email: set.email, color: set.color, logo: set.logo, hero: set.hero || {}, policies: set.policies || {},
+    return { v: 1, ver, at: ver, shop: { mode: live ? 'live' : 'whatsapp', api: live ? set.apiUrl : '', name: set.shopName, ar: set.shopNameAr, key: set.shopKey, cur: set.currency || 'AED', vatIncl: true, prefix: set.orderPrefix || 'W', phone: set.phone, wa: set.whatsapp, email: set.email, color: set.color, logo: set.logo, hero: set.hero || {}, policies: set.policies || {},
         pay: pays, card: set.cardProvider || '', bank: pays.includes('bank') ? set.bankDetails : '', codFee: num(set.codFee), codMax: num(set.codMax),
         del: { fee: num(set.deliveryFee), free: num(set.freeOver), min: num(set.minOrder), em: set.emirateFees || {}, slots: set.slots || [], lead: num(set.leadDays) || 1 } },
       cats, items, coupons };

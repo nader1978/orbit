@@ -13,11 +13,11 @@
   const { reg, esc, num, today, toast, render, cur, H, dmy } = K;
   const J = (s, d) => { try { return s ? JSON.parse(s) : d; } catch (e) { return d; } };
   const SEC = { home: 'Top of page', services: 'Services', solutions: 'Digital solutions', products: 'Our products', finance: 'Finance', tax: 'Tax', 'orbit-erp': 'ORBIT ERP', approach: 'How we work', contact: 'Contact' };
-  const CLK = { login: '🔐 ERP login', demo: '🎬 Demo request', contact: '✉️ Contact form sent', book: '📅 Book consultation', lang: '🌐 Language switch', phone: '📞 Phone', email: '📧 E-mail link', product: '🧩 Product opened' };
+  const CLK = { add: '🛒 Added to cart', order: '✅ Order placed', checkout: '💳 Checkout opened', banner: '📣 Offer banner', coupon: '🎟 Coupon used', shop: '🛍 Online shop link', login: '🔐 ERP login', demo: '🎬 Demo request', contact: '✉️ Contact form sent', book: '📅 Book consultation', lang: '🌐 Language switch', phone: '📞 Phone', email: '📧 E-mail link', product: '🧩 Product opened' };
 
   async function load(force) {
     const o = {};
-    try { o.rows = (await S.list('Web_Visits', force)).map(r => ({ id: Number(r.id), kind: r.kind, vid: r.visitid, uid: r.visitorid, page: r.page || '/', ref: r.referrer || '', src: r.source || '', med: r.medium || '', cmp: r.campaign || '', lang: r.lang || '', dev: r.device || '', br: r.browser || '', os: r.os || '', ctry: r.country || '', tz: r.tz || '', at: r.at || r.created || '', nw: r.newvisitor === '1', dur: num(r.duration), sc: num(r.scroll), secs: J(r.sections, []), clk: J(r.clicks, []) })); }
+    try { o.rows = (await S.list('Web_Visits', force)).map(r => ({ id: Number(r.id), kind: r.kind, vid: r.visitid, uid: r.visitorid, page: r.page || '/', ref: r.referrer || '', src: r.source || '', med: r.medium || '', cmp: r.campaign || '', lang: r.lang || '', dev: r.device || '', br: r.browser || '', os: r.os || '', ctry: r.country || '', tz: r.tz || '', at: r.at || r.created || '', nw: r.newvisitor === '1', dur: num(r.duration), sc: num(r.scroll), secs: J(r.sections, []), clk: J(r.clicks, []), site: r.site || 'website' })); }
     catch (e) { o.rows = []; if (/not found/i.test(e.message)) o.missing = true; else o.err = e.message; }
     return o;
   }
@@ -25,7 +25,7 @@
   function visits(rows, from) {
     const by = new Map();
     rows.forEach(r => { if (!r.vid) return; const v = by.get(r.vid) || { vid: r.vid, dur: 0, sc: 0, secs: new Set(), clk: [] };
-      if (r.kind === 'view') Object.assign(v, { uid: r.uid, at: r.at, page: r.page, ref: r.ref, src: r.src, med: r.med, cmp: r.cmp, lang: r.lang, dev: r.dev, br: r.br, os: r.os, ctry: r.ctry, tz: r.tz, nw: r.nw, view: true });
+      if (r.kind === 'view') Object.assign(v, { site: r.site, uid: r.uid, at: r.at, page: r.page, ref: r.ref, src: r.src, med: r.med, cmp: r.cmp, lang: r.lang, dev: r.dev, br: r.br, os: r.os, ctry: r.ctry, tz: r.tz, nw: r.nw, view: true });
       else { v.dur = Math.max(v.dur, r.dur); v.sc = Math.max(v.sc, r.sc); r.secs.forEach(s => v.secs.add(s)); v.clk = v.clk.concat(r.clk); v.lang = v.lang || r.lang; }
       by.set(r.vid, v); });
     return [...by.values()].filter(v => v.view && String(v.at).slice(0, 10) >= from);
@@ -51,25 +51,31 @@
   reg('x_webstats', {
     load(v, f) { const d = K.D.x_webstats = K.D.x_webstats || {}; d.busy = 1; if (cur() === 'x_webstats') render(); load(f).then(o => Object.assign(d, o)).finally(() => { d.busy = 0; if (cur() === 'x_webstats') render(); }); },
     view(v, d) {
-      const days = num(v.days) || 30, from = K.addD(today(), -(days - 1)), all = d.rows || [], V = visits(all, from), n = V.length;
+      const days = num(v.days) || 30, from = K.addD(today(), -(days - 1)), site = v.site || 'all', inSite = x => site === 'all' || (x.site || 'website') === site, all = d.rows || [], V = visits(all, from).filter(inSite), n = V.length;
       const users = new Set(V.map(x => x.uid)).size, newU = V.filter(x => x.nw).length, ended = V.filter(x => x.dur > 0), avg = ended.length ? ended.reduce((s, x) => s + x.dur, 0) / ended.length : 0;
-      const bounce = V.filter(x => x.dur < 10 && !x.clk.length && x.secs.size <= 1).length, conv = V.filter(x => x.clk.some(c => /^(demo|contact|book|login)/.test(c))).length;
+      const bounce = V.filter(x => x.dur < 10 && !x.clk.length && x.secs.size <= 1).length, conv = V.filter(x => x.clk.some(c => site === 'shop' ? /^order/.test(c) : /^(demo|contact|book|login|order)/.test(c))).length;
       /* previous period, for the change */
-      const prevFrom = K.addD(from, -days), PV = visits(all, prevFrom).filter(x => String(x.at).slice(0, 10) < from), ch = (a, b) => b ? (a >= b ? '▲ ' : '▼ ') + Math.abs(Math.round((a - b) * 100 / b)) + '%' : '';
+      const prevFrom = K.addD(from, -days), PV = visits(all, prevFrom).filter(inSite).filter(x => String(x.at).slice(0, 10) < from), ch = (a, b) => b ? (a >= b ? '▲ ' : '▼ ') + Math.abs(Math.round((a - b) * 100 / b)) + '%' : '';
       const dayMap = new Map(); for (let i = 0; i < days; i++) dayMap.set(K.addD(from, i), 0); V.forEach(x => { const k = String(x.at).slice(0, 10); if (dayMap.has(k)) dayMap.set(k, dayMap.get(k) + 1); });
       const dmax = Math.max(1, ...dayMap.values()), hours = Array(24).fill(0); V.forEach(x => { const h = new Date(x.at).getHours(); if (h >= 0) hours[h]++; }); const hmax = Math.max(1, ...hours);
-      const secRows = Object.keys(SEC).map(k => [k, V.filter(x => x.secs.has(k)).length]).filter(r => r[1]).sort((a, b) => b[1] - a[1]);
+      const secRows = Object.keys(SEC).map(k => [k, V.filter(x => (x.site || 'website') === 'website' && x.secs.has(k)).length]).filter(r => r[1]).sort((a, b) => b[1] - a[1]);
+      const SV = V.filter(x => x.site === 'shop'), sn = SV.length, has = (x, re) => [...x.secs].some(z => re.test(z)), did = (x, re) => x.clk.some(z => re.test(String(z)));
+      const funnel = [['Visited the shop', sn], ['Viewed a product', SV.filter(x => has(x, /^p:/)).length], ['Added to cart', SV.filter(x => did(x, /^add:/)).length], ['Opened checkout', SV.filter(x => has(x, /^checkout$/) || did(x, /^checkout/)).length], ['Placed an order', SV.filter(x => did(x, /^order/)).length]];
+      const topOf = (arr, pre) => count(arr.flatMap(x => pre === 'clk' ? x.clk.map(String) : [...x.secs]).filter(z => z.startsWith(pre === 'clk' ? 'add:' : pre)).map(z => ({ z: z.split(':')[1] })), y => y.z);
       const clkRows = count(V.flatMap(x => x.clk.map(c => ({ c: String(c) }))), x => x.c);
       const setupCard = H.card('Connect the website', (() => { const set = S.set || {}, srv = String(set.server || '').replace(/\/+$/, ''); let tid = ''; try { const t = getGlobalAccessToken(); tid = JSON.parse(atob(t.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))).tid || ''; } catch (e) {}
         return `<span class="mb-hint">The website sends visit data to a collector address, set in the website's <b>index.html</b> (<code>const ANALYTICS_URL = '…'</code>). Use one of these:</span>
           <p style="margin:10px 0 4px"><b>1 · ORBIT ERP server</b> ${srv ? '' : '<span class="mb-hint">(not connected — Finance settings → database server)</span>'}</p><div class="ws-code">${esc((srv || 'https://your-orbit-server') + '/v1/site/hit/' + (tid || 'your-tenant-id'))}</div>
+          <p style="margin:12px 0 4px"><b>ORBIT shop gateway (free, recommended)</b></p><span class="mb-hint">If the online shop uses the ORBIT shop gateway (Online Shop → Website connection), the shop sends its visits there automatically. For the Orbit website, put the same gateway address in <code>ANALYTICS_URL</code>.</span>
           <p style="margin:12px 0 4px"><b>2 · Power Automate</b> (SharePoint only, needs a Premium licence)</p><span class="mb-hint">New flow → trigger "When an HTTP request is received" → action "Create item" in the SharePoint list <b>Web_Visits</b>, mapping each field from <code>json(triggerBody())</code>: k→Kind, vid→VisitId, uid→VisitorId, page→Page, ref→Referrer, src→Source, med→Medium, cmp→Campaign, lang→Lang, dev→Device, br→Browser, os→OS, ctry→Country, tz→Tz, scr→Screen, nw→NewVisitor, dur→Duration, sc→Scroll, secs→Sections, clk→Clicks, utcNow()→At. Paste the flow's address into the website.</span>
           <div class="mx-acts" style="margin-top:10px">${H.sbtn(v.busy ? '⏳ ' + esc(v.busy) : '🛠 Create the Web_Visits list', 'setup')}${H.sbtn('🧹 Delete visits older than 1 year', 'purge', '', 'r')}</div>
           <span class="mb-hint">Privacy: no cookies, no IP addresses, no names — only a random visitor number kept in the visitor's own browser, the page, language, device type, time zone country, and which sections and buttons were used.</span>`; })());
-      return H.head('📊', 'Website traffic', 'Visitors of the Orbit website — sources, devices, languages, sections and clicks', '#0e7490')
+      return H.head('📊', 'Website traffic', 'Visitors of the Orbit website and the online shop — sources, devices, products, cart and orders', '#0e7490')
         + (d.busy ? '<div class="mx-ld"><i></i><i></i><i></i> Loading…</div>' : '') + (d.err ? `<div class="mb-hint mb-bad">⚠ ${esc(d.err)}</div>` : '')
         + H.tabs('days', [['7', 'Last 7 days'], ['30', '30 days'], ['90', '90 days'], ['365', '12 months']], '30')
-        + H.kpis([[PV.length ? 'Visits (vs previous period)' : 'Visits', n.toLocaleString() + (PV.length ? ' · ' + ch(n, PV.length) : ''), 'g'], ['Visitors', users.toLocaleString()], ['New visitors', pct(newU, n) + '%'], ['Avg. time on site', mmss(avg)], ['Bounce rate', pct(bounce, n) + '%', pct(bounce, n) > 60 ? 'o' : ''], ['Leads (demo, contact, login)', conv + ' · ' + pct(conv, n) + '%', conv ? 'g' : '']])
+        + H.tabs('site', [['all', 'All'], ['website', '🌐 Orbit website'], ['shop', '🛍 Online shop']], 'all')
+        + H.kpis([[PV.length ? 'Visits (vs previous period)' : 'Visits', n.toLocaleString() + (PV.length ? ' · ' + ch(n, PV.length) : ''), 'g'], ['Visitors', users.toLocaleString()], ['New visitors', pct(newU, n) + '%'], ['Avg. time on site', mmss(avg)], ['Bounce rate', pct(bounce, n) + '%', pct(bounce, n) > 60 ? 'o' : ''], [site === 'shop' ? 'Orders (conversion)' : 'Leads & orders', conv + ' · ' + pct(conv, n) + '%', conv ? 'g' : '']])
+        + (sn ? H.card('🛍 Online shop — from visit to order', barList(funnel.map(f => [f[0], f[1]]), sn, '#0f766e') + `<div class="fin-row" style="margin-top:14px"><div class="mb-f"><label>Most viewed products</label>${barList(topOf(SV, 'p:'), sn, '#6d5df6')}</div><div class="mb-f"><label>Most added to cart</label>${barList(topOf(SV, 'clk'), sn, '#b45309')}</div><div class="mb-f"><label>Categories opened</label>${barList(topOf(SV, 'c:'), sn, '#0e7490')}</div></div>`) : '')
         + (n ? H.card('Visits per day', `<div class="ws-days">${[...dayMap.entries()].map(([k, c]) => `<div style="height:${Math.max(2, c * 100 / dmax)}%" data-t="${dmy(k)} · ${c}"></div>`).join('')}</div><div class="ws-axis"><span>${dmy(from)}</span><span>${dmy(today())}</span></div>`)
           + H.card('Where visitors come from', barList(count(V, srcOf), n, '#6d5df6'))
           + H.card('Countries', barList(count(V, x => x.ctry), n, '#0e7490'))

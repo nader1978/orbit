@@ -59,12 +59,13 @@
     view(v, d) {
       const set = d.set || P.setFromRow(null), tab = v.tab || 'orders', os = d.orders || [];
       const head = H.head('🛍', 'Online shop', (set.shopName ? esc(set.shopName) + ' · ' : '') + 'Website orders · products · prices · coupons · publish', '#6d3fd9') + busy(d) + (d.missing ? '' : runLine())
-        + H.tabs('tab', [['orders', '🛒 Orders', os.filter(o => ['review', 'awaiting_payment', 'confirmed'].includes(o.status)).length], ['products', '🏷 Products'], ['cats', '🗂 Categories'], ['coupons', '🎟 Coupons'], ['report', '📊 Report'], ['settings', '⚙️ Settings'], ['conn', d.set && d.set.connection === 'flow' ? '🔌 Connected' : '🔌 Website connection']], 'orders');
+        + H.tabs('tab', [['orders', '🛒 Orders', os.filter(o => ['review', 'awaiting_payment', 'confirmed'].includes(o.status)).length], ['products', '🏷 Products'], ['cats', '🗂 Categories'], ['coupons', '🎟 Coupons'], ['promo', '📣 Offers & ads'], ['report', '📊 Report'], ['settings', '⚙️ Settings'], ['conn', d.set && d.set.connection === 'flow' ? '🔌 Connected' : '🔌 Website connection']], 'orders');
       if (d.missing && tab !== 'settings') return head + needSetup(d);
       if (tab === 'products') return head + productsView(v, d, set);
       if (tab === 'cats') return head + catsView(v, d);
       if (tab === 'coupons') return head + couponsView(v, d);
       if (tab === 'report') return head + reportView(v, d, set);
+      if (tab === 'promo') return head + promoView(v, d, set);
       if (tab === 'settings') return head + settingsView(v, d, set);
       if (tab === 'conn') return head + connView(v, d, set);
       if (v.o) { const o = orderOf(d, v.o); if (!o) return head + busy(d);
@@ -106,6 +107,11 @@
       /* settings */
       sSave(t, v, d) { return saveSettings(v, d); }, async setup(t, v) { return setupLists(v); }, async test(t, v, d) { return testFlow(v, d); }, newKey(t, v) { v.skey = rndKey(); render(); },
       guide() { window.open('SHOP-SETUP.md', '_blank'); },
+      barAdd(t, v) { v.BAR.push({ en: '', ar: '' }); render(); }, barDel(t, v) { v.BAR.splice(+t.dataset.i, 1); render(); },
+      bnAdd(t, v) { v.BN.push({ en: '', ar: '', subEn: '', subAr: '', code: '', link: '', until: '', color: '#e11d48' }); render(); }, bnDel(t, v) { v.BN.splice(+t.dataset.i, 1); render(); },
+      async promoSave(t, v, d) { const bar = v.BAR.filter(x => str(x.en) || str(x.ar)).map(x => ({ en: str(x.en), ar: str(x.ar) })), bn = v.BN.filter(x => str(x.en) || str(x.ar)).map(x => ({ en: str(x.en), ar: str(x.ar), subEn: str(x.subEn), subAr: str(x.subAr), code: str(x.code).toUpperCase(), link: str(x.link), until: x.until || '', color: x.color || '#e11d48' }));
+        const s2 = Object.assign({}, d.set, { hero: Object.assign({}, d.set.hero || {}, { bar, banners: bn, deals: v.deals !== '0' }) }); try { await saveSet(s2); toast('📣 Saved — publishing to the website…', 'success'); await U.publish('button'); } catch (e) { toast(e.message, 'error'); } refresh('x_shop'); },
+      webstats() { go('x_webstats'); },
       pasteT(t, v) { v.paste = !v.paste; v.pasteTxt = ''; render(); },
       async pasteGo(t, v, d) { if (v.pasteBusy) return; v.pasteBusy = 1; render(); try { const o = await U.pasteOrder(v.pasteTxt); toast('🛒 ' + o.no + ' taken · ' + (P.STATUS[o.status] || {}).en, 'success'); v.paste = false; v.pasteTxt = ''; v.o = o.id; } catch (e) { toast(e.message, 'error'); } v.pasteBusy = 0; refresh('x_shop'); },
       cSaveConn(t, v, d) { return saveConn(v, d, null); }, goLive(t, v, d) { return saveConn(v, d, 'flow'); }, goOff(t, v, d) { return saveConn(v, d, 'none'); },
@@ -129,32 +135,30 @@
 
   /* ---------- website connection: why, what works now, and the set-up model for later ---------- */
   const CSTEPS = [
-    ['lic', 'Power Automate Premium licence assigned to the account that will own the flow'],
+    ['svc', 'Connection service chosen: the free ORBIT shop gateway (Cloudflare) — or a Power Automate Premium flow'],
     ['lists', 'Shop lists created in SharePoint', (d, s) => !d.missing],
     ['pub', 'Products published (SharePoint folder OrbitShop exists)', (d, s) => !!s.lastPublish],
-    ['flow', 'Flow created: "When an HTTP request is received" · who can trigger = Anyone'],
-    ['read', 'Flow cases that read files: catalog · img · track'],
-    ['write', 'Flow cases that write to Shop_Inbox: order · proof · cancel · paid'],
-    ['card', 'Flow cases for card payments: pay · paycheck (keys kept in the flow)', null, s => !(s.payMethods || []).includes('card')],
-    ['url', 'Flow address saved in ORBIT (below)', (d, s, v) => !!str(v.sapi)],
+    ['app', 'Gateway: Azure app registration with a client secret and the Microsoft Graph permission for the SharePoint site'],
+    ['deploy', 'Gateway deployed with its settings (TENANT_ID, CLIENT_ID, CLIENT_SECRET, SITE_URL) — or the flow built'],
+    ['card', 'Card company keys added to the gateway / flow', null, s => !(s.payMethods || []).includes('card')],
+    ['url', 'Service address saved in ORBIT (below)', (d, s, v) => !!str(v.sapi)],
     ['test', 'Connection test passed', (d, s) => !!(s.setup || {}).testOkAt],
-    ['site', 'Website config.js: api = the flow address, and uploaded'],
     ['order', 'A test order from the website arrived in ORBIT'],
-    ['live', 'Switched to "Connected"', (d, s) => s.connection === 'flow']];
+    ['live', 'Switched to "Connected" (the website switches by itself at the next publish)', (d, s) => s.connection === 'flow']];
   function connView(v, d, set) {
     if (d.missing) return H.card('', '<div class="mb-hint mb-bad">Set up the shop lists first (Settings).</div>');
     const su = set.setup || {};
-    if (!v.cinit) { v.cinit = 1; Object.assign(v, { sapi: set.apiUrl, cOwner: su.owner || '', cEnv: su.env || '', cFlow: su.flowName || 'ORBIT shop gateway', cHost: su.host || '', cMid: su.mid || '', cCardMode: su.cardMode || 'test', cKeys: su.keysWith || '', cNotes: su.notes || '', ST: Object.assign({}, su.steps || {}) }); }
+    if (!v.cinit) { v.cinit = 1; Object.assign(v, { sapi: set.apiUrl, cOwner: su.owner || '', cEnv: su.env || '', cFlow: su.flowName || 'orbit-shop-gateway', cHost: su.host || '', cMid: su.mid || '', cCardMode: su.cardMode || 'test', cKeys: su.keysWith || '', cNotes: su.notes || '', ST: Object.assign({}, su.steps || {}) }); }
     const live = set.connection === 'flow', st = CSTEPS.filter(x => !(x[3] && x[3](set))), done = x => (x[2] ? x[2](d, set, v) : !!(v.ST || {})[x[0]]), n = st.filter(done).length;
-    return H.card(live ? '🟢 Connected through Power Automate' : '🟡 Not connected yet — the shop works by WhatsApp / e-mail', live
-        ? `<div class="mb-hint">The website reads the catalogue, photos and tracking through the flow, sends orders to Shop_Inbox and takes card payments.</div>${H.sbtn('Switch back to WhatsApp / e-mail orders', 'goOff')}`
-        : `<div class="mb-hint" style="line-height:1.6">Until the flow is ready:<br>• <b>Products, prices, stock, photos and order tracking</b>: ORBIT sends them straight to the website on GitHub (card below) — or ${H.sbtn(v.fBusy ? '⏳ ' + esc(v.fBusy) : '📦 Download website files', 'files')} and upload the <b>data</b> folder yourself.<br>• <b>Orders</b>: the website sends the order by WhatsApp (or e-mail) with a code; paste the message in <b>Orders → 📋 Order from WhatsApp / e-mail</b>. Everything after that is the same: sales order, stock, warehouse, delivery, finance.<br>• <b>Payments</b>: cash on delivery and bank transfer (proof by WhatsApp). Card payment needs the flow.<br>• <b>Customer updates</b>: the tracking page on the website (sent through GitHub) and the 💬 WhatsApp customer button on each order.</div>`)
+    return H.card(live ? '🟢 Connected — orders go straight into SharePoint' : '🟡 Not connected yet — the shop works by WhatsApp / e-mail', live
+        ? `<div class="mb-hint">The website sends every order, transfer proof and cancel request straight into Shop_Inbox through the connection service, shows tracking pages and takes card payments. ORBIT picks the orders up every minute while a shop page is open.</div>${H.sbtn('Switch back to WhatsApp / e-mail orders', 'goOff')}`
+        : `<div class="mb-hint" style="line-height:1.6">Until the connection service is ready:<br>• <b>Products, prices, stock, photos and order tracking</b>: ORBIT sends them straight to the website on GitHub (card below) — or ${H.sbtn(v.fBusy ? '⏳ ' + esc(v.fBusy) : '📦 Download website files', 'files')} and upload the <b>data</b> folder yourself.<br>• <b>Orders</b>: the website sends the order by WhatsApp (or e-mail) with a code; paste the message in <b>Orders → 📋 Order from WhatsApp / e-mail</b>. Everything after that is the same: sales order, stock, warehouse, delivery, finance.<br>• <b>Payments</b>: cash on delivery and bank transfer (proof by WhatsApp). Card payment needs the connection service.<br>• <b>Customer updates</b>: the tracking page on the website (sent through GitHub) and the 💬 WhatsApp customer button on each order.</div>`)
       + ghCard(v)
-      + H.card('Why the flow is needed', `<div class="mb-hint" style="line-height:1.6">Your data is in SharePoint, and SharePoint only answers people who are signed in with a Microsoft account of your company. Website customers are anonymous, so something must stand in between that is signed in to SharePoint and still accepts requests from the public internet — that is the flow ("When an HTTP request is received", a Premium trigger). It does five things:<br>1. gives the website the product list and photos · 2. saves each order into Shop_Inbox · 3. shows the customer their tracking page · 4. receives transfer proofs and cancel requests · 5. talks to the card company with the secret keys (they must never be in the website).<br><b>Other ways</b> (no Premium): the ORBIT server (Node, already in your package) can do the same job on a small hosting plan; or stay with WhatsApp / e-mail orders as now.</div>`)
+      + H.card('Why a connection service is needed', `<div class="mb-hint" style="line-height:1.6">Your data is in SharePoint, and SharePoint only answers people who are signed in with a Microsoft account of your company. Website customers are anonymous, so something online must stand in between that is signed in to SharePoint and still accepts requests from the public. It does five things:<br>1. gives the website the product list and photos · 2. saves each order into Shop_Inbox · 3. shows the customer their tracking page · 4. receives transfer proofs and cancel requests · 5. talks to the card company with the secret keys (they must never be in the website).<br><b>Two ways</b>: ① the <b>ORBIT shop gateway</b> — a small free Cloudflare Worker in your package (shop-gateway/orbit-shop-gateway.js), no Premium licence needed (recommended); ② a Power Automate flow with the Premium licence. Both use the same address below. Steps: SHOP-SETUP.md.</div>`)
       + H.card(`Set-up for later · ${n} of ${st.length} done`, `<div style="height:8px;border-radius:6px;background:#e2e8f0;margin:2px 0 12px"><div style="height:8px;border-radius:6px;width:${Math.round(n * 100 / st.length)}%;background:#15803d"></div></div>`
         + st.map(x => { const ok = done(x), auto = !!x[2], tk = (v.ST || {})[x[0]]; return `<div class="ei-kv"><span>${ok ? '✅' : '⬜'} ${esc(x[1])}${tk && !auto ? ` <small style="color:#64748b">· ${esc(uname(tk.by))} ${tm(tk.at)}</small>` : ''}</span><b>${auto ? '<small style="color:#64748b">automatic</small>' : H.sbtn(ok ? 'Undo' : 'Done', 'stTick', `data-k="${x[0]}"`)}</b></div>`; }).join(''))
-      + H.card('Details to fill in when you have the licence', `<div class="fin-row">${H.f('Licence / flow owner account', H.inp('cOwner', { ph: 'shop.automation@company.ae' }))}${H.f('Power Automate environment', H.inp('cEnv', { ph: 'Default (UAE North)' }))}${H.f('Flow name', H.inp('cFlow'))}</div>
-        ${H.f('Flow address (HTTP POST URL — from the trigger after the first save)', H.inp('sapi', { ph: 'https://prod-00.uaenorth.logic.azure.com/workflows/…' }))}
+      + H.card('Connection details', `<div class="fin-row">${H.f('Service', H.sel('cEnv', [['gateway', 'ORBIT shop gateway (Cloudflare, free)'], ['flow', 'Power Automate flow (Premium)']], { ph: '— choose —' }))}${H.f('Owner account', H.inp('cOwner', { ph: 'it@company.ae' }))}${H.f('Name', H.inp('cFlow'))}</div>
+        ${H.f('Service address', H.inp('sapi', { ph: 'https://orbit-shop-gateway.<you>.workers.dev  ·  or the flow HTTP POST URL' }))}
         <div class="fin-row">${H.f('Where the website is hosted', H.inp('cHost', { ph: 'GitHub Pages · shop.company.ae' }))}${H.f('SharePoint site (files go to Documents › OrbitShop)', `<input value="${esc((typeof getGlobalSiteUrl === 'function' && getGlobalSiteUrl()) || '')}" disabled>`)}</div>
         ${(set.payMethods || []).includes('card') ? `<div class="fin-row">${H.f('Card company', `<input value="${esc({ ngenius: 'Network International (N-Genius)', stripe: 'Stripe', telr: 'Telr' }[set.cardProvider] || '— choose in Settings —')}" disabled>`)}${H.f('Merchant / store / outlet ID (not the secret key)', H.inp('cMid'))}${H.f('Mode', H.sel('cCardMode', [['test', 'Test keys'], ['live', 'Live keys']], { ph: false }))}</div>${H.f('Who keeps the secret keys (they go only into the flow)', H.inp('cKeys', { ph: 'Finance manager' }))}` : '<div class="mb-hint">Card payments are off (Settings → Payment). Turn them on if you want them with the flow.</div>'}
         ${H.f('Notes', H.txt('cNotes'))}
@@ -172,8 +176,8 @@
   async function saveConn(v, d, mode, quiet) {
     const s = Object.assign({}, d.set), su = Object.assign({}, s.setup || {}, { owner: str(v.cOwner), env: str(v.cEnv), flowName: str(v.cFlow), host: str(v.cHost), mid: str(v.cMid), cardMode: v.cCardMode || 'test', keysWith: str(v.cKeys), notes: v.cNotes || '', steps: v.ST || {} });
     if (v.testOk) su.testOkAt = iso(); s.setup = su; s.apiUrl = str(v.sapi);
-    if (s.apiUrl && !/^https:\/\//.test(s.apiUrl)) return toast('The flow address must start with https://', 'warn');
-    if (mode === 'flow') { if (!s.apiUrl) return toast('Save the flow address first', 'warn'); if (!su.testOkAt) return toast('Run "Test the connection" first — it must pass', 'warn'); if (!confirm('Switch the shop to "Connected"?\n\nThe website must already have the flow address in config.js. Card payment (if on) appears on the website after the next publish.')) return; }
+    if (s.apiUrl && !/^https:\/\//.test(s.apiUrl)) return toast('The service address must start with https://', 'warn');
+    if (mode === 'flow') { if (!s.apiUrl) return toast('Save the service address first', 'warn'); if (!su.testOkAt) return toast('Run "Test the connection" first — it must pass', 'warn'); if (!confirm('Switch the shop to "Connected"?\n\nAt the next publish the website starts sending orders straight in (and shows card payment, if on).')) return; }
     if (mode === 'none' && !confirm('Switch back to WhatsApp / e-mail orders? Card payment disappears from the website after the next publish.')) return;
     if (mode) s.connection = mode;
     try { await saveSet(s); if (!quiet) toast('💾 Saved', 'success'); if (mode) await U.publish('button'); } catch (e) { toast(e.message, 'error'); } refresh('x_shop');
@@ -186,13 +190,13 @@
   function printSheet(v, d) {
     const s = d.set, st = CSTEPS.filter(x => !(x[3] && x[3](s))), row = (a, b) => `<tr><td style="color:#555;width:38%">${esc(a)}</td><td><b>${esc(b || '________________________')}</b></td></tr>`;
     printHtml('Online shop — connection set-up', `<h2 style="margin:0">ONLINE SHOP · CONNECTION SET-UP</h2><p>${esc(s.shopName)} · printed ${dmy(today())}</p>
-      <h3>Details</h3><table cellpadding="6" style="width:100%;border-collapse:collapse">${row('Licence / flow owner', v.cOwner)}${row('Environment', v.cEnv)}${row('Flow name', v.cFlow)}${row('Flow address (HTTP POST URL)', v.sapi)}${row('SharePoint site', (typeof getGlobalSiteUrl === 'function' && getGlobalSiteUrl()) || '')}${row('Files folder', 'Documents › OrbitShop (catalog.json, img, track, proofs)')}${row('Inbox list', 'Shop_Inbox (Title, Kind, Ref, Payload)')}${row('Website host', v.cHost)}${(s.payMethods || []).includes('card') ? row('Card company', s.cardProvider) + row('Merchant / outlet ID', v.cMid) + row('Mode', v.cCardMode) + row('Keys kept by', v.cKeys) : ''}</table>
+      <h3>Details</h3><table cellpadding="6" style="width:100%;border-collapse:collapse">${row('Service', v.cEnv === 'flow' ? 'Power Automate flow' : 'ORBIT shop gateway (Cloudflare Worker)')}${row('Owner account', v.cOwner)}${row('Name', v.cFlow)}${row('Service address', v.sapi)}${row('SharePoint site', (typeof getGlobalSiteUrl === 'function' && getGlobalSiteUrl()) || '')}${row('Files folder', 'Documents › OrbitShop (catalog.json, img, track, proofs)')}${row('Inbox list', 'Shop_Inbox (Title, Kind, Ref, Payload)')}${row('Website host', v.cHost)}${(s.payMethods || []).includes('card') ? row('Card company', s.cardProvider) + row('Merchant / outlet ID', v.cMid) + row('Mode', v.cCardMode) + row('Keys kept by', v.cKeys) : ''}</table>
       <h3>Checklist</h3><table cellpadding="6" style="width:100%;border-collapse:collapse">${st.map(x => `<tr><td style="width:26px">☐</td><td>${esc(x[1])}</td><td style="width:140px;border-bottom:1px solid #999"></td></tr>`).join('')}</table>
-      <h3>Flow cases (details: SHOP-SETUP.md)</h3><table border="1" cellpadding="6" style="border-collapse:collapse;width:100%"><tr><th>Case</th><th style="text-align:left">What the flow does</th></tr>
+      <h3>What the service answers (details: SHOP-SETUP.md)</h3><table border="1" cellpadding="6" style="border-collapse:collapse;width:100%"><tr><th>Case</th><th style="text-align:left">What the flow does</th></tr>
       <tr><td>img (GET ?a=img&f=…)</td><td>Get file content OrbitShop/img/<f> → Response (image/webp, cache 7 days)</td></tr><tr><td>catalog</td><td>Get file content OrbitShop/catalog.json → Response</td></tr><tr><td>track</td><td>Get file content OrbitShop/track/<id>.json → Response (404 if missing)</td></tr>
       <tr><td>order · cancel · paid</td><td>Create item in Shop_Inbox (Title = no, Kind = a, Ref = no, Payload = the message) → {"ok":true}</td></tr><tr><td>proof</td><td>Create file OrbitShop/proofs/… from the picture → Create item in Shop_Inbox → {"ok":true}</td></tr>
       ${(s.payMethods || []).includes('card') ? '<tr><td>pay</td><td>Card company: create payment page → {"url","ref"}</td></tr><tr><td>paycheck</td><td>Card company: is it paid? → {"paid","amount","state"}</td></tr>' : ''}</table>
-      <h3>Website config.js</h3><pre style="background:#f3f4f6;padding:10px;border-radius:8px">window.SHOP_CONFIG = {\n  api: '${esc(v.sapi || 'PASTE THE FLOW ADDRESS HERE')}',\n  data: 'data/',\n  thumbs: true\n};</pre>
+      <h3>Gateway settings (Cloudflare → Worker → Settings → Variables and Secrets)</h3><pre style="background:#f3f4f6;padding:10px;border-radius:8px">TENANT_ID      = ________________\nCLIENT_ID      = ________________\nCLIENT_SECRET  = ________________ (secret)\nSITE_URL       = ${esc((typeof getGlobalSiteUrl === 'function' && getGlobalSiteUrl()) || '')}\nALLOWED_ORIGIN = ${esc(location.origin)}${(s.payMethods || []).includes('card') ? '\nCARD_PROVIDER  = ' + esc(s.cardProvider || '') + '  (+ its keys as secrets)' : ''}</pre><p>The website gets the service address automatically with the next publish after "Switch to Connected".</p>
       <p style="color:#555">Every Response has the header Access-Control-Allow-Origin: *. Card keys go only into the flow (Secure inputs/outputs on).</p>`);
   }
 
@@ -276,6 +280,22 @@ Return ONLY JSON: {"en": "2 short paragraphs, friendly, factual, no invented cla
         if (c.id) await K.A().upd('Shop_Coupons', c.id, f); else if (!c._del) await K.A().add('Shop_Coupons', Object.assign(f, { Used: 0 })); }
       K.drop('Shop_Coupons'); v.CP = null; toast('💾 Coupons saved', 'success'); await U.publish('button'); } catch (e) { toast(e.message, 'error'); } refresh('x_shop');
   }
+  /* ---------- offers & advertising on the website ---------- */
+  function promoView(v, d, set) {
+    const h = set.hero || {}; if (!v.BAR) { v.BAR = (h.bar || []).map(x => Object.assign({}, x)); v.BN = (h.banners || []).map(x => Object.assign({}, x)); v.deals = h.deals === false ? '0' : '1'; }
+    const cats = (d.cats || []).filter(c => c.active), inp = (a, i, k, ph, ty) => `<input class="sh-in" data-a="${a}" data-i="${i}" data-k="${k}" value="${esc((v[a][i] || {})[k] || '')}" placeholder="${esc(ph || '')}"${ty ? ' type="' + ty + '"' : ''}>`;
+    const sale = (d.prods || []).filter(p => p.published && p.wasPrice > p.price).length, cp = (d.cpns || []).filter(c => c.active).map(c => c.code);
+    return H.card('📣 Advertising bar (top of every page, the messages take turns)', `<span class="mb-hint">Short and exciting: offers, free delivery, new arrivals. Leave empty to show automatic messages (free delivery from…, cash on delivery…).</span>`
+        + v.BAR.map((x, i) => `<div class="inv-g" style="grid-template-columns:1fr 1fr auto"><div><label>English</label>${inp('BAR', i, 'en', '🔥 Weekend sale — up to 30% off honey')}</div><div><label>العربية</label>${inp('BAR', i, 'ar', '🔥 عروض نهاية الأسبوع — خصم حتى 30%')}</div><div><label>&nbsp;</label><button type="button" class="mx-sb r" data-x="barDel" data-i="${i}">✕</button></div></div>`).join('') + (v.BAR.length < 6 ? H.sbtn('＋ Add message', 'barAdd') : ''))
+      + H.card('🎯 Offer banners (big slides on the home page)', `<span class="mb-hint">Each banner can show a coupon code (customers tap to copy it), a countdown until the offer ends, and a button to a category or product. Coupons: Online Shop → Coupons${cp.length ? ' (active: ' + esc(cp.join(', ')) + ')' : ''}.</span>`
+        + v.BN.map((x, i) => `<div class="card" style="padding:12px;margin:10px 0;border:1px solid var(--border,#e2e8f0);border-inline-start:5px solid ${esc(x.color || '#e11d48')}"><div class="inv-g" style="grid-template-columns:1fr 1fr"><div><label>Title</label>${inp('BN', i, 'en', 'Ramadan offers')}</div><div><label>العنوان</label>${inp('BN', i, 'ar', 'عروض رمضان')}</div></div>
+          <div class="inv-g" style="grid-template-columns:1fr 1fr"><div><label>Line</label>${inp('BN', i, 'subEn', '20% off all dates and honey')}</div><div><label>السطر</label>${inp('BN', i, 'subAr', 'خصم 20% على التمور والعسل')}</div></div>
+          <div class="inv-g" style="grid-template-columns:1fr 1.2fr 1.3fr .6fr auto"><div><label>Coupon code</label>${inp('BN', i, 'code', 'RAMADAN20')}</div><div><label>Button opens</label><select class="sh-in" data-a="BN" data-i="${i}" data-k="link"><option value="">All products</option><option value="#deals"${x.link === '#deals' ? ' selected' : ''}>🔥 Deals</option>${cats.map(c => `<option value="c:${esc(c.code)}"${x.link === 'c:' + c.code ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}${(d.prods || []).filter(p => p.published).map(p => `<option value="p:${esc(p.code)}"${x.link === 'p:' + p.code ? ' selected' : ''}>${esc(p.name)}</option>`).join('')}</select></div><div><label>Ends (countdown)</label>${inp('BN', i, 'until', '', 'datetime-local')}</div><div><label>Colour</label>${inp('BN', i, 'color', '', 'color')}</div><div><label>&nbsp;</label><button type="button" class="mx-sb r" data-x="bnDel" data-i="${i}">✕</button></div></div></div>`).join('') + (v.BN.length < 6 ? H.sbtn('＋ Add banner', 'bnAdd') : ''))
+      + H.card('🔥 Deals section', `<div class="fin-row">${H.f('Show "Deals" on the home page (products with a "was" price, biggest discount first)', H.sel('deals', [['1', 'Yes'], ['0', 'No']], { ph: false }))}</div><span class="mb-hint">${sale} product(s) on sale now — set a "Was price" on a product to put it in Deals.</span>`)
+      + H.card('📊 Visitors', `<span class="mb-hint">Visits, products viewed, added to cart and orders from the shop are in <b>Website traffic</b> (once the shop is connected).</span> ${H.sbtn('Open Website traffic', 'webstats')}`)
+      + H.bar(H.btn('💾 Save & publish', 'promoSave'));
+  }
+
   /* ---------- report ---------- */
   function bars(obj, label, c) { const e = Object.entries(obj).sort((a, b) => b[1].v - a[1].v), mx = Math.max(1, ...e.map(x => x[1].v)); return e.length ? `<div class="sh-bars" style="--c:${c}">${e.map(([k, x]) => `<div><span>${esc(label(k))} · ${x.n}</span><i style="width:${Math.max(2, x.v * 100 / mx)}%"></i><b>${n2(x.v)}</b></div>`).join('')}</div>` : H.empty('No orders'); }
   function reportView(v, d, set) {
@@ -317,7 +337,7 @@ Return ONLY JSON: {"en": "2 short paragraphs, friendly, factual, no invented cla
     const s = Object.assign({}, d.set, { shopName: str(v.sname), shopNameAr: str(v.snameAr), shopKey: str(v.skey) || rndKey(), apiUrl: d.set.apiUrl || '', siteUrl: str(v.ssite), orderPrefix: (str(v.sprefix) || 'W').toUpperCase(), wh: v.swh || '', salesperson: v.ssp || '', payMethods: pays, cardProvider: v.scard || '', accCard: v.aCard || '', accBank: v.aBank || '', accCash: v.aCash || '',
       phone: str(v.sphone), whatsapp: P.phone(v.swa), email: str(v.semail), color: v.scolor || '#6d3fd9', logo: str(v.slogo), deliveryFee: num(v.sfee), freeOver: num(v.sfree), minOrder: num(v.smin), codFee: num(v.scod), codMax: num(v.scodmax), slots: String(v.sslots || '').split(',').map(x => x.trim()).filter(Boolean), leadDays: num(v.slead), lowStock: num(v.slow), stockShow: v.sshow,
       autoConfirm: v.sauto === '1', holdUnpaid: v.shold === '1', unpaidDays: num(v.sunpaid) || 3, emailCustomer: v.smail === '1', liveLocation: v.sloc === '1', bankDetails: v.sbank || '', emirateFees: em,
-      policies: { deliveryEn: v.polDelEn, deliveryAr: v.polDelAr, returnsEn: v.polRetEn, returnsAr: v.polRetAr, termsEn: v.polTermsEn, termsAr: v.polTermsAr }, hero: { en: str(v.heroEn), ar: str(v.heroAr), subEn: str(v.heroSubEn), subAr: str(v.heroSubAr) } });
+      policies: { deliveryEn: v.polDelEn, deliveryAr: v.polDelAr, returnsEn: v.polRetEn, returnsAr: v.polRetAr, termsEn: v.polTermsEn, termsAr: v.polTermsAr }, hero: Object.assign({}, d.set.hero || {}, { en: str(v.heroEn), ar: str(v.heroAr), subEn: str(v.heroSubEn), subAr: str(v.heroSubAr) }) });
     try { await saveSet(s); toast('💾 Saved — publishing…', 'success'); await U.publish('button'); } catch (e) { toast(e.message, 'error'); } refresh('x_shop');
   }
   async function setupLists(v) {
@@ -328,7 +348,7 @@ Return ONLY JSON: {"en": "2 short paragraphs, friendly, factual, no invented cla
   async function testFlow(v, d) {
     const set = Object.assign({}, d.set, { apiUrl: str(v.sapi) }); v.testRes = 'Testing…'; render();
     try { const r = await U.flow(set, { a: 'catalog' }); v.testRes = r && r.items ? '✅ Connected — the flow returns the catalogue with ' + r.items.length + ' products (published ' + tm(r.at) + ').' : r && r.text ? '⚠ The flow answered, but not with the catalogue: ' + r.text.slice(0, 120) : '✅ The flow answered.'; }
-    catch (e) { v.testRes = '❌ ' + e.message + ' — check the flow address and that the flow is turned on.'; }
+    catch (e) { v.testRes = '❌ ' + e.message + ' — check the service address and its settings.'; }
     render();
   }
 

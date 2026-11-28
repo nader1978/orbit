@@ -1,0 +1,353 @@
+{
+ "v": 1,
+ "ver": "2026-11-28T06:00:00.000Z",
+ "at": "2026-11-28T06:00:00.000Z",
+ "shop": {
+  "name": "Fresh Market",
+  "ar": "السوق الطازج",
+  "key": "demo-key",
+  "cur": "AED",
+  "vatIncl": true,
+  "prefix": "W",
+  "phone": "04 555 0100",
+  "wa": "971500000000",
+  "email": "hello@freshmarket.example",
+  "color": "#0f766e",
+  "logo": "",
+  "hero": {
+   "en": "Fresh from the farm to your door",
+   "ar": "طازج من المزرعة إلى باب بيتك",
+   "subEn": "Order by 10 pm, delivered tomorrow anywhere in the UAE.",
+   "subAr": "اطلب قبل العاشرة مساءً ويصلك غداً في أي مكان في الإمارات."
+  },
+  "policies": {
+   "deliveryEn": "We deliver every day across the UAE. Orders placed by 10 pm are delivered the next day in your chosen time slot. Delivery is free on orders from AED 150.",
+   "deliveryAr": "نوصل يومياً إلى جميع الإمارات. الطلبات قبل العاشرة مساءً تصل في اليوم التالي في الوقت الذي تختاره. التوصيل مجاني للطلبات من 150 درهماً.",
+   "returnsEn": "Not happy with a product? Tell us within 24 hours of delivery and we will replace it or refund you.",
+   "returnsAr": "غير راضٍ عن منتج؟ أخبرنا خلال 24 ساعة من التسليم وسنستبدله أو نعيد لك المبلغ.",
+   "termsEn": "Prices include 5% VAT. A tax invoice is e-mailed after delivery.",
+   "termsAr": "الأسعار شاملة ضريبة القيمة المضافة 5%. تُرسل الفاتورة الضريبية بالبريد بعد التسليم."
+  },
+  "pay": [
+   "cod",
+   "bank",
+   "card"
+  ],
+  "card": "stripe",
+  "bank": "Bank: Emirates NBD\nAccount name: Fresh Market LLC\nIBAN: AE07 0331 2345 6789 0123 456\nReference: your order number",
+  "codFee": 5,
+  "codMax": 1000,
+  "del": {
+   "fee": 15,
+   "free": 150,
+   "min": 30,
+   "em": {
+    "AUH": 25,
+    "RAK": 25,
+    "FUJ": 25
+   },
+   "slots": [
+    "9am – 1pm",
+    "1pm – 5pm",
+    "5pm – 9pm"
+   ],
+   "lead": 1
+  }
+ },
+ "cats": [
+  {
+   "c": "dairy",
+   "en": "Dairy",
+   "ar": "الألبان",
+   "p": "",
+   "i": "🥛"
+  },
+  {
+   "c": "pantry",
+   "en": "Pantry",
+   "ar": "المؤونة",
+   "p": "",
+   "i": "🫙"
+  },
+  {
+   "c": "drinks",
+   "en": "Drinks",
+   "ar": "المشروبات",
+   "p": "",
+   "i": "🧃"
+  }
+ ],
+ "items": [
+  {
+   "c": "GRK24",
+   "s": "greek-yoghurt-170-g-6",
+   "en": "Greek yoghurt 170 g × 6",
+   "ar": "زبادي يوناني 170 غ × 6",
+   "cat": "dairy",
+   "b": "Fresh Farms",
+   "p": 18.5,
+   "u": "pcs",
+   "v": "S",
+   "st": "in",
+   "img": [
+    "grk24.svg",
+    "grk24-2.svg"
+   ],
+   "w": 22,
+   "f": 1,
+   "bd": "Best seller",
+   "de": "Thick, creamy strained yoghurt with 10 g of protein per cup. Lovely with honey, fruit or in savoury dips.",
+   "da": "زبادي مصفّى كثيف وكريمي يحتوي على 10 غ بروتين في كل كوب. رائع مع العسل أو الفاكهة أو في الصلصات.",
+   "sp": [
+    [
+     "Brand",
+     "العلامة",
+     "Fresh Farms"
+    ],
+    [
+     "Storage",
+     "الحفظ",
+     "Keep chilled 1–4 °C"
+    ]
+   ]
+  },
+  {
+   "c": "MLK2",
+   "s": "fresh-full-cream-milk-2-l",
+   "en": "Fresh full-cream milk 2 L",
+   "ar": "حليب طازج كامل الدسم 2 لتر",
+   "cat": "dairy",
+   "b": "Fresh Farms",
+   "p": 11.75,
+   "u": "pcs",
+   "v": "S",
+   "st": "in",
+   "img": [
+    "mlk2.svg",
+    "mlk2-2.svg"
+   ],
+   "f": 1,
+   "de": "Farm-fresh full-cream milk, pasteurised and chilled from farm to door within 24 hours.",
+   "da": "حليب طازج كامل الدسم مبستر ومبرّد من المزرعة إلى بابك خلال 24 ساعة.",
+   "sp": [
+    [
+     "Brand",
+     "العلامة",
+     "Fresh Farms"
+    ],
+    [
+     "Storage",
+     "الحفظ",
+     "Keep chilled 1–4 °C"
+    ]
+   ]
+  },
+  {
+   "c": "HNY5",
+   "s": "sidr-honey-500-g",
+   "en": "Sidr honey 500 g",
+   "ar": "عسل سدر 500 غ",
+   "cat": "pantry",
+   "b": "Golden Hive",
+   "p": 89,
+   "u": "pcs",
+   "v": "S",
+   "st": "in",
+   "img": [
+    "hny5.svg",
+    "hny5-2.svg"
+   ],
+   "w": 109,
+   "f": 1,
+   "bd": "Sale",
+   "de": "Pure Sidr honey with a rich, buttery taste. A traditional favourite for gifts and the family table.",
+   "da": "عسل سدر صافٍ بطعم غني. هدية تقليدية مميزة وخيار مفضّل لمائدة العائلة.",
+   "sp": [
+    [
+     "Brand",
+     "العلامة",
+     "Golden Hive"
+    ],
+    [
+     "Storage",
+     "الحفظ",
+     "Cool, dry place"
+    ]
+   ]
+  },
+  {
+   "c": "DTE1",
+   "s": "medjool-dates-1-kg",
+   "en": "Medjool dates 1 kg",
+   "ar": "تمر مجدول 1 كغ",
+   "cat": "pantry",
+   "b": "Oasis",
+   "p": 45,
+   "u": "pcs",
+   "v": "S",
+   "st": "in",
+   "img": [
+    "dte1.svg",
+    "dte1-2.svg"
+   ],
+   "f": 1,
+   "de": "Large, soft Medjool dates — naturally sweet, perfect with Arabic coffee.",
+   "da": "تمر مجدول كبير وطري — حلو بطبيعته ومثالي مع القهوة العربية.",
+   "sp": [
+    [
+     "Brand",
+     "العلامة",
+     "Oasis"
+    ],
+    [
+     "Storage",
+     "الحفظ",
+     "Cool, dry place"
+    ]
+   ]
+  },
+  {
+   "c": "LBN4",
+   "s": "labneh-400-g",
+   "en": "Labneh 400 g",
+   "ar": "لبنة 400 غ",
+   "cat": "dairy",
+   "b": "Fresh Farms",
+   "p": 13.25,
+   "u": "pcs",
+   "v": "S",
+   "st": "low",
+   "img": [
+    "lbn4.svg",
+    "lbn4-2.svg"
+   ],
+   "q": 4,
+   "bd": "New",
+   "de": "Smooth, tangy labneh — spread it on warm bread with olive oil and za'atar.",
+   "da": "لبنة ناعمة بطعم منعش — مثالية على الخبز الساخن مع زيت الزيتون والزعتر.",
+   "sp": [
+    [
+     "Brand",
+     "العلامة",
+     "Fresh Farms"
+    ],
+    [
+     "Storage",
+     "الحفظ",
+     "Keep chilled 1–4 °C"
+    ]
+   ]
+  },
+  {
+   "c": "OLV1",
+   "s": "extra-virgin-olive-oil-1-l",
+   "en": "Extra virgin olive oil 1 L",
+   "ar": "زيت زيتون بكر ممتاز 1 لتر",
+   "cat": "pantry",
+   "b": "Oasis",
+   "p": 39.5,
+   "u": "pcs",
+   "v": "S",
+   "st": "in",
+   "img": [
+    "olv1.svg",
+    "olv1-2.svg"
+   ],
+   "de": "Cold-pressed extra virgin olive oil with a fresh, peppery finish.",
+   "da": "زيت زيتون بكر ممتاز معصور على البارد بنكهة طازجة.",
+   "sp": [
+    [
+     "Brand",
+     "العلامة",
+     "Oasis"
+    ],
+    [
+     "Storage",
+     "الحفظ",
+     "Cool, dry place"
+    ]
+   ]
+  },
+  {
+   "c": "CFE2",
+   "s": "arabic-coffee-with-cardamom-250-g",
+   "en": "Arabic coffee with cardamom 250 g",
+   "ar": "قهوة عربية بالهيل 250 غ",
+   "cat": "drinks",
+   "b": "Majlis",
+   "p": 32,
+   "u": "pcs",
+   "v": "S",
+   "st": "in",
+   "img": [
+    "cfe2.svg",
+    "cfe2-2.svg"
+   ],
+   "de": "Light-roasted Arabic coffee blended with green cardamom, ready to brew.",
+   "da": "قهوة عربية محمصة تحميصاً خفيفاً مع الهيل الأخضر، جاهزة للتحضير.",
+   "sp": [
+    [
+     "Brand",
+     "العلامة",
+     "Majlis"
+    ],
+    [
+     "Storage",
+     "الحفظ",
+     "Cool, dry place"
+    ]
+   ]
+  },
+  {
+   "c": "JCE6",
+   "s": "fresh-orange-juice-1-l-6",
+   "en": "Fresh orange juice 1 L × 6",
+   "ar": "عصير برتقال طازج 1 لتر × 6",
+   "cat": "drinks",
+   "b": "Fresh Farms",
+   "p": 54,
+   "u": "pcs",
+   "v": "S",
+   "st": "out",
+   "img": [
+    "jce6.svg",
+    "jce6-2.svg"
+   ],
+   "q": 0,
+   "w": 60,
+   "bd": "Limited",
+   "de": "Squeezed oranges, nothing added. Keep chilled and enjoy within 5 days.",
+   "da": "برتقال معصور دون إضافات. يحفظ مبرداً ويستهلك خلال 5 أيام.",
+   "sp": [
+    [
+     "Brand",
+     "العلامة",
+     "Fresh Farms"
+    ],
+    [
+     "Storage",
+     "الحفظ",
+     "Keep chilled 1–4 °C"
+    ]
+   ]
+  }
+ ],
+ "coupons": [
+  {
+   "h": "67ee5dd406c4c76bfb1f79c0",
+   "k": "pct",
+   "v": 10,
+   "m": 50,
+   "f": "",
+   "t": ""
+  },
+  {
+   "h": "383fe23aeeeffcafc0088db5",
+   "k": "ship",
+   "v": 0,
+   "m": 0,
+   "f": "",
+   "t": ""
+  }
+ ]
+}

@@ -48,8 +48,9 @@ header.sc{box-shadow:0 10px 30px -18px rgba(0,0,0,.8)}
 html[lang=ar] .brand small{letter-spacing:.05em}
 .brand svg{width:40px;height:40px;animation:bob 6s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-3px) rotate(-6deg)}}
-nav{margin-inline-start:auto;display:flex;gap:2px;flex-wrap:wrap}
-nav a{text-decoration:none;font-size:14.5px;padding:9px 11px;border-radius:9px;color:#d9dcf3;position:relative}
+nav{margin-inline-start:auto;display:flex;gap:2px;flex-wrap:nowrap}
+nav a{text-decoration:none;font-size:14.5px;padding:9px 11px;border-radius:9px;color:#d9dcf3;position:relative;white-space:nowrap}
+@media(max-width:1440px){nav a{padding:9px 7px;font-size:14px}nav a::after{inset-inline:7px}}
 nav a::after{content:"";position:absolute;inset-inline:11px;bottom:4px;height:2px;border-radius:2px;background:var(--teal);transform:scaleX(0);transition:transform .25s}
 nav a:hover::after,nav a.on::after{transform:scaleX(1)}nav a.on{color:#fff}
 .lang{min-height:42px;padding:0 13px;border-radius:10px;border:1px solid rgba(255,255,255,.28);background:transparent;color:#fff;font:600 14.5px var(--bf);cursor:pointer}
@@ -57,7 +58,7 @@ nav a:hover::after,nav a.on::after{transform:scaleX(1)}nav a.on{color:#fff}
 .login{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 15px;border-radius:10px;background:var(--teal);color:#06231f;font-weight:700;text-decoration:none;font-size:14.5px;white-space:nowrap}
 .login:hover{background:#2dd4bf}.login .ls{display:none}
 .menu{display:none;background:none;border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:10px;min-height:42px;padding:0 13px;font:500 15px var(--bf)}
-@media(max-width:1040px){.menu{display:block;order:5}.login{margin-inline-start:auto}nav{display:none;position:absolute;top:70px;inset-inline:0;background:var(--night);flex-direction:column;padding:8px max(5vw,16px) 16px}nav.open{display:flex}nav a{padding:12px}}
+@media(max-width:1180px){.menu{display:block;order:5}.login{margin-inline-start:auto}nav{display:none;position:absolute;top:70px;inset-inline:0;background:var(--night);flex-direction:column;padding:8px max(5vw,16px) 16px}nav.open{display:flex}nav a{padding:12px}}
 @media(max-width:560px){.login .lf{display:none}.login .ls{display:inline}.brand small{display:none}}
 
 /* hero */
@@ -249,7 +250,7 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
   <div class="hd">
     <a class="brand" href="#home"><svg aria-hidden="true"><use href="#mark"/></svg><span><span data-t="brand">ORBIT</span><small data-t="brandSub">CONSULTING</small></span></a>
     <nav id="nav">
-      <a href="#services" data-t="nServices">Services</a><a href="#solutions" data-t="nSolutions">Digital solutions</a><a href="#products" data-t="nProducts">Products</a><a href="#finance" data-t="nFinance">Finance</a><a href="#tax" data-t="nTax">Tax</a><a href="#orbit-erp" data-t="nErp">ORBIT ERP</a><a href="#approach" data-t="nApproach">Approach</a><a href="#contact" data-t="nContact">Contact</a>
+      <a href="#services" data-t="nServices">Services</a><a href="#solutions" data-t="nSolutions">Digital solutions</a><a href="#products" data-t="nProducts">Products</a><a data-shop href="https://orbit.alnajjar.in/erp/shop/" target="_blank" rel="noopener" data-t="nShop">🛍 Online shop</a><a href="#finance" data-t="nFinance">Finance</a><a href="#tax" data-t="nTax">Tax</a><a href="#orbit-erp" data-t="nErp">ORBIT ERP</a><a href="#approach" data-t="nApproach">Approach</a><a href="#contact" data-t="nContact">Contact</a>
     </nav>
     <button class="lang" id="langBtn" type="button" aria-label="Switch language">عربي</button>
     <a class="login" data-erp href="https://orbit.alnajjar.in/erp/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span class="lf" data-t="login">Login to ORBIT ERP</span><span class="ls" data-t="loginShort">Login</span></a>
@@ -313,6 +314,7 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
     <p class="lead rv" data-t="prP">Real screens from systems we have built and run every day — pick one to see it in action.</p>
     <div class="ptabs rv" id="ptabs" role="tablist"></div>
     <div class="stage rv" id="stage"></div>
+    <p class="rv" style="text-align:center;margin-top:26px"><a class="btn p" data-shop href="https://orbit.alnajjar.in/erp/shop/" target="_blank" rel="noopener" data-t="shopBtn">🛍 Visit the online shop</a></p>
   </div>
 </section>
 
@@ -354,7 +356,7 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
       <div class="card rv"><h3 data-t="fitH">Fits your kind of business</h3><p data-t="fitP">Choose the business type and ORBIT shows only the departments you need.</p><div class="chips" id="bizChips"></div></div>
       <div class="card rv" style="--d:.1s"><h3 data-t="ctlH">Controls built in</h3><p data-t="ctlP">Approval chains by amount and department, a full history on every document, safe posting that never doubles an entry, and user roles down to each page.</p></div>
     </div>
-    <div class="cta"><a class="btn p" href="#contact" data-t="demo">Request a demo</a><a class="btn g" data-erp href="https://orbit.alnajjar.in/erp/" target="_blank" rel="noopener" data-t="login">Login to ORBIT ERP</a></div>
+    <div class="cta"><a class="btn p" href="#contact" data-t="demo">Request a demo</a><a class="btn g" data-erp href="https://orbit.alnajjar.in/erp/" target="_blank" rel="noopener" data-t="login">Login to ORBIT ERP</a><a class="btn g" data-shop href="https://orbit.alnajjar.in/erp/shop/" target="_blank" rel="noopener" data-t="shopBtn">🛍 Visit the online shop</a></div>
   </div>
 </section>
 
@@ -394,7 +396,7 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
 <footer class="band" style="padding-top:34px;padding-bottom:34px">
   <div class="wrap">
     <a class="brand" href="#home"><svg aria-hidden="true"><use href="#mark"/></svg><span><span data-t="brand">ORBIT</span><small data-t="brandSub">CONSULTING</small></span></a>
-    <span><span data-t="foot">Financing · Taxation · IT consulting · Digital solutions</span> · <a data-erp href="https://orbit.alnajjar.in/erp/" target="_blank" rel="noopener" data-t="footLogin">ORBIT ERP login</a></span>
+    <span><span data-t="foot">Financing · Taxation · IT consulting · Digital solutions</span> · <a data-erp href="https://orbit.alnajjar.in/erp/" target="_blank" rel="noopener" data-t="footLogin">ORBIT ERP login</a> · <a data-shop href="https://orbit.alnajjar.in/erp/shop/" target="_blank" rel="noopener" data-t="nShop">🛍 Online shop</a></span>
     <span>© <span id="yr"></span> <span data-t="copy">Orbit Consulting, Dubai, UAE</span></span>
   </div>
 </footer>
@@ -406,6 +408,7 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
   /* ORBIT ERP sign-in address: on our own site the ERP sits in /erp; elsewhere (previews) use the full address */
   const ERP_URL = /(^|\.)orbit\.alnajjar\.in$|github\.io$|^localhost$|^127\./.test(location.hostname) ? 'erp/' : 'https://orbit.alnajjar.in/erp/';
   $$('[data-erp]').forEach(a => { a.href = ERP_URL; });
+  $$('[data-shop]').forEach(a => { a.href = ERP_URL + 'shop/'; });
 
   const IC = {
     fin: '<path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/>',
@@ -459,6 +462,9 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
     { k: 'erp', c: '#6d3fd9', dev: 'web', url: 'orbit.alnajjar.in/erp', shots: ['erp-login', 'erp-about', 'erp-mail'],
       en: ['Business system', 'ORBIT ERP', 'One system for finance, e-invoicing, sales & marketing, purchasing, stock, production and HR — departments that adapt to your type of business.', ['UAE VAT and e-invoicing ready', 'Bulk email with AI design and website traffic dashboard', 'SharePoint or database server, PC and phone'], ['Secure sign-in', 'Modules and how the work flows', 'Bulk email: lists from Excel, AI layout, live preview']],
       ar: ['نظام إدارة الأعمال', 'ORBIT ERP', 'نظام واحد للمالية والفوترة الإلكترونية والمبيعات والتسويق والمشتريات والمخزون والإنتاج والموارد البشرية — بأقسام تتكيف مع نوع نشاطك.', ['جاهز لضريبة القيمة المضافة والفوترة الإلكترونية', 'بريد جماعي بتصميم ذكي ولوحة زيارات الموقع', 'على شيربوينت أو خادم بيانات، على الكمبيوتر والجوال'], ['دخول آمن', 'الوحدات ومسار العمل', 'البريد الجماعي: قوائم من Excel وتصميم ذكي ومعاينة مباشرة']] },
+    { k: 'shop', c: '#0f766e', dev: 'web', url: 'orbit.alnajjar.in/erp/shop', shots: ['shop-home', 'shop-prod'], link: 1,
+      en: ['Online shop', 'ORBIT online shop', 'A bilingual shop website connected to ORBIT: products, prices and stock come from the ERP, and every order flows into sales, warehouse, delivery and finance.', ['Cash on delivery, bank transfer and card', 'Coupons, delivery fees per emirate, time slots', 'Order tracking and live driver location'], ['Home page with offers and categories', 'Product page in English and Arabic']],
+      ar: ['متجر إلكتروني', 'متجر ORBIT الإلكتروني', 'موقع متجر ثنائي اللغة مرتبط بنظام ORBIT: المنتجات والأسعار والمخزون من النظام، وكل طلب ينتقل إلى المبيعات والمستودع والتوصيل والمالية.', ['الدفع عند الاستلام والتحويل البنكي والبطاقة', 'رموز الخصم ورسوم التوصيل لكل إمارة وأوقات التوصيل', 'تتبّع الطلب وموقع السائق المباشر'], ['الصفحة الرئيسية بالعروض والفئات', 'صفحة المنتج بالعربية والإنجليزية']] },
     { k: 'mob', c: '#2563eb', dev: 'phone', shots: ['mob-login', 'mob-home'],
       en: ['Mobile app', 'ORBIT mobile app', 'The same system as a phone app for the warehouse floor, drivers and supervisors — big buttons, offline saving and instant sync.', ['Installs from the browser on Android and iPhone', 'Works offline and syncs when back online', 'Temperature, receiving, forklift and inspection forms'], ['Sign-in on the phone', 'Home: sections with live counts']],
       ar: ['تطبيق جوال', 'تطبيق ORBIT للجوال', 'النظام نفسه كتطبيق جوال لأرض المستودع والسائقين والمشرفين — أزرار كبيرة وحفظ دون اتصال ومزامنة فورية.', ['يُثبَّت من المتصفح على أندرويد وآيفون', 'يعمل دون اتصال ويزامن عند عودة الشبكة', 'نماذج الحرارة والاستلام والرافعات والتفتيش'], ['الدخول من الجوال', 'الرئيسية: الأقسام مع العدادات المباشرة']] },
@@ -472,7 +478,7 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
   const TECH = ['Microsoft 365', 'SharePoint', 'AI email design', 'Web analytics', 'PostgreSQL', 'SQL Server', 'Android', 'iOS', 'Progressive Web Apps', 'UAE e-invoicing (PINT AE)', 'WPS payroll', 'Power Automate', 'Node.js', 'Cloud & on-premises'];
 
   const T = { ar: {
-    brand: 'أوربت', brandSub: 'للاستشارات', nServices: 'الخدمات', nSolutions: 'الحلول الرقمية', nProducts: 'منتجاتنا', prH: 'منتجاتنا على أرض الواقع', prP: 'شاشات حقيقية من أنظمة بنيناها وتعمل كل يوم — اختر أحدها لتراه أثناء العمل.', nFinance: 'المالية', nTax: 'الضرائب', nErp: 'نظام ORBIT', nApproach: 'منهجيتنا', nContact: 'تواصل معنا',
+    brand: 'أوربت', brandSub: 'للاستشارات', nServices: 'الخدمات', nSolutions: 'الحلول الرقمية', nProducts: 'منتجاتنا', nShop: '🛍 المتجر الإلكتروني', shopBtn: '🛍 زيارة المتجر الإلكتروني', prH: 'منتجاتنا على أرض الواقع', prP: 'شاشات حقيقية من أنظمة بنيناها وتعمل كل يوم — اختر أحدها لتراه أثناء العمل.', nFinance: 'المالية', nTax: 'الضرائب', nErp: 'نظام ORBIT', nApproach: 'منهجيتنا', nContact: 'تواصل معنا',
     login: 'الدخول إلى نظام ORBIT', loginShort: 'دخول', menu: 'القائمة',
     pill: 'المالية · الضرائب · التقنية — تحت سقف واحد', h1a: 'أموالك وضرائبك وأنظمتك —', h1b: 'في مدار واحد ثابت.',
     heroP: 'تساعد أوربت للاستشارات الشركات في الإمارات على الحصول على التمويل وإدارته، والالتزام بضريبة القيمة المضافة وضريبة الشركات والفوترة الإلكترونية، والعمل بأنظمة حديثة — مواقع إلكترونية ونقاط بيع وقوائم طعام إلكترونية وتطبيقات جوال وأنظمة توزيع ومقاولات ونظامنا ORBIT ERP.',
@@ -516,7 +522,7 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
     const dev = p.dev === 'web' ? `<div class="browser"><div class="bar"><b></b><b></b><b></b><span>https://${p.url}</span></div>${scr}</div>` : `<div class="phone">${scr}</div>`;
     $('#stage').style.setProperty('--c', p.c);
     $('#stage').innerHTML = `<div class="anim"><div class="dev">${dev}</div><div class="dots" style="--t:${SHOT_MS}ms">${slides.map((_, i) => `<button type="button" aria-label="${i + 1}" class="${i === SI ? 'on' : ''}" data-s="${i}"></button>`).join('')}</div></div>
-      <div class="pinfo anim" style="animation-delay:.08s"><span class="tag">${x[0]}</span><h3>${x[1]}</h3><p>${x[2]}</p><div class="cap" id="pcap">${x[4][SI] || ''}</div><ul>${x[3].map(li => `<li>${li}</li>`).join('')}</ul></div>`;
+      <div class="pinfo anim" style="animation-delay:.08s"><span class="tag">${x[0]}</span><h3>${x[1]}</h3><p>${x[2]}</p><div class="cap" id="pcap">${x[4][SI] || ''}</div><ul>${x[3].map(li => `<li>${li}</li>`).join('')}</ul>${p.link ? `<p style="margin-top:18px"><a class="btn p" href="${ERP_URL}shop/" target="_blank" rel="noopener" data-trk="shop">${t('shopBtn')} ↗</a></p>` : ''}</div>`;
     schedule();
   }
   function showShot(i) {
@@ -581,7 +587,7 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
   const btn = $('#menuBtn'), nav = $('#nav');
   btn.addEventListener('click', () => { const o = nav.classList.toggle('open'); btn.setAttribute('aria-expanded', o); });
   nav.addEventListener('click', e => { if (e.target.closest('a')) { nav.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); } });
-  const links = $$('#nav a'), spy = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-45% 0px -50% 0px' });
+  const links = $$('#nav a[href^="#"]'), spy = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-45% 0px -50% 0px' });
   links.forEach(a => { const s = $(a.getAttribute('href')); if (s) spy.observe(s); });
 
   /* contact form → ready-made email */
@@ -619,7 +625,7 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
     addEventListener('scroll', () => { const h = document.documentElement.scrollHeight - innerHeight; if (h > 0) maxSc = Math.max(maxSc, Math.round(scrollY * 100 / h)); }, { passive: true });
     /* what they pressed */
     document.addEventListener('click', e => { const a = e.target.closest('a,button'); if (!a) return; let k = '';
-      if (a.dataset.trk) k = a.dataset.trk; else if (a.hasAttribute('data-erp')) k = 'login'; else if (a.id === 'langBtn') k = 'lang:' + (L === 'ar' ? 'en' : 'ar');
+      if (a.dataset.trk) k = a.dataset.trk; else if (a.hasAttribute('data-shop')) k = 'shop'; else if (a.hasAttribute('data-erp')) k = 'login'; else if (a.id === 'langBtn') k = 'lang:' + (L === 'ar' ? 'en' : 'ar');
       else if (/^mailto:/.test(a.getAttribute('href') || '')) k = 'email'; else if (/^tel:/.test(a.getAttribute('href') || '')) k = 'phone';
       else if (a.dataset.t === 'ctaBook') k = 'book'; else if (a.dataset.t === 'demo') k = 'demo';
       if (k) clk.push(k.slice(0, 60)); }, true);

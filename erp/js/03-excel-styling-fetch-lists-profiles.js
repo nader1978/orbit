@@ -509,8 +509,9 @@ document.querySelectorAll('.nav-item').forEach(item => {
     item.classList.add('active');
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     $('view-' + view).classList.add('active');
-    $('topbarTitle').textContent = VIEW_META[view].title;
-    $('topbarSub').textContent = VIEW_META[view].sub;
+    const meta = (typeof VIEW_META !== 'undefined' && VIEW_META[view]) || { title: (item.textContent || '').replace(/\bNEW\b/, '').trim(), sub: '' };   /* a page without a title entry still opens */
+    $('topbarTitle').textContent = meta.title;
+    $('topbarSub').textContent = meta.sub;
     if (view === 'settings') applyGlobalSettingsToUI();
   });
 });

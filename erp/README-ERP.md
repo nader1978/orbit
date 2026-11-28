@@ -1,4 +1,4 @@
-# ORBIT ERP — client edition, build 526
+# ORBIT ERP — client edition, build 527
 
 This is ORBIT prepared for clients other than NFPC, with E-Invoicing and the new **Finance & Accounts** module (phase 1: accounting core).
 
@@ -88,7 +88,9 @@ An administrator can still rename / reorder in Settings → Side panel layout; a
 - **Sales orders**: on **Confirm order**: credit check (receivable = sent e-invoices − receipts, + other open orders, + this order vs the credit limit) → over the limit: approval "Sales order over credit limit" (Finance) or not allowed (setting); stock check (on hand − held by other open orders; warn or block); discount check (already approved on the quote = no second approval). **Deliver** (partial deliveries, delivery note to print with signature lines) → **Create e-invoice**: a draft in E-Invoicing for what is delivered and not yet invoiced (services: ordered), with item codes, discounts and the customer's payment days. Stock leaves the books when the e-invoice is posted (cost of sales), as before.
 - **Campaigns & segments**: segments by emirate, tags, salesperson, price list, sales in the last N days (or no sales = inactive); member list to CSV. Campaigns: channel, segment, dates, budget, cost → leads, won value, cost per lead, return on cost.
 - **Targets & commissions**: monthly target per salesperson, commission % of net sales, bonus % of the part above target. Sales = sent e-invoices net of VAT (credit notes deducted), credited to the order's salesperson, else the customer's.
-- Lists: Sal_Settings, Sal_Accounts, Sal_PriceLists, Sal_Leads, Sal_Quotes, Sal_Orders, Sal_Deliveries, Sal_Campaigns, Sal_Segments, Sal_Targets.
+- **Bulk Email** (new in 527): import recipient lists from Excel or CSV (every sheet; the e-mail and name columns are found automatically; invalid, duplicate and unsubscribed addresses are removed; split a big file into lists of N). Compose with ready layouts (offer, newsletter, simple letter, Arabic RTL) or **Design with AI** (Gemini key in AI settings): language, tone, colours and company → subject + HTML. Personal fields `{name|fallback}` and any Excel column, live preview, attachments up to 3 MB, an unsubscribe line. Send one e-mail per person or in BCC groups, with a delay between e-mails, pause / stop / resume, a test to yourself, and a log of every failure. Sent from the signed-in mailbox (Microsoft Graph); bulk copies are not saved in Sent Items.
+- **Website Traffic** (new in 527): visits, visitors, new visitors, time on site, bounce rate, leads (demo, contact, login clicks), visits per day, sources (Google, social, newsletters, UTM campaigns), countries, devices, browsers, language, sections reached, buttons pressed and busiest hours — for 7 days to 12 months. The Orbit website sends anonymous data (no cookies, no IP address) to a collector: the ORBIT server route `POST <server>/v1/site/hit/<tenant id>`, or a Power Automate flow ("When an HTTP request is received" → create item in Web_Visits). Put the collector address in the website's `ANALYTICS_URL`.
+- Lists: Sal_Settings, Sal_Accounts, Sal_PriceLists, Sal_Leads, Sal_Quotes, Sal_Orders, Sal_Deliveries, Sal_Campaigns, Sal_Segments, Sal_Targets, Sal_MailLists, Sal_MailRuns, Sal_Unsubscribed, Web_Visits.
 
 ## Approvals (one engine for every module)
 **Approvals → Approval Setup**

@@ -58,6 +58,8 @@
     'sal-so': ['x_salso', 'Sales Orders', 'Credit & stock check, delivery notes, e-invoice', 'Sales & Marketing'],
     'sal-cust': ['x_salcust', 'Customer Accounts & Price Lists', 'Credit limits, payment days, price lists, tags', 'Sales & Marketing'],
     'sal-mkt': ['x_salmkt', 'Campaigns & Segments', 'Campaign cost and results, customer groups', 'Sales & Marketing'],
+    'sal-mail': ['x_salmail', 'Bulk Email', 'Marketing e-mails to lists from Excel, AI layout, attachments', 'Sales & Marketing'],
+    'sal-web': ['x_webstats', 'Website Traffic', 'Visitors of the Orbit website: sources, devices, sections, clicks', 'Sales & Marketing'],
     'sal-tgt': ['x_saltgt', 'Targets & Commissions', 'Monthly targets per salesperson, commission and bonus', 'Sales & Marketing'],
     'about': ['x_about', 'About ORBIT', 'What ORBIT does, its modules and this installation', 'Settings'],
     'sal-set': ['x_salset', 'Sales Settings', 'Numbering, discount limit, credit and stock rules', 'Sales & Marketing'],

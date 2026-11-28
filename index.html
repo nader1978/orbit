@@ -94,6 +94,7 @@ html[dir=rtl] .track{animation-name:slider}
 .grid{display:grid;gap:20px;margin-top:42px}
 .g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media(max-width:1000px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1001px){#solGrid .card:nth-last-child(-n+2){grid-column:span 2}}
 @media(max-width:900px){.g3{grid-template-columns:1fr}}@media(max-width:560px){.g4{grid-template-columns:1fr}}
 .card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:12px;transition:transform .25s,box-shadow .25s,border-color .25s;transform-style:preserve-3d;isolation:isolate}
 .card::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:radial-gradient(260px circle at var(--mx,50%) var(--my,0%),rgba(91,79,240,.7),transparent 60%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .3s;z-index:-1}
@@ -168,6 +169,65 @@ footer{background:var(--night);color:#b9bfe4;font-size:14.5px}
 footer .wrap{display:flex;gap:24px;flex-wrap:wrap;justify-content:space-between;align-items:center}
 footer a{color:#5eead4}
 
+/* products showcase */
+.prods{background:radial-gradient(1200px 600px at 80% 0%,color-mix(in srgb,var(--violet) 14%,transparent),transparent 60%),var(--bg);overflow:hidden}
+.ptabs{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 26px}
+.ptabs button{font:700 15px var(--hf);display:flex;align-items:center;gap:9px;padding:11px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;transition:all .25s}
+.ptabs button i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.ptabs button[aria-selected=true]{background:var(--c);border-color:var(--c);color:#fff;box-shadow:0 10px 30px -10px var(--c)}
+.ptabs button[aria-selected=true] i{background:#fff}
+.stage{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
+@media(max-width:900px){.stage{grid-template-columns:1fr}}
+.dev{position:relative;justify-self:center;width:100%;animation:float 7s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px)}}
+.dev::after{content:"";position:absolute;inset:auto 10% -28px;height:40px;background:radial-gradient(closest-side,rgba(20,22,60,.35),transparent);filter:blur(6px);z-index:-1}
+.browser{border-radius:14px;overflow:hidden;background:#1b2040;border:1px solid rgba(255,255,255,.08);box-shadow:0 40px 80px -30px rgba(20,16,80,.55)}
+.browser .bar{display:flex;align-items:center;gap:7px;padding:10px 12px;background:#232a52}
+.browser .bar b{width:11px;height:11px;border-radius:50%;background:#ff5f57}.browser .bar b:nth-child(2){background:#febc2e}.browser .bar b:nth-child(3){background:#28c840}
+.browser .bar span{flex:1;margin-inline-start:10px;background:#141938;color:#a9b0d8;border-radius:8px;font:500 12.5px var(--bf);padding:5px 12px;direction:ltr;text-align:start;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scr{position:relative;aspect-ratio:16/10;overflow:hidden;background:#0d1230}
+.phone{width:min(300px,76vw);margin:auto;border-radius:44px;padding:12px;background:linear-gradient(145deg,#2a2f55,#0d1030);box-shadow:0 40px 80px -30px rgba(20,16,80,.6),inset 0 0 0 2px rgba(255,255,255,.08)}
+.phone .scr{aspect-ratio:390/844;border-radius:33px}
+.phone .scr::before{content:"";position:absolute;z-index:3;top:9px;left:50%;translate:-50% 0;width:34%;height:22px;border-radius:14px;background:#05060f}
+.sl{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;display:block}
+.sl.on{opacity:1}
+.sl img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.sl.on img{animation:kb 7s ease-out both}
+@keyframes kb{from{transform:scale(1.06)}to{transform:scale(1)}}
+.dots{display:flex;justify-content:center;gap:8px;margin-top:22px}
+.dots button{width:34px;height:6px;border-radius:6px;border:0;padding:0;background:color-mix(in srgb,var(--ink) 16%,transparent);overflow:hidden;cursor:pointer;position:relative}
+.dots button.on::after{content:"";position:absolute;inset:0;background:var(--c);transform-origin:left;animation:prog var(--t,4.5s) linear both}
+html[dir=rtl] .dots button.on::after{transform-origin:right}
+.stage.paused .dots button.on::after{animation-play-state:paused}
+@keyframes prog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.pinfo .tag{display:inline-block;font:700 12.5px var(--hf);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.pinfo h3{font-size:clamp(24px,3vw,34px);margin:8px 0 12px}
+.pinfo p{color:var(--mute);font-size:16.5px}
+.pinfo .cap{margin-top:16px;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--c) 10%,var(--card));border:1px solid color-mix(in srgb,var(--c) 30%,var(--line));font-size:14.5px;min-height:48px;transition:opacity .4s}
+.pinfo ul{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:9px}
+.pinfo li{display:flex;gap:10px;font-size:15.5px}.pinfo li::before{content:"✓";color:var(--c);font-weight:800}
+.stage .anim{animation:pin .55s cubic-bezier(.2,.8,.2,1) both}
+@keyframes pin{from{opacity:0;transform:translateY(18px) scale(.98)}}
+/* City Services Guide (drawn, not a screenshot) */
+.city{position:absolute;inset:0;background:#f4f7f6;color:#11302b;font:500 12px var(--bf);display:flex;flex-direction:column}
+.city .top{background:linear-gradient(135deg,#0f766e,#14b8a6);color:#fff;padding:40px 14px 16px}
+.city .top b{display:block;font:800 16px var(--hf)}.city .top small{opacity:.85}
+.city .q{margin-top:10px;background:#fff;color:#6b7c78;border-radius:11px;padding:9px 11px;display:flex;gap:7px;align-items:center}
+.city .cats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px}
+.city .cats div{background:#fff;border-radius:12px;padding:8px 2px;text-align:center;font-size:10.5px;box-shadow:0 2px 8px rgba(0,0,0,.05)}.city .cats em{display:block;font-style:normal;font-size:19px}
+.city .lst{padding:0 12px;display:grid;gap:8px}
+.city .it{background:#fff;border-radius:12px;padding:10px;display:flex;gap:9px;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.city .it i{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-style:normal;font-size:17px;background:#e6f6f3;flex:none}
+.city .it b{display:block;font-size:12.5px}.city .it span{color:#5d706b;font-size:11px}
+.city .vf{display:inline-block;margin-inline-start:auto;font-size:10px;font-weight:700;color:#047857;background:#d1fae5;padding:3px 7px;border-radius:99px;white-space:nowrap}
+.city .vf.w{color:#92400e;background:#fef3c7}
+.city h4{font:800 14px var(--hf);margin:12px 12px 8px}
+.city .fm{padding:12px 12px 0;display:grid;gap:8px}
+.city .fm div{background:#fff;border:1px solid #d6e2df;border-radius:10px;padding:8px 10px;color:#6b7c78}
+.city .fm div b{display:block;color:#11302b;font-size:10.5px;margin-bottom:2px}
+.city .go{margin:4px 12px;background:#0f766e;color:#fff;text-align:center;border-radius:11px;padding:10px;font-weight:800}
+.city .nav{margin-top:auto;display:flex;justify-content:space-around;padding:10px 0 16px;background:#fff;border-top:1px solid #e2ebe8;font-size:10px;color:#6b7c78}.city .nav span.on{color:#0f766e;font-weight:800}
+
 /* reveal on scroll */
 .rv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d,0s)}
 .rv.in{opacity:1;transform:none}
@@ -189,7 +249,7 @@ footer a{color:#5eead4}
   <div class="hd">
     <a class="brand" href="#home"><svg aria-hidden="true"><use href="#mark"/></svg><span><span data-t="brand">ORBIT</span><small data-t="brandSub">CONSULTING</small></span></a>
     <nav id="nav">
-      <a href="#services" data-t="nServices">Services</a><a href="#solutions" data-t="nSolutions">Digital solutions</a><a href="#finance" data-t="nFinance">Finance</a><a href="#tax" data-t="nTax">Tax</a><a href="#orbit-erp" data-t="nErp">ORBIT ERP</a><a href="#approach" data-t="nApproach">Approach</a><a href="#contact" data-t="nContact">Contact</a>
+      <a href="#services" data-t="nServices">Services</a><a href="#solutions" data-t="nSolutions">Digital solutions</a><a href="#products" data-t="nProducts">Products</a><a href="#finance" data-t="nFinance">Finance</a><a href="#tax" data-t="nTax">Tax</a><a href="#orbit-erp" data-t="nErp">ORBIT ERP</a><a href="#approach" data-t="nApproach">Approach</a><a href="#contact" data-t="nContact">Contact</a>
     </nav>
     <button class="lang" id="langBtn" type="button" aria-label="Switch language">عربي</button>
     <a class="login" data-erp href="https://orbit.alnajjar.in/erp/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span class="lf" data-t="login">Login to ORBIT ERP</span><span class="ls" data-t="loginShort">Login</span></a>
@@ -244,6 +304,15 @@ footer a{color:#5eead4}
     <h2 class="rv" data-t="solH">Digital solutions we build</h2>
     <p class="lead rv" data-t="solP">From the shop counter and the restaurant table to the delivery van, the building site and your customers' phones — designed, built and supported by one team, and connected to your accounts.</p>
     <div class="grid g4" id="solGrid"></div>
+  </div>
+</section>
+
+<section class="band prods" id="products">
+  <div class="wrap">
+    <h2 class="rv" data-t="prH">Our products, live</h2>
+    <p class="lead rv" data-t="prP">Real screens from systems we have built and run every day — pick one to see it in action.</p>
+    <div class="ptabs rv" id="ptabs" role="tablist"></div>
+    <div class="stage rv" id="stage"></div>
   </div>
 </section>
 
@@ -303,8 +372,8 @@ footer a{color:#5eead4}
       <h2 data-t="ctH">Talk to us</h2>
       <p class="lead" data-t="ctP">Tell us what you need and we will reply within one working day with next steps.</p>
       <div class="cinfo">
-        <div><span data-t="cEmail">Email</span><a href="mailto:info@alnajjar.in">info@alnajjar.in</a></div>
-        <div><span data-t="cPhone">Phone</span><a href="tel:+97140000000">+971 52 52 96696</a></div>
+        <div><span data-t="cEmail">Email</span><a href="mailto:info@orbitconsulting.ae">info@orbitconsulting.ae</a></div>
+        <div><span data-t="cPhone">Phone</span><a href="tel:+97140000000">+971 4 000 0000</a></div>
         <div><span data-t="cOffice">Office</span><b style="font-weight:500;direction:inherit" data-t="cCity">Dubai, United Arab Emirates</b></div>
         <div><span data-t="cHours">Hours</span><b style="font-weight:500;direction:inherit" data-t="cHoursV">Monday–Friday, 9:00–18:00</b></div>
       </div>
@@ -349,6 +418,8 @@ footer a{color:#5eead4}
     erp: '<circle cx="12" cy="12" r="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-25 12 12)"/>',
     auto: '<path d="M4 4h6v6H4zM14 14h6v6h-6zM10 7h4a3 3 0 0 1 3 3v4"/>',
     menu: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v7h-7"/>',
+    mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+    stats: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
     con: '<path d="M2 20h20M4 20V10l8-6 8 6v10"/><path d="M9 20v-6h6v6"/>',
   };
   const ico = (k, c) => `<div class="ic" style="background:color-mix(in srgb,${c} 14%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg></div>`;
@@ -366,6 +437,8 @@ footer a{color:#5eead4}
     ['dist', '#ef4444', true, { en: ['Distribution systems', 'Route planning, van sales, delivery notes, proof of delivery and returns — so every carton is tracked from the warehouse to the customer.', ['Van sales & route planning', 'Delivery tracking and proof of delivery', 'Fleet, trips and driver performance']], ar: ['أنظمة التوزيع', 'تخطيط المسارات والبيع من السيارة ومذكرات التسليم وإثبات الاستلام والمرتجعات — لتتبع كل كرتونة من المستودع حتى العميل.', ['البيع من السيارة وتخطيط المسارات', 'تتبع التوصيل وإثبات الاستلام', 'الأسطول والرحلات وأداء السائقين']] }],
     ['menu', '#ec4899', true, { en: ['Online menus for cafés & restaurants', 'QR-code menus guests open on their phone — photos, prices, Arabic and English, allergens and daily specials, updated by you in seconds.', ['QR menu per table or branch', 'Order from the table (optional)', 'Linked to your POS and kitchen']], ar: ['قوائم طعام إلكترونية للمقاهي والمطاعم', 'قوائم برمز QR يفتحها الضيوف على هواتفهم — صور وأسعار بالعربية والإنجليزية ومسببات الحساسية وعروض اليوم، تحدّثها بنفسك خلال ثوانٍ.', ['قائمة QR لكل طاولة أو فرع', 'الطلب من الطاولة (اختياري)', 'مرتبطة بنقاط البيع والمطبخ']] }],
     ['con', '#a16207', true, { en: ['Construction & projects system', 'Run every project from tender to handover: BOQ, budgets, site costs, subcontractors, progress billing and retention — with profit per project at a glance.', ['BOQ, budget and cost tracking', 'Progress invoices and retention', 'Subcontractors, site expenses and timesheets']], ar: ['نظام المقاولات والمشاريع', 'أدر كل مشروع من المناقصة حتى التسليم: جداول الكميات والموازنات وتكاليف الموقع ومقاولي الباطن والمستخلصات والمحتجزات — مع ربحية كل مشروع بنظرة واحدة.', ['جداول الكميات والموازنة وتتبع التكاليف', 'المستخلصات والمحتجزات', 'مقاولو الباطن ومصاريف الموقع وساعات العمل']] }],
+    ['mail', '#e11d48', true, { en: ['Email marketing campaigns', 'Send offers, newsletters and announcements to thousands of customers from your own mailbox — lists straight from Excel, layouts designed by AI, attachments and personal greetings.', ['Import and clean lists from Excel', 'AI-designed email layouts (Arabic & English)', 'Scheduled sending, opt-outs and delivery log']], ar: ['حملات التسويق عبر البريد الإلكتروني', 'أرسل العروض والنشرات والإعلانات لآلاف العملاء من بريدك الخاص — قوائم مباشرة من Excel وتصاميم رسائل بالذكاء الاصطناعي ومرفقات وتحية باسم كل عميل.', ['استيراد القوائم من Excel وتنقيتها', 'تصميم الرسائل بالذكاء الاصطناعي (عربي وإنجليزي)', 'إرسال مجدول وإلغاء اشتراك وسجل تسليم']] }],
+    ['stats', '#0891b2', true, { en: ['Website analytics & traffic dashboards', 'See who visits your website, where they come from, what they read and which buttons they press — in a live dashboard inside your system, without cookies.', ['Visits, visitors, time on site and bounce', 'Sources, countries, devices and languages', 'Leads: demo, contact and login clicks']], ar: ['تحليلات المواقع ولوحات الزيارات', 'اعرف من يزور موقعك ومن أين أتى وماذا قرأ وأي الأزرار ضغط — في لوحة مباشرة داخل نظامك، دون ملفات تعريف ارتباط.', ['الزيارات والزوار ومدة البقاء ونسبة الارتداد', 'المصادر والدول والأجهزة واللغات', 'العملاء المحتملون: طلبات العرض والتواصل والدخول']] }],
     ['erp', '#6d3fd9', false, { en: ['ORBIT ERP', 'Our own business system: finance, sales, purchasing, stock, production, HR and payroll — ready for UAE e-invoicing.', ['Eight connected modules', 'SharePoint or database server', 'PC and phone']], ar: ['نظام ORBIT ERP', 'نظامنا الخاص لإدارة الأعمال: المالية والمبيعات والمشتريات والمخزون والإنتاج والموارد البشرية والرواتب — جاهز للفوترة الإلكترونية في الإمارات.', ['ثماني وحدات مترابطة', 'على شيربوينت أو خادم قاعدة بيانات', 'على الكمبيوتر والجوال']] }],
     ['auto', '#14b8a6', false, { en: ['Automation & dashboards', 'Approval flows, scheduled reports and live KPI dashboards on Microsoft 365 and SharePoint that replace manual spreadsheets.', ['Approval workflows', 'Live dashboards', 'Data integration']], ar: ['الأتمتة ولوحات المؤشرات', 'مسارات اعتماد وتقارير مجدولة ولوحات مؤشرات حية على مايكروسوفت 365 وشيربوينت تحل محل الجداول اليدوية.', ['مسارات الاعتماد', 'لوحات مؤشرات حية', 'تكامل البيانات']] }]
   ];
@@ -373,16 +446,33 @@ footer a{color:#5eead4}
     ar: [['المحاسبة والتقارير', 'مسك الدفاتر الشهري والتسويات البنكية والحسابات الإدارية والقوائم المالية السنوية وفق المعايير الدولية (IFRS)، جاهزة للمدقق.'], ['الموازنات والتدفق النقدي', 'موازنة لاثني عشر شهراً وتوقعات متجددة للتدفق النقدي نراجعها معك شهرياً لتظهر المفاجآت مبكراً.'], ['استشارات التمويل', 'خطط عمل ونماذج مالية وملفات تمويل لخطوط رأس المال العامل والقروض والتمويل التجاري — مع الدعم في أسئلة البنك.'], ['مدير مالي عند الطلب', 'قيادة مالية خبيرة لأيام معدودة شهرياً: التسعير والهوامش والرقابة وتقارير مجلس الإدارة والمستثمرين.']] };
   const TAX = { en: [['V', 'VAT', 'Registration and de-registration, returns, input-tax reviews, voluntary disclosures and refund claims.'], ['C', 'Corporate Tax', 'Registration, taxable-income computation, small-business relief checks, free-zone qualifying income reviews and annual returns.'], ['E', 'E-invoicing readiness', 'Gap analysis, master-data clean-up, service-provider selection and testing — with ORBIT ERP ready to send structured invoices.'], ['R', 'Reviews & representation', 'Tax health checks before an audit, replies to FTA queries and help with reconsideration requests.']],
     ar: [['ق', 'ضريبة القيمة المضافة', 'التسجيل وإلغاؤه والإقرارات ومراجعة ضريبة المدخلات والإفصاحات الطوعية وطلبات الاسترداد.'], ['ش', 'ضريبة الشركات', 'التسجيل واحتساب الدخل الخاضع للضريبة والتحقق من إعفاء الأعمال الصغيرة ومراجعة الدخل المؤهل في المناطق الحرة والإقرار السنوي.'], ['ف', 'الجاهزية للفوترة الإلكترونية', 'تحليل الفجوات وتنقية البيانات الأساسية واختيار مزود الخدمة والاختبار — مع نظام ORBIT الجاهز لإرسال الفواتير المهيكلة.'], ['م', 'المراجعة والتمثيل', 'فحص ضريبي قبل التدقيق والرد على استفسارات الهيئة والمساعدة في طلبات إعادة النظر.']] };
-  const MODS = { en: [['Finance & accounts', 'Journals, bills, receipts, bank reconciliation, trial balance and statements.'], ['E-invoicing', 'UAE structured invoices and credit notes, sent through your service provider.'], ['Sales & marketing', 'Leads, quotations, orders, deliveries, price lists, targets and commissions.'], ['Procurement', 'Requests, quotation comparison, purchase orders and three-way match.'], ['Inventory & production', 'Costed stock, warehouses, bills of materials and production orders.'], ['HR & payroll', 'Employees, leave, payroll with WPS file, loans and end-of-service.'], ['Budgets & fixed assets', 'Budget versus actual, asset register and monthly depreciation.'], ['Approvals', 'One approval engine for every document, by amount, department and role.']],
-    ar: [['المالية والحسابات', 'القيود والفواتير والمقبوضات والتسوية البنكية وميزان المراجعة والقوائم المالية.'], ['الفوترة الإلكترونية', 'فواتير وإشعارات دائنة مهيكلة وفق متطلبات الإمارات تُرسل عبر مزود الخدمة.'], ['المبيعات والتسويق', 'العملاء المحتملون وعروض الأسعار والطلبات والتسليم وقوائم الأسعار والأهداف والعمولات.'], ['المشتريات', 'طلبات الشراء ومقارنة العروض وأوامر الشراء والمطابقة الثلاثية.'], ['المخزون والإنتاج', 'مخزون بالتكلفة ومستودعات وقوائم مواد وأوامر إنتاج.'], ['الموارد البشرية والرواتب', 'الموظفون والإجازات والرواتب مع ملف حماية الأجور والسلف ومكافأة نهاية الخدمة.'], ['الموازنات والأصول الثابتة', 'المقارنة بين الموازنة والفعلي وسجل الأصول والإهلاك الشهري.'], ['الاعتمادات', 'محرك اعتماد واحد لكل المستندات حسب المبلغ والقسم والدور.']] };
+  const MODS = { en: [['Finance & accounts', 'Journals, bills, receipts, bank reconciliation, trial balance and statements.'], ['E-invoicing', 'UAE structured invoices and credit notes, sent through your service provider.'], ['Sales & marketing', 'Leads, quotations, orders, price lists, targets, bulk email campaigns and website traffic.'], ['Procurement', 'Requests, quotation comparison, purchase orders and three-way match.'], ['Inventory & production', 'Costed stock, warehouses, bills of materials and production orders.'], ['HR & payroll', 'Employees, leave, payroll with WPS file, loans and end-of-service.'], ['Budgets & fixed assets', 'Budget versus actual, asset register and monthly depreciation.'], ['Approvals', 'One approval engine for every document, by amount, department and role.']],
+    ar: [['المالية والحسابات', 'القيود والفواتير والمقبوضات والتسوية البنكية وميزان المراجعة والقوائم المالية.'], ['الفوترة الإلكترونية', 'فواتير وإشعارات دائنة مهيكلة وفق متطلبات الإمارات تُرسل عبر مزود الخدمة.'], ['المبيعات والتسويق', 'العملاء المحتملون وعروض الأسعار والطلبات وقوائم الأسعار والأهداف وحملات البريد الجماعية وزيارات الموقع.'], ['المشتريات', 'طلبات الشراء ومقارنة العروض وأوامر الشراء والمطابقة الثلاثية.'], ['المخزون والإنتاج', 'مخزون بالتكلفة ومستودعات وقوائم مواد وأوامر إنتاج.'], ['الموارد البشرية والرواتب', 'الموظفون والإجازات والرواتب مع ملف حماية الأجور والسلف ومكافأة نهاية الخدمة.'], ['الموازنات والأصول الثابتة', 'المقارنة بين الموازنة والفعلي وسجل الأصول والإهلاك الشهري.'], ['الاعتمادات', 'محرك اعتماد واحد لكل المستندات حسب المبلغ والقسم والدور.']] };
   const BIZ = { en: ['Manufacturing', 'Trading & distribution', 'Construction & contracting', 'Services', 'Food & restaurant', 'Vending', 'Printing & typing centres'], ar: ['التصنيع', 'التجارة والتوزيع', 'المقاولات والإنشاءات', 'الخدمات', 'المطاعم والأغذية', 'آلات البيع الذاتي', 'مراكز الطباعة والطباعة القانونية'] };
   const STEPS = { en: [['Listen', 'A free first meeting to understand your business, your deadlines and what is not working.'], ['Diagnose', 'A short review of your books, tax position and systems, with findings in plain language.'], ['Deliver', 'We do the work — filings, forecasts, funding packs, websites, apps or system set-up — to an agreed scope and price.'], ['Stay in orbit', 'Monthly support, reminders before every deadline and one contact who knows your business.']],
     ar: [['نستمع', 'لقاء أول مجاني لفهم أعمالك ومواعيدك النهائية وما لا يعمل كما ينبغي.'], ['نشخّص', 'مراجعة قصيرة لدفاترك ووضعك الضريبي وأنظمتك، بنتائج بلغة واضحة.'], ['ننفّذ', 'ننجز العمل — الإقرارات والتوقعات وملفات التمويل والمواقع والتطبيقات أو إعداد الأنظمة — بنطاق وسعر متفق عليهما.'], ['نبقى معك', 'دعم شهري وتذكير قبل كل موعد نهائي وجهة تواصل واحدة تعرف أعمالك.']] };
-  const TOPICS = { en: ['Financing & finance', 'VAT or Corporate Tax', 'E-invoicing readiness', 'Website or online store', 'POS system', 'Online menu (QR)', 'Mobile app (Android / Apple)', 'Distribution system', 'Construction & projects system', 'ORBIT ERP demo', 'Something else'], ar: ['التمويل والشؤون المالية', 'ضريبة القيمة المضافة أو ضريبة الشركات', 'الجاهزية للفوترة الإلكترونية', 'موقع إلكتروني أو متجر إلكتروني', 'نظام نقاط بيع', 'قائمة طعام إلكترونية (QR)', 'تطبيق جوال (أندرويد / آبل)', 'نظام توزيع', 'نظام المقاولات والمشاريع', 'عرض تجريبي لنظام ORBIT', 'أمر آخر'] };
-  const TECH = ['Microsoft 365', 'SharePoint', 'PostgreSQL', 'SQL Server', 'Android', 'iOS', 'Progressive Web Apps', 'UAE e-invoicing (PINT AE)', 'WPS payroll', 'Power Automate', 'Node.js', 'Cloud & on-premises'];
+  const TOPICS = { en: ['Financing & finance', 'VAT or Corporate Tax', 'E-invoicing readiness', 'Website or online store', 'POS system', 'Online menu (QR)', 'Mobile app (Android / Apple)', 'Distribution system', 'Construction & projects system', 'Email marketing campaigns', 'Website analytics & dashboards', 'ORBIT ERP demo', 'Something else'], ar: ['التمويل والشؤون المالية', 'ضريبة القيمة المضافة أو ضريبة الشركات', 'الجاهزية للفوترة الإلكترونية', 'موقع إلكتروني أو متجر إلكتروني', 'نظام نقاط بيع', 'قائمة طعام إلكترونية (QR)', 'تطبيق جوال (أندرويد / آبل)', 'نظام توزيع', 'نظام المقاولات والمشاريع', 'حملات التسويق عبر البريد', 'تحليلات المواقع ولوحات الزيارات', 'عرض تجريبي لنظام ORBIT', 'أمر آخر'] };
+  const PRODS = [
+    { k: 'nfpc', c: '#16a34a', dev: 'web', url: 'orbit.alnajjar.in · NFPC', shots: ['nfpc-login', 'nfpc-home'],
+      en: ['Supply-chain system', 'ORBIT — NFPC edition', 'The operations system we built for a UAE food manufacturer: warehouse, FEFO batch allocation, planning, logistics, fleet and staff rosters — used daily on PC and phone.', ['Warehouse moves, FEFO batches and stock tracking', 'Demand, daily plan and production planning', 'Logistics trips, fleet and staff attendance'], ['Branded sign-in for the client', 'Dashboard: every department and page the user can open']],
+      ar: ['نظام سلاسل الإمداد', 'ORBIT — نسخة NFPC', 'نظام العمليات الذي بنيناه لمصنع أغذية في الإمارات: المستودعات وتخصيص الدفعات حسب الصلاحية والتخطيط والنقل والأسطول وجداول الموظفين — يُستخدم يومياً على الكمبيوتر والجوال.', ['حركات المستودع ودفعات FEFO وتتبع المخزون', 'تخطيط الطلب والخطة اليومية والإنتاج', 'رحلات النقل والأسطول وحضور الموظفين'], ['شاشة دخول بهوية العميل', 'لوحة البداية: كل الأقسام والصفحات المتاحة للمستخدم']] },
+    { k: 'erp', c: '#6d3fd9', dev: 'web', url: 'orbit.alnajjar.in/erp', shots: ['erp-login', 'erp-about', 'erp-mail'],
+      en: ['Business system', 'ORBIT ERP', 'One system for finance, e-invoicing, sales & marketing, purchasing, stock, production and HR — departments that adapt to your type of business.', ['UAE VAT and e-invoicing ready', 'Bulk email with AI design and website traffic dashboard', 'SharePoint or database server, PC and phone'], ['Secure sign-in', 'Modules and how the work flows', 'Bulk email: lists from Excel, AI layout, live preview']],
+      ar: ['نظام إدارة الأعمال', 'ORBIT ERP', 'نظام واحد للمالية والفوترة الإلكترونية والمبيعات والتسويق والمشتريات والمخزون والإنتاج والموارد البشرية — بأقسام تتكيف مع نوع نشاطك.', ['جاهز لضريبة القيمة المضافة والفوترة الإلكترونية', 'بريد جماعي بتصميم ذكي ولوحة زيارات الموقع', 'على شيربوينت أو خادم بيانات، على الكمبيوتر والجوال'], ['دخول آمن', 'الوحدات ومسار العمل', 'البريد الجماعي: قوائم من Excel وتصميم ذكي ومعاينة مباشرة']] },
+    { k: 'mob', c: '#2563eb', dev: 'phone', shots: ['mob-login', 'mob-home'],
+      en: ['Mobile app', 'ORBIT mobile app', 'The same system as a phone app for the warehouse floor, drivers and supervisors — big buttons, offline saving and instant sync.', ['Installs from the browser on Android and iPhone', 'Works offline and syncs when back online', 'Temperature, receiving, forklift and inspection forms'], ['Sign-in on the phone', 'Home: sections with live counts']],
+      ar: ['تطبيق جوال', 'تطبيق ORBIT للجوال', 'النظام نفسه كتطبيق جوال لأرض المستودع والسائقين والمشرفين — أزرار كبيرة وحفظ دون اتصال ومزامنة فورية.', ['يُثبَّت من المتصفح على أندرويد وآيفون', 'يعمل دون اتصال ويزامن عند عودة الشبكة', 'نماذج الحرارة والاستلام والرافعات والتفتيش'], ['الدخول من الجوال', 'الرئيسية: الأقسام مع العدادات المباشرة']] },
+    { k: 'city', c: '#0f766e', dev: 'phone', city: true,
+      en: ['Public app', 'City Services Guide', 'A bilingual guide where residents find trusted local services, providers submit their details, and an admin verifies every listing before it goes live.', ['Search by category, area and name', 'Providers add and update their own listing', 'Admin review keeps every listing verified'], ['Residents: search and browse', 'Providers: add a service', 'Admin: verify new listings']],
+      ar: ['تطبيق عام', 'دليل خدمات المدينة', 'دليل ثنائي اللغة يجد فيه السكان الخدمات المحلية الموثوقة، ويضيف مقدمو الخدمات بياناتهم، ويتحقق المشرف من كل إدراج قبل نشره.', ['البحث حسب الفئة والمنطقة والاسم', 'مقدمو الخدمة يضيفون إدراجهم ويحدّثونه', 'مراجعة المشرف تُبقي كل إدراج موثقاً'], ['السكان: البحث والتصفح', 'مقدمو الخدمة: إضافة خدمة', 'المشرف: توثيق الإدراجات الجديدة']] }
+  ];
+  const CITY = {
+    en: { t: 'City Services Guide', s: 'Find trusted services near you', q: 'Search clinics, schools, plumbers…', cats: [['🏥', 'Health'], ['🎓', 'Education'], ['🏛️', 'Government'], ['🔧', 'Repairs'], ['🛒', 'Shops'], ['🍽️', 'Food'], ['🚗', 'Transport'], ['💡', 'Utilities']], items: [['🏥', 'Al Noor Medical Centre', 'Health · 1.2 km'], ['🎓', 'Bright Minds Nursery', 'Education · 2.4 km'], ['🔧', 'QuickFix Home Services', 'Repairs · 3.1 km']], vf: 'Verified', pend: 'Waiting', nav: ['Home', 'Search', 'Add', 'Saved'], addH: 'Add your service', f: [['Business name', 'e.g. Green Leaf Café'], ['Category', 'Food & cafés'], ['Area', 'Al Nahda'], ['Phone', '\u2066+971 5x xxx xxxx\u2069']], send: 'Submit for review', admH: 'New listings to verify' },
+    ar: { t: 'دليل خدمات المدينة', s: 'اعثر على خدمات موثوقة بالقرب منك', q: 'ابحث عن عيادات ومدارس وفنيين…', cats: [['🏥', 'الصحة'], ['🎓', 'التعليم'], ['🏛️', 'الحكومة'], ['🔧', 'الصيانة'], ['🛒', 'المتاجر'], ['🍽️', 'المطاعم'], ['🚗', 'النقل'], ['💡', 'المرافق']], items: [['🏥', 'مركز النور الطبي', 'الصحة · 1.2 كم'], ['🎓', 'حضانة العقول المشرقة', 'التعليم · 2.4 كم'], ['🔧', 'كويك فكس للخدمات المنزلية', 'الصيانة · 3.1 كم']], vf: 'موثّق', pend: 'بانتظار', nav: ['الرئيسية', 'بحث', 'إضافة', 'المحفوظ'], addH: 'أضف خدمتك', f: [['اسم النشاط', 'مثال: مقهى الورقة الخضراء'], ['الفئة', 'المطاعم والمقاهي'], ['المنطقة', 'النهدة'], ['الهاتف', '\u2066+971 5x xxx xxxx\u2069']], send: 'أرسل للمراجعة', admH: 'إدراجات جديدة للتوثيق' } };
+  const TECH = ['Microsoft 365', 'SharePoint', 'AI email design', 'Web analytics', 'PostgreSQL', 'SQL Server', 'Android', 'iOS', 'Progressive Web Apps', 'UAE e-invoicing (PINT AE)', 'WPS payroll', 'Power Automate', 'Node.js', 'Cloud & on-premises'];
 
   const T = { ar: {
-    brand: 'أوربت', brandSub: 'للاستشارات', nServices: 'الخدمات', nSolutions: 'الحلول الرقمية', nFinance: 'المالية', nTax: 'الضرائب', nErp: 'نظام ORBIT', nApproach: 'منهجيتنا', nContact: 'تواصل معنا',
+    brand: 'أوربت', brandSub: 'للاستشارات', nServices: 'الخدمات', nSolutions: 'الحلول الرقمية', nProducts: 'منتجاتنا', prH: 'منتجاتنا على أرض الواقع', prP: 'شاشات حقيقية من أنظمة بنيناها وتعمل كل يوم — اختر أحدها لتراه أثناء العمل.', nFinance: 'المالية', nTax: 'الضرائب', nErp: 'نظام ORBIT', nApproach: 'منهجيتنا', nContact: 'تواصل معنا',
     login: 'الدخول إلى نظام ORBIT', loginShort: 'دخول', menu: 'القائمة',
     pill: 'المالية · الضرائب · التقنية — تحت سقف واحد', h1a: 'أموالك وضرائبك وأنظمتك —', h1b: 'في مدار واحد ثابت.',
     heroP: 'تساعد أوربت للاستشارات الشركات في الإمارات على الحصول على التمويل وإدارته، والالتزام بضريبة القيمة المضافة وضريبة الشركات والفوترة الإلكترونية، والعمل بأنظمة حديثة — مواقع إلكترونية ونقاط بيع وقوائم طعام إلكترونية وتطبيقات جوال وأنظمة توزيع ومقاولات ونظامنا ORBIT ERP.',
@@ -406,6 +496,45 @@ footer a{color:#5eead4}
   let L = 'en';
   const t = k => (L === 'ar' ? T.ar[k] : EN[k]) || EN[k] || '';
 
+  /* products showcase: tabs + device with auto-changing screens */
+  let PI = 0, SI = 0, ptimer = 0, paused = false;
+  const SHOT_MS = 4500;
+  function cityScreens(c) {
+    const nav = on => `<div class="nav">${c.nav.map((n, i) => `<span class="${i === on ? 'on' : ''}">${n}</span>`).join('')}</div>`;
+    const top = `<div class="top"><b>${c.t}</b><small>${c.s}</small><div class="q">🔍 ${c.q}</div></div>`;
+    return [
+      `<div class="city">${top}<div class="cats">${c.cats.map(([e, n]) => `<div><em>${e}</em>${n}</div>`).join('')}</div><div class="lst">${c.items.map(([e, n, d]) => `<div class="it"><i>${e}</i><div><b>${n}</b><span>${d}</span></div><span class="vf">✓ ${c.vf}</span></div>`).join('')}</div>${nav(0)}</div>`,
+      `<div class="city"><div class="top"><b>${c.addH}</b><small>${c.t}</small></div><div class="fm">${c.f.map(([b, v]) => `<div><b>${b}</b><bdi>${v}</bdi></div>`).join('')}</div><div class="go">${c.send}</div>${nav(2)}</div>`,
+      `<div class="city"><div class="top"><b>${c.admH}</b><small>${c.t}</small></div><div class="lst" style="margin-top:12px">${c.items.map(([e, n, d], i) => `<div class="it"><i>${e}</i><div><b>${n}</b><span>${d}</span></div><span class="vf${i ? ' w' : ''}">${i ? '⏳ ' + c.pend : '✓ ' + c.vf}</span></div>`).join('')}</div>${nav(0)}</div>`
+    ];
+  }
+  function renderProducts() {
+    $('#ptabs').innerHTML = PRODS.map((p, i) => `<button type="button" role="tab" aria-selected="${i === PI}" style="--c:${p.c}" data-p="${i}" data-trk="product:${p.k}"><i></i>${p[L][1]}</button>`).join('');
+    const p = PRODS[PI], x = p[L];
+    const slides = p.city ? cityScreens(CITY[L]) : p.shots.map(n => `<img src="img/${n}.webp" alt="${x[1]} — ${x[4][p.shots.indexOf(n)] || ''}" loading="lazy" decoding="async">`);
+    const scr = `<div class="scr">${slides.map((h, i) => `<div class="sl${i === SI ? ' on' : ''}">${h}</div>`).join('')}</div>`;
+    const dev = p.dev === 'web' ? `<div class="browser"><div class="bar"><b></b><b></b><b></b><span>https://${p.url}</span></div>${scr}</div>` : `<div class="phone">${scr}</div>`;
+    $('#stage').style.setProperty('--c', p.c);
+    $('#stage').innerHTML = `<div class="anim"><div class="dev">${dev}</div><div class="dots" style="--t:${SHOT_MS}ms">${slides.map((_, i) => `<button type="button" aria-label="${i + 1}" class="${i === SI ? 'on' : ''}" data-s="${i}"></button>`).join('')}</div></div>
+      <div class="pinfo anim" style="animation-delay:.08s"><span class="tag">${x[0]}</span><h3>${x[1]}</h3><p>${x[2]}</p><div class="cap" id="pcap">${x[4][SI] || ''}</div><ul>${x[3].map(li => `<li>${li}</li>`).join('')}</ul></div>`;
+    schedule();
+  }
+  function showShot(i) {
+    const sl = $$('#stage .sl'), dots = $$('#stage .dots button'), x = PRODS[PI][L]; if (!sl.length) return;
+    SI = (i + sl.length) % sl.length;
+    sl.forEach((e, k) => e.classList.toggle('on', k === SI));
+    dots.forEach((d, k) => { d.classList.remove('on'); if (k === SI) { void d.offsetWidth; d.classList.add('on'); } });
+    const cap = $('#pcap'); if (cap) cap.textContent = x[4][SI] || '';
+    schedule();
+  }
+  function schedule() { clearTimeout(ptimer); if (paused || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    ptimer = setTimeout(() => { const n = $$('#stage .sl').length; if (SI + 1 < n) showShot(SI + 1); else { PI = (PI + 1) % PRODS.length; SI = 0; renderProducts(); } }, SHOT_MS); }
+  $('#ptabs').addEventListener('click', e => { const b = e.target.closest('[data-p]'); if (!b) return; PI = +b.dataset.p; SI = 0; renderProducts(); });
+  $('#stage').addEventListener('click', e => { const b = e.target.closest('[data-s]'); if (b) showShot(+b.dataset.s); });
+  $('#stage').addEventListener('pointerenter', () => { paused = true; $('#stage').classList.add('paused'); clearTimeout(ptimer); });
+  $('#stage').addEventListener('pointerleave', () => { paused = false; $('#stage').classList.remove('paused'); schedule(); });
+  /* only run the slideshow while the section is on screen */
+  if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { if (!$('#stage').classList.contains('paused')) { paused = false; schedule(); } } else { paused = true; clearTimeout(ptimer); } })).observe($('#products'));
   function render() {
     $('#pillars').innerHTML = PILLARS.map(([k, c, href, x], i) => { const [h, li, more] = x[L]; return `<article class="card rv" style="--d:${i * .1}s">${ico(k, c)}<h3>${h}</h3><ul>${li.map(s => `<li>${s}</li>`).join('')}</ul><a class="more" href="${href}">${more} <span class="flip">→</span></a></article>`; }).join('');
     $('#solGrid').innerHTML = SOL.map(([k, c, isNew, x], i) => { const [h, p, li] = x[L]; return `<article class="card rv" style="--d:${(i % 4) * .08}s">${ico(k, c)}<h3>${h}${isNew ? `<span class="new">${t('newT')}</span>` : ''}</h3><p>${p}</p><ul>${li.map(s => `<li>${s}</li>`).join('')}</ul></article>`; }).join('');
@@ -418,6 +547,7 @@ footer a{color:#5eead4}
     $('#steps').innerHTML = STEPS[L].map(([h, p], i) => `<div class="step rv" style="--d:${i * .1}s"><h3>${h}</h3><p>${p}</p></div>`).join('');
     const sel = $('#fTopic'), cur = sel.selectedIndex; sel.innerHTML = TOPICS[L].map(o => `<option>${o}</option>`).join(''); if (cur > 0) sel.selectedIndex = cur;
     $('#fMsgI').placeholder = t('msgPh');
+    renderProducts();
     $('#track').innerHTML = TECH.concat(TECH).map(s => `<span>${s}</span>`).join('');
     $$('[data-t]').forEach(e => { const v = t(e.dataset.t); if (v) e.textContent = v; });
     document.title = t('title');
@@ -458,9 +588,47 @@ footer a{color:#5eead4}
   $('#form').addEventListener('submit', e => { e.preventDefault(); const ok = $('#ok'), v = id => $('#' + id).value.trim(), name = v('fName'), mail = v('fMail'); ok.style.display = 'block';
     if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)) { ok.textContent = t('okBad'); return; }
     const body = 'Name: ' + name + '\nCompany: ' + v('fCo') + '\nEmail: ' + mail + '\nPhone: ' + v('fTel') + '\nTopic: ' + v('fTopic') + '\nLanguage: ' + L + '\n\n' + v('fMsgI');
-    ok.textContent = t('okReady'); location.href = 'mailto:info@orbitconsulting.ae?subject=' + encodeURIComponent('Enquiry — ' + v('fTopic')) + '&body=' + encodeURIComponent(body); });
+    TRK.hit('contact'); ok.textContent = t('okReady'); location.href = 'mailto:info@orbitconsulting.ae?subject=' + encodeURIComponent('Enquiry — ' + v('fTopic')) + '&body=' + encodeURIComponent(body); });
   $('#yr').textContent = new Date().getFullYear();
 
+  /* ---------- anonymous visit statistics for the ORBIT "Website traffic" dashboard ----------
+     No cookies, no names, no IP address. A random visitor number is kept in this browser only.
+     Put the collector address here to switch it on:
+       • ORBIT ERP server:  https://<your-orbit-server>/v1/site/hit/<tenant id>   (shown in ORBIT → Website traffic → Set-up)
+       • or the address of a Power Automate "When an HTTP request is received" flow                    */
+  const ANALYTICS_URL = '';
+  const TRK = (() => {
+    if (!ANALYTICS_URL || navigator.doNotTrack === '1' || navigator.globalPrivacyControl || /bot|crawl|spider|headless|lighthouse/i.test(navigator.userAgent)) return { hit() {} };
+    const rid = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2)).replace(/-/g, '').slice(0, 24);
+    let uid = '', nw = false; try { uid = localStorage.getItem('orbit_vid') || ''; if (!uid) { uid = rid(); nw = true; localStorage.setItem('orbit_vid', uid); } } catch (e) { uid = rid(); nw = true; }
+    const ua = navigator.userAgent, vid = rid(), t0 = Date.now(), secs = new Set(), clk = []; let hidAt = 0, away = 0, maxSc = 0, sentClk = 0, ended = false;
+    const dev = /iPad|Tablet|Android(?!.*Mobile)/i.test(ua) ? 'Tablet' : /Mobi|iPhone|Android/i.test(ua) ? 'Mobile' : 'Desktop';
+    const br = /Edg\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /SamsungBrowser/.test(ua) ? 'Samsung' : /Firefox|FxiOS/.test(ua) ? 'Firefox' : /Chrome|CriOS/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : 'Other';
+    const os = /Windows/.test(ua) ? 'Windows' : /iPhone|iPad|iPod/.test(ua) ? 'iOS' : /Android/.test(ua) ? 'Android' : /Mac OS X/.test(ua) ? 'macOS' : /CrOS/.test(ua) ? 'ChromeOS' : /Linux/.test(ua) ? 'Linux' : 'Other';
+    let tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+    const TZC = { 'Asia/Dubai': 'United Arab Emirates', 'Asia/Riyadh': 'Saudi Arabia', 'Asia/Qatar': 'Qatar', 'Asia/Kuwait': 'Kuwait', 'Asia/Bahrain': 'Bahrain', 'Asia/Muscat': 'Oman', 'Africa/Cairo': 'Egypt', 'Asia/Amman': 'Jordan', 'Asia/Beirut': 'Lebanon', 'Asia/Baghdad': 'Iraq', 'Asia/Damascus': 'Syria', 'Africa/Casablanca': 'Morocco', 'Africa/Tunis': 'Tunisia', 'Africa/Algiers': 'Algeria', 'Asia/Kolkata': 'India', 'Asia/Calcutta': 'India', 'Asia/Karachi': 'Pakistan', 'Asia/Dhaka': 'Bangladesh', 'Asia/Manila': 'Philippines', 'Asia/Colombo': 'Sri Lanka', 'Asia/Kathmandu': 'Nepal', 'Europe/London': 'United Kingdom', 'Europe/Paris': 'France', 'Europe/Berlin': 'Germany', 'Europe/Istanbul': 'Türkiye', 'Asia/Tehran': 'Iran', 'Asia/Singapore': 'Singapore', 'Asia/Shanghai': 'China', 'Australia/Sydney': 'Australia', 'America/Toronto': 'Canada' };
+    const ctry = TZC[tz] || (/^America\/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Detroit)/.test(tz) ? 'United States' : '');
+    const qs = new URLSearchParams(location.search), sameRef = (() => { try { return document.referrer && new URL(document.referrer).host === location.host; } catch (e) { return false; } })();
+    const send = o => { const body = JSON.stringify(Object.assign({ vid, uid, page: location.pathname, lang: L }, o));
+      try { if (navigator.sendBeacon && navigator.sendBeacon(ANALYTICS_URL, new Blob([body], { type: 'text/plain' }))) return; } catch (e) {}
+      try { fetch(ANALYTICS_URL, { method: 'POST', body, mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain' } }); } catch (e) {} };
+    queueMicrotask(() => send({ k: 'view', ref: sameRef ? '' : document.referrer.slice(0, 300), src: qs.get('utm_source') || '', med: qs.get('utm_medium') || '', cmp: qs.get('utm_campaign') || '', dev, br, os, ctry, tz, scr: screen.width + 'x' + screen.height, nw }));
+    /* sections the visitor actually reached */
+    const so = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) secs.add(e.target.id); }), { threshold: .35 });
+    document.querySelectorAll('main section[id]').forEach(x => so.observe(x));
+    addEventListener('scroll', () => { const h = document.documentElement.scrollHeight - innerHeight; if (h > 0) maxSc = Math.max(maxSc, Math.round(scrollY * 100 / h)); }, { passive: true });
+    /* what they pressed */
+    document.addEventListener('click', e => { const a = e.target.closest('a,button'); if (!a) return; let k = '';
+      if (a.dataset.trk) k = a.dataset.trk; else if (a.hasAttribute('data-erp')) k = 'login'; else if (a.id === 'langBtn') k = 'lang:' + (L === 'ar' ? 'en' : 'ar');
+      else if (/^mailto:/.test(a.getAttribute('href') || '')) k = 'email'; else if (/^tel:/.test(a.getAttribute('href') || '')) k = 'phone';
+      else if (a.dataset.t === 'ctaBook') k = 'book'; else if (a.dataset.t === 'demo') k = 'demo';
+      if (k) clk.push(k.slice(0, 60)); }, true);
+    /* when the visitor leaves (or switches tab): time spent, scroll depth, sections and new clicks only */
+    const end = () => { const dur = Math.round((Date.now() - t0 - away) / 1000); send({ k: 'end', dur, sc: maxSc, secs: [...secs], clk: clk.slice(sentClk) }); sentClk = clk.length; };
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') { hidAt = Date.now(); end(); } else if (hidAt) { away += Date.now() - hidAt; hidAt = 0; } });
+    addEventListener('pagehide', () => { if (document.visibilityState !== 'hidden') end(); });
+    return { hit(k) { clk.push(k); } };
+  })();
   let start = 'en'; try { start = location.hash === '#ar' ? 'ar' : (localStorage.getItem('orbit_site_lang') || (/^ar\b/i.test(navigator.language || '') ? 'ar' : 'en')); } catch (e) {}
   setLang(start, false);
 }

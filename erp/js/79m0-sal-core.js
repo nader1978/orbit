@@ -28,6 +28,12 @@
     Sal_Campaigns: ['Channel', 'Segment', 'StartDate', 'EndDate', 'Status', 'Owner'].map(T).concat(['Budget', 'Cost'].map(N)).concat([M('Goal'), M('Notes')]),
     Sal_Segments: [M('RulesJson'), M('Notes')],
     Sal_Targets: ['Salesperson', 'Period'].map(T).concat(['Target', 'CommPct', 'BonusPct'].map(N)),
+    /* bulk e-mail: recipient lists (saved in parts of a few hundred), sending runs, people who asked not to be e-mailed */
+    Sal_MailLists: ['ListName', 'Columns', 'Source'].map(T).concat(['Part', 'RowCount'].map(N)).concat([M('Data')]),
+    Sal_MailRuns: ['Status', 'Lists', 'Mode', 'Campaign', 'StartedAt', 'FinishedAt', 'By', 'Attachments'].map(T).concat(['Total', 'Sent', 'Failed', 'Pos'].map(N)).concat([M('BodyHtml'), M('Log')]),
+    Sal_Unsubscribed: ['Email', 'Reason', 'OnDate'].map(T),
+    /* website traffic: one row per page view ("view") and one when the visitor leaves ("end": time, scroll, sections seen, clicks) */
+    Web_Visits: ['Site', 'Kind', 'VisitId', 'VisitorId', 'Page', 'Referrer', 'Source', 'Medium', 'Campaign', 'Lang', 'Device', 'Browser', 'OS', 'Country', 'Tz', 'Screen', 'At', 'NewVisitor'].map(T).concat(['Duration', 'Scroll'].map(N)).concat([M('Sections'), M('Clicks')]),
   };
   const STAGES = [['new', 'New', 10], ['contacted', 'Contacted', 20], ['qualified', 'Qualified', 40], ['proposal', 'Proposal sent', 60], ['negotiation', 'Negotiation', 80], ['won', 'Won', 100], ['lost', 'Lost', 0]];
   const STAGE = Object.fromEntries(STAGES.map(s => [s[0], s]));
@@ -171,5 +177,5 @@
   return { r2, r3, num, J, lc, VAT, LISTS, LIST_NAMES: Object.keys(LISTS), STAGES, STAGE, SOURCES, CHANNELS, OPEN_SO,
     settingsFromRow, acctFromRow, plFromRow, leadFromRow, qtFromRow, soFromRow, dnFromRow, campFromRow, segFromRow, tgtFromRow,
     pickList, priceFor, lineNet, totals, maxDisc, checkLines, needsDiscApproval, reserved, stockCheck, exposure, openValue, creditCheck, soStatus, checkDelivery, toInvoice,
-    pipeline, probOf, salesRows, segMembers, campaignStats, commissions, version: '1.0.0' };
+    pipeline, probOf, salesRows, segMembers, campaignStats, commissions, version: '1.1.0' };
 });

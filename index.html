@@ -602,7 +602,7 @@ html[dir=rtl] .dots button.on::after{transform-origin:right}
      Put the collector address here to switch it on:
        • ORBIT ERP server:  https://<your-orbit-server>/v1/site/hit/<tenant id>   (shown in ORBIT → Website traffic → Set-up)
        • or the address of a Power Automate "When an HTTP request is received" flow                    */
-  const ANALYTICS_URL = '';   /* empty = use the online shop's connection address (published by ORBIT) when the shop is connected */
+  const ANALYTICS_URL = 'https://orbit-shop-gateway.nader-alnajjar.workers.dev/';   /* empty = use the online shop's connection address (published by ORBIT) when the shop is connected */
   let TRK = { hit() {} };
   function startTrk(ANALYTICS_URL) { TRK = (() => {
     if (!ANALYTICS_URL || navigator.doNotTrack === '1' || navigator.globalPrivacyControl || /bot|crawl|spider|headless|lighthouse/i.test(navigator.userAgent)) return { hit() {} };
